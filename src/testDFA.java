@@ -12,7 +12,7 @@ public class testDFA{
 		DFA dfa = new DFA ("simple_even_1", t,c,0,fs);
 		
 		System.out.println(dfa);
-		Cyclone cyclone = new Cyclone(dfa,3);
+		Cyclone cyclone = new Cyclone(dfa,6);
 		cyclone.Enumerate();
 		
 	}

@@ -93,11 +93,16 @@ import java.util.ArrayList;
  		SMT2Writer writer = new SMT2Writer("./dfa.smt2",factory,formulas);
 		Z3SMT2Solver solver = new Z3SMT2Solver(writer);
 		long current = System.currentTimeMillis();
+		int solutions = 0;
 		
 		while( solver.solve() == Result.SAT){
 			generateString();
+			solutions++;
 			writer.append(factory.negConstants());
 		}
+		
+		ColorPrint.println("Total Solutions: "+ solutions, Color.BLUE);
+		ColorPrint.println("Solving Time: "+ (System.currentTimeMillis()-current)+" ms.",Color.BLUE);
  	}
  
  	private void generateString(){
