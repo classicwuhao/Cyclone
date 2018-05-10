@@ -7,5 +7,5 @@ public class State{
 	
 	/* shallow checking */
 	public boolean isEqual(State state){return this.name().equals(state.name());}
-	
+	public String toString(){return this.name;}
 }
