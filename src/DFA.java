@@ -29,6 +29,7 @@ public final class DFA extends FSM{
 		for (int i=0;i<transTable.length;i++) {
 			State state = new State(STATE_NAME+"_"+i);
 			States.add (state);state_cache.put(i,state);
+			if (is == i) this.initial_State=state;
 		}
 		
 		for (int i=0;i<sigma.length;i++){	
@@ -36,14 +37,10 @@ public final class DFA extends FSM{
 			sigma_cache.put (i,sigma[i]);
 		}
 		
-		Iterator<State> it = States.iterator();
-		for (int i=0;it.hasNext();i++){
-			State state = it.next();
-			if (is == i) this.initial_State=state;
-			for (int j=0;j<fs.length;j++) if (fs[j]==i) this.final_States.add(state);
-		}
+		for (int i=0;i<fs.length;i++) final_States.add(state_cache.get(fs[i]));
+
 	}
-		
+	    	
 	public State initialState(){return this.initial_State;}
 	public HashSet<State> finalStates(){return this.final_States;}
 	public String name(){return this.name;}
@@ -96,7 +93,7 @@ public final class DFA extends FSM{
 		for (Map.Entry<Integer, Character> e : sigma_cache.entrySet()) sb.append(e.getValue()+", ");
 		sb.append("\n");
 	
-		sb.append("Transition Table: \n");		
+		sb.append("Transition Table: \n");
 		for (int i=0;i<transTable.length;i++){
 			for (int j=0;j<transTable[i].length;j++){
 				sb.append(" <"+state_cache.get(i)+" , "+ sigma_cache.get(j)+" , "+ state_cache.get(transTable[i][j])+"> ");	
