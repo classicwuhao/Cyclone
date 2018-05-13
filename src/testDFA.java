@@ -34,7 +34,7 @@ public class testDFA{
 		
 		DFA dfa = new DFA ("abb_from_dragon_book_p_120",t,c,0,fs);
 		System.out.println(dfa);
-		Cyclone cyclone = new Cyclone(dfa,7);
+		Cyclone cyclone = new Cyclone(dfa,20);
 		cyclone.Enumerate();
 	}
 
