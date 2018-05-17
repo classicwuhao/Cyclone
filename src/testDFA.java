@@ -1,9 +1,8 @@
 public class testDFA{
 
 	public static void main (String args[]){
-		Case1();
-		Case2();
-		Case3();
+		Case1();Case2();
+		Case3();Case4();
 	}
 
 	public static void Case1(){
@@ -58,4 +57,25 @@ public class testDFA{
 		cyclone.Enumerate();
 		
 	}	
+	
+	/**
+	 * From Sipser's book, p38. A five-state DFA (accepts strings that start and end with the same symbol).
+	 */
+	public static void Case4(){		
+		int[][] t={
+			{1,2},
+			{1,3},
+			{4,2},
+			{1,3},
+			{4,2}
+		};
+	
+		char[] c={'a','b'};
+		int[] fs={1,2};
+	
+		DFA dfa = new DFA ("five_state_from_sipser's_book_p_38",t,c,0,fs);
+		System.out.println(dfa);
+		Cyclone cyclone = new Cyclone(dfa,6);
+		cyclone.Enumerate();	
+	}
 }
