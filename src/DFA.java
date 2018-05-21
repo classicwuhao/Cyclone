@@ -14,6 +14,7 @@ public final class DFA extends FSM{
 	private HashSet<Character> Sigma = new HashSet<Character>();
 	private HashMap<Integer, State> state_cache = new HashMap<Integer, State>(); // a copy of states
 	private HashMap<Integer, Character>	sigma_cache = new HashMap<Integer, Character>(); // a copy of sigma
+	private HashSet<State> ghost_States = new HashSet<State>(); // make some ghost states which are not really states belonging to the actual DFAs.
 	private State initial_State;
 	private HashSet<State> final_States = new HashSet<State>();
 	private int [][] transTable;
@@ -38,9 +39,30 @@ public final class DFA extends FSM{
 		}
 		
 		for (int i=0;i<fs.length;i++) final_States.add(state_cache.get(fs[i]));
-
+		makeGhostStates();
 	}
-	    	
+	
+	/* make some ghost states if we have a state that has multiple transitions to another on different alphabets.*/
+	private void makeGhostStates(){
+		int num = this.transTable.length;
+		
+		for (int i=0;i<this.transTable.length;i++){
+			for (int j=0;j<this.transTable[i].length-1;j++){
+				for (int k=j+1;k<this.transTable[i].length;k++)
+					if (this.transTable[i][j] == this.transTable[i][k]){
+						this.transTable[i][k] = num;
+						State ghost_state = new State(STATE_NAME+"_"+num);
+						ghost_States.add (ghost_state);
+						States.add (ghost_state);state_cache.put(num,ghost_state);
+						num++;
+						if (final_States.contains(state_cache.get(this.transTable[i][j])))
+							final_States.add(ghost_state);
+					}
+			}
+		}
+		
+	}
+		
 	public State initialState(){return this.initial_State;}
 	public HashSet<State> finalStates(){return this.final_States;}
 	public String name(){return this.name;}

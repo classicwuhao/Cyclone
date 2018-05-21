@@ -3,6 +3,7 @@ public class testDFA{
 	public static void main (String args[]){
 		Case1();Case2();
 		Case3();Case4();
+		Case5();
 	}
 
 	public static void Case1(){
@@ -78,4 +79,20 @@ public class testDFA{
 		Cyclone cyclone = new Cyclone(dfa,6);
 		cyclone.Enumerate();	
 	}
+	
+	
+	public static void Case5(){
+		int[][] t={
+			{0,0}
+		};
+		
+		char[] c={'a','b'};
+		int[] fs={0};
+		
+		DFA dfa = new DFA ("one state",t,c,0,fs);
+		Cyclone cyclone = new Cyclone (dfa,1);
+		cyclone.Enumerate();	
+	}
+	
+	
 }

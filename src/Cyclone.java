@@ -64,8 +64,10 @@ import java.util.ArrayList;
 			union.clear();
 			for (int j=0;j<table[i].length;j++) union.add (table[i][j]);
 			int[] union_int = convertI2i(union);
-			int[] comp = complement(states,union_int);
-			for (int k=0;k<comp.length;k++) formulas.add (genBlockingConstraints(i,comp[k]));
+			if ((states.length-union_int.length)>0){
+				int[] comp = complement(states,union_int);
+				for (int k=0;k<comp.length;k++) formulas.add (genBlockingConstraints(i,comp[k]));
+			}
 		}
 		
  		// the last state
