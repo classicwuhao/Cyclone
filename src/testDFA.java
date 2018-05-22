@@ -3,7 +3,7 @@ public class testDFA{
 	public static void main (String args[]){
 		Case1();Case2();
 		Case3();Case4();
-		Case5();
+		Case5();Case6();
 	}
 
 	public static void Case1(){
@@ -11,7 +11,7 @@ public class testDFA{
 		int[][] t = {{0,1},{1,0}};
 		char[] c = {'0','1'};
 		int[] fs ={1};
-		DFA dfa = new DFA ("simple_even_1", t,c,0,fs);
+		DFA dfa = new DFA ("simple_odd_1", t,c,0,fs);
 		
 		System.out.println(dfa);
 		Cyclone cyclone = new Cyclone(dfa,6);
@@ -80,7 +80,6 @@ public class testDFA{
 		cyclone.Enumerate();	
 	}
 	
-	
 	public static void Case5(){
 		int[][] t={
 			{0,0}
@@ -90,9 +89,24 @@ public class testDFA{
 		int[] fs={0};
 		
 		DFA dfa = new DFA ("one state",t,c,0,fs);
-		Cyclone cyclone = new Cyclone (dfa,1);
+		Cyclone cyclone = new Cyclone (dfa,2);
 		cyclone.Enumerate();	
 	}
-	
+
+	public static void Case6(){
+		int[][] t={
+			{0,1},
+			{2,2},
+			{1,1}
+		};
+		
+		char[] c={'a','b'};
+		int[] fs={2};
+				
+		DFA dfa = new DFA ("three states",t,c,0,fs);
+		Cyclone cyclone = new Cyclone (dfa,3);
+		cyclone.Enumerate();
+				
+	}
 	
 }

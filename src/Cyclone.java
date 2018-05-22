@@ -16,8 +16,7 @@ import uran.formula.type.*;
 import uran.formula.smt2.*;
 import uran.formula.type.*;
 import uran.solver.*;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
  public class Cyclone{
  	private DFA dfa;
@@ -56,8 +55,8 @@ import java.util.ArrayList;
  		
  		/* compute the complement set of each entry in the transition table */
 		int[][] table = dfa.transTable();
-		int[] states = new int[dfa.transTable().length];
-		
+		int[] states = new int[this.dfa.size()];
+				
 		for (int i=0;i<states.length;i++) states[i]=i;
 		
 		for (int i=0;i<table.length;i++){
@@ -69,6 +68,8 @@ import java.util.ArrayList;
 				for (int k=0;k<comp.length;k++) formulas.add (genBlockingConstraints(i,comp[k]));
 			}
 		}
+		
+		if (dfa.getGhostStates().size()>0) formulas.add (genBlockingConstraintsForGhostStates());
 		
  		// the last state
  		Constant ls = factory.conLookup(STATE+this.length);
@@ -94,20 +95,19 @@ import java.util.ArrayList;
  	
  	
  	/* |setB| \subeq |setA| */
- 	private int[] complement (int[] setA, int[] setB){	
- 		int [] comp = new int[setA.length-setB.length];
- 		boolean flag = false;
+ 	private int[] complement (int[] setA, int[] setB){
+ 		HashSet<Integer> seta = new HashSet<Integer>();
+ 		HashSet<Integer> setb = new HashSet<Integer>();
+ 		for (int i=0;i<setA.length;i++) seta.add (setA[i]);
+ 		for (int i=0;i<setB.length;i++) setb.add (setB[i]);
+		seta.removeAll(setb); 
 
- 		for (int i=0,k=0;i<setA.length;i++){
- 			flag=false;
-			for (int j=0;j<setB.length;j++){
-				if (setB[j]==setA[i]) {
-					flag=true;break;
-				}
-			}
-			if (!flag) comp[k++]=setA[i];
- 		}
-
+		int [] comp = new int[seta.size()];
+		int k=0;
+		Iterator<Integer> it = seta.iterator();
+	
+		while (it.hasNext()) comp[k++]=it.next().intValue();
+		
 		return comp;
  	}
  	
@@ -126,7 +126,24 @@ import java.util.ArrayList;
  		return FormulaBuilder.all (bc.toArray(new OrFormula[bc.size()]));
  	}
  	
- 	
+ 	private AbstractFormula genBlockingConstraintsForGhostStates(){
+ 		List<AbstractFormula> bc = new ArrayList<AbstractFormula>();
+ 		
+		for (Integer key : this.dfa.getGhostStates().keySet()){
+			for (int i=0;i<=this.length-1;i++){
+	 			Constant S_i = factory.conLookup(STATE+i);
+		 		Constant S_j = factory.conLookup(STATE+(i+1)); 				
+				for (int j=key;j>=0;j--){
+		 			bc.add (new OrFormula(
+ 						new NegFormula (new EqFormula(S_i,new NumLiteral(key))), 
+		 				new NegFormula (new EqFormula(S_j,new NumLiteral(j)))));
+				}			
+			}
+		}
+		
+ 		return FormulaBuilder.all (bc.toArray(new OrFormula[bc.size()]));
+ 	}
+  	
  	/* generate a single string. */
  	private void solve(){
  		SMT2Writer writer = new SMT2Writer("./dfa.smt2",factory,formulas);
