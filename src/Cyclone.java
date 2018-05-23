@@ -23,7 +23,10 @@ import java.util.*;
 	private int length;
 	private FunctionFactory factory = new FunctionFactory(512,0.75f);
 	private List<AbstractFormula> formulas = new ArrayList<AbstractFormula>();
-	private final String STATE="S";
+	private List<Integer[][]> BoolMatrices = new ArrayList<Integer[][]>();
+	
+	private final String STATE="T";
+	private final String STR="S";
 	
  	public Cyclone (DFA dfa, int k){
 		this.dfa = dfa;
@@ -36,8 +39,36 @@ import java.util.*;
  	}
  
  	public void Enumerate(){
+ 		constructBoolMatrix();
  		generateConstraints();
  		enumerate();
+ 	}
+ 
+ 	private void constructBoolMatrix(){
+ 		int m = this.dfa.transTable().length;
+ 		int n = this.dfa.transTable()[0].length;
+ 		int[][] trans_table = this.dfa.transTable();
+ 		
+ 		/* 1: marks no transition to a state on a particular alphabet, Otherwise it is marked as 0.*/
+ 		for (int i=0;i<m;i++){
+	 		Integer[][] matrix = new Integer[m][n];
+ 			for (int j=0;j<n;j++) for (int k=0;k<trans_table.length;k++)
+	 			matrix[k][j] = (trans_table[i][j]==k) ? 0 : 1 ;
+ 			
+ 			BoolMatrices.add (matrix);
+ 		}
+ 		
+ 		/*for (int i=0;i<BoolMatrices.size();i++){
+ 			Integer[][] matrix = BoolMatrices.get(i);
+ 			System.out.println();
+ 			for (int j=0;j<matrix.length;j++){
+ 				for (int k=0;k<matrix[j].length;k++){
+ 					System.out.print(matrix[j][k]+" ");
+ 				}
+ 				System.out.println();
+ 			}
+ 		}*/
+ 		
  	}
  
  	private void generateConstraints(){
@@ -49,28 +80,26 @@ import java.util.*;
  		} //keep compiler happy? 
  		
  		
+ 		for (int i=0;i<=this.length-1;i++){
+ 			Constant w = factory.createConstant(STR+i, new Int());
+ 			formulas.add(FormulaBuilder.range(0,dfa.alphabet_size()-1,w,true));
+ 		}
+ 		
  		//set inital state
  		Constant s0 = factory.conLookup(STATE+"0");
  		formulas.add (new EqFormula(s0, new NumLiteral(dfa.startState())));
  		
- 		/* compute the complement set of each entry in the transition table */
-		int[][] table = dfa.transTable();
-		int[] states = new int[this.dfa.size()];
-				
-		for (int i=0;i<states.length;i++) states[i]=i;
-		
-		for (int i=0;i<table.length;i++){
-			union.clear();
-			for (int j=0;j<table[i].length;j++) union.add (table[i][j]);
-			int[] union_int = convertI2i(union);
-			if ((states.length-union_int.length)>0){
-				int[] comp = complement(states,union_int);
-				for (int k=0;k<comp.length;k++) formulas.add (genBlockingConstraints(i,comp[k]));
+ 		/* generate constraints for each boolean matrix */
+		for (int i=0;i<BoolMatrices.size();i++){
+			Integer[][] matrix = BoolMatrices.get(i);
+			for (int j=0;j<matrix.length;j++){
+				for (int k=0;k<matrix[0].length;k++){
+					if (matrix[j][k]==1)
+						formulas.add(genBlockingConstraints(i,j,k));
+				}
 			}
 		}
-		
-		if (dfa.getGhostStates().size()>0) formulas.add (genBlockingConstraintsForGhostStates());
-		
+
  		// the last state
  		Constant ls = factory.conLookup(STATE+this.length);
  		
@@ -111,16 +140,22 @@ import java.util.*;
 		return comp;
  	}
  	
+
  	/* iterate through every S_{i} in T and generating blocking constraints for impossible path. */
- 	private AbstractFormula genBlockingConstraints (int current_state, int next_state){
+ 	private AbstractFormula genBlockingConstraints (int current_state, int next_state, int alphabet){
  		List<AbstractFormula> bc = new ArrayList<AbstractFormula>();
  		
  		for (int i=0;i<=this.length-1;i++){
+ 			
  			Constant S_i = factory.conLookup(STATE+i);
 	 		Constant S_j = factory.conLookup(STATE+(i+1)); 
- 			bc.add (new OrFormula(
+		 	Constant W_k = factory.conLookup(STR+i);
+	 		AbstractFormula formula = new OrFormula(
+	 						new OrFormula(
  						new NegFormula (new EqFormula(S_i,new NumLiteral(current_state))), 
-		 				new NegFormula (new EqFormula(S_j,new NumLiteral(next_state)))));
+		 				new NegFormula (new EqFormula(S_j,new NumLiteral(next_state)))),
+		 				new NegFormula (new EqFormula(W_k,new NumLiteral(alphabet))));
+			bc.add (formula);
  		}
  		
  		return FormulaBuilder.all (bc.toArray(new OrFormula[bc.size()]));
@@ -189,15 +224,10 @@ import java.util.*;
  	private void generateString(){
  		StringBuffer sb = new StringBuffer();
  		for (int i=0;i<=this.length-1;i++){
- 			Value v0 = factory.getValue(STATE+i);
-			IntValue iv0 = (IntValue)v0;
- 			Value v1 = factory.getValue(STATE+(i+1));
-			IntValue iv1 = (IntValue)v1;
-			sb.append(dfa.consultTable(iv0.getValue(),iv1.getValue()));
+ 			IntValue v = (IntValue) factory.getValue(STR+i);
+			sb.append(dfa.alphabet(v.getValue()));
  		}
- 		
  		System.out.println(sb.toString());
- 		
  	}
- 
+ 	
  }

@@ -20,6 +20,7 @@ public final class DFA extends FSM{
 	private HashSet<State> final_States = new HashSet<State>();
 	private int [][] transTable;
 	private int [] finals;
+	private String[] Str_Sigma;
 	private final String STATE_NAME="Q";
 	
 	public DFA(String name,int[][] table, char[] sigma, int i, int[] f){
@@ -36,7 +37,7 @@ public final class DFA extends FSM{
 			if (is == i) this.initial_State=state;
 		}
 		
-		for (int i=0;i<sigma.length;i++){	
+		for (int i=0;i<sigma.length;i++){
 			Sigma.add (sigma[i]);
 			sigma_cache.put (i,sigma[i]);
 		}
@@ -82,12 +83,18 @@ public final class DFA extends FSM{
 		return false;
 	}
 	
+	public String alphabet(int index){
+		if (!sigma_cache.containsKey (index)) throw new AlphabetException("Error: cannot find corresponding alphabet.");
+		return String.valueOf(sigma_cache.get(index));
+	}
+	
 	public HashMap<Integer,State> getGhostStates(){return this.ghost_States;}
 	public State initialState(){return this.initial_State;}
 	public HashSet<State> finalStates(){return this.final_States;}
 	public String name(){return this.name;}
 	public int[][] transTable(){return this.transTable;}
 	public int size(){return this.States.size();}
+	public int alphabet_size(){return this.Sigma.size();}
 	public State getState(int index){return this.state_cache.get(index);}
 	public int startState(){
 		for (Map.Entry<Integer, State> e : state_cache.entrySet())
