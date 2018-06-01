@@ -5,6 +5,7 @@ public class TestCyclone{
 		Case3();Case4();
 		Case5();Case6();
 		Case7();Case8();
+		Case9();
 	}
 
 	public static void Case1(){
@@ -158,6 +159,28 @@ public class TestCyclone{
 		Cyclone cyclone = new Cyclone (dfa,3);
 		cyclone.Enumerate();		
 	}
+	
+	public static void Case9(){
+		int[][] t={
+			{7,1,2,7,7,7,7,7},
+			{7,7,7,3,4,7,7,7},
+			{7,7,7,7,7,5,6,7},
+			{7,7,7,7,7,7,7,1},
+			{7,7,7,7,7,7,7,7},
+			{7,7,7,7,7,7,7,2},
+			{7,7,7,7,7,7,7,7},
+			{7,7,7,7,7,7,7,7},
+		};
+		
+		String[] c={"S","A","B","Aa","a","Bb","b","e*"};
+		int[] fs={4,6};
+	
+		DFA dfa = new DFA ("States for CFG ",t,c,0,fs);
+		Cyclone cyclone = new Cyclone (dfa,4);
+		cyclone.Enumerate();			
+	
+	}
+	
 	
 	
 }

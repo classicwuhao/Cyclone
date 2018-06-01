@@ -225,7 +225,7 @@ import java.util.*;
  		StringBuffer sb = new StringBuffer();
  		for (int i=0;i<=this.length-1;i++){
  			IntValue v = (IntValue) factory.getValue(STR+i);
-			sb.append(dfa.alphabet(v.getValue()));
+			sb.append(" -> "+dfa.alphabet(v.getValue()));
  		}
  		System.out.println(sb.toString());
  	}
