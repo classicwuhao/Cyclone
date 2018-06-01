@@ -11,9 +11,9 @@ import java.util.*;
 
 public final class DFA extends FSM{
 	private HashSet<State> States = new HashSet<State>();
-	private HashSet<Character> Sigma = new HashSet<Character>();
+	private HashSet<String> Sigma = new HashSet<String>();
 	private HashMap<Integer, State> state_cache = new HashMap<Integer, State>(); // a copy of states
-	private HashMap<Integer, Character>	sigma_cache = new HashMap<Integer, Character>(); // a copy of sigma
+	private HashMap<Integer, String> sigma_cache = new HashMap<Integer, String>(); // a copy of sigma
 	private HashMap<Integer, HashSet<Integer>> ghost_Table = new HashMap<Integer, HashSet<Integer>>(); // make some ghost states which are not really states belonging to the actual DFAs.
 	private HashMap<Integer, State> ghost_States = new HashMap<Integer, State>();
 	private State initial_State;
@@ -23,14 +23,14 @@ public final class DFA extends FSM{
 	private String[] Str_Sigma;
 	private final String STATE_NAME="Q";
 	
-	public DFA(String name,int[][] table, char[] sigma, int i, int[] f){
+	public DFA(String name,int[][] table, String[] sigma, int i, int[] f){
 		this.name=name;
 		this.transTable = table;
 		this.finals = f;
 		construct(i,f,sigma);
 	}
 	
-	private void construct (int is, int[] fs, char[] sigma){
+	private void construct (int is, int[] fs, String[] sigma){
 		for (int i=0;i<transTable.length;i++) {
 			State state = new State(STATE_NAME+"_"+i);
 			States.add (state);state_cache.put(i,state);
@@ -168,7 +168,7 @@ public final class DFA extends FSM{
 		sb.append("\n");
 		
 		sb.append("Sigma: ");
-		for (Map.Entry<Integer, Character> e : sigma_cache.entrySet()) sb.append(e.getValue()+", ");
+		for (Map.Entry<Integer, String> e : sigma_cache.entrySet()) sb.append(e.getValue()+", ");
 		sb.append("\n");
 	
 		sb.append("Transition Table: \n");
