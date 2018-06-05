@@ -176,7 +176,7 @@ public class TestCyclone{
 		int[] fs={4,6};
 	
 		DFA dfa = new DFA ("States for CFG ",t,c,0,fs);
-		Cyclone cyclone = new Cyclone (dfa,4);
+		Cyclone cyclone = new Cyclone (dfa,5);
 		cyclone.Enumerate();			
 	
 	}
