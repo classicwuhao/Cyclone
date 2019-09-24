@@ -1,11 +1,14 @@
-# Cyclone: A String Generator For DFAs.
+# Cyclone: A Framework for testing and verifying Cyber Physical Systems.
 
 ## Overview
-Cyclone generates (enumerates) all possible (unique) strings that can be accepted by a DFA. Currently, Cyclone accepts the following items as its input.
-* a DFA D.
-* an integer k specifying the length of a string to be generated.
+Cyclone generates (enumerates) test cases that can be provenly accepted by CPS . Currently, Cyclone accepts the following items as its input.
+* a Finite State Machine D.
+* an integer k specifying the size of a test case to be generated.
 
-Essentailly, this is a synthesis problem. Cyclone synthesises all strings with the lenght of k via constraint solving. Properties such as state coverage, path coverage can be easily added to make more practical for real-world problems.
+Essentailly, this is a synthesis problem. Cyclone synthesises all strings with the lenght of k via constraint solving. Properties such as state coverage, path coverage can be easily added to make more practical for real-world CPS problems.
 
-## Applications
-Cyclone can synthesis test cases for anything that can be modelled as a DFA. 
+## Applications (Cyber Physical Systems)
+Cyclone can synthesis test cases for anything that can be modelled as a Finite State Machine. 
+
+## Future
+We are currently working on extending Cyclone to accpet other version of FSM such as Timed Automata with Difference Equations.
