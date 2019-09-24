@@ -10,5 +10,5 @@ Essentailly, this is a synthesis problem. Cyclone synthesises all strings with t
 ## Applications (Cyber Physical Systems)
 Cyclone can synthesis test cases for anything that can be modelled as a Finite State Machine. 
 
-## Future
+## In Progress
 We are currently working on extending Cyclone to accpet other version of FSM such as Timed Automata with Difference Equations.
