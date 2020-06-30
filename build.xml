@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!-- Build file for cyclone Written by: Hao Wu -->
+<project name="cyclone" default="build-cyclone" basedir=".">
+	<!-- define Java source and target version -->
+	<property name="java.targetversion" value="1.7" />
+	<property name="java.sourceversion" value="1.7" />
+	<!-- source -->
+	<property name="src.dir"  location="${basedir}/src/" />
+	<property name="test.src.dir"  location="${basedir}/test" />
+	<!-- target -->
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.classes.dir"  location="${build.dir}/classes"/>
+	<property name="test.build.dir"     location="${build.dir}/classes/test"/>
+	<property name="library.dir"     location="${basedir}/lib/"/>
+	
+	<!-- add libraries -->
+	<property name="lib.dir"   location="${basedir}/lib"/>
+	<property name="com.microsoft.z3.jar"	location="${lib.dir}/com.microsoft.z3.jar"/>
+	<property name="junit.jar"	location="${lib.dir}/junit.jar"	/>
+	<property name="uran.jar" location="${lib.dir}/uran.jar" />
+
+	<path id="classpath.test">
+		<pathelement location="${junit.jar}"/>
+		<pathelement location="${build.classes.dir}"/>   
+	    <pathelement location="${com.microsoft.z3.jar}"/>
+	</path>
+
+	<target name="config-info">
+		<echo>Operating System: ${os.name} ${os.version}</echo>
+		<echo>Java Runtime:     ${java.runtime.name}</echo>
+		<echo>Java Home:        ${java.home}</echo>
+		<echo>Java Version:     ${java.vm.version}</echo>
+		<echo>Build Compiler:   ${build.compiler}</echo>
+		<echo>Ant Version:      ${ant.version}</echo>
+		<echo> windows </echo>
+	</target>
+
+	<target name="build-cyclone">
+		<echo>Building Cyclone...</echo>
+			<mkdir dir="${build.classes.dir}"/>
+			<javac srcdir="${src.dir}" destdir="${build.classes.dir}"
+    			  deprecation="on" debug="on" listfiles="off"
+				  classpath="${com.microsoft.z3.jar}:${uran.jar}"
+		   		  source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="true">
+			</javac>
+		<echo>Leave Cyclone...</echo>
+	</target>
+</project>
