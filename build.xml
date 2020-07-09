@@ -1,28 +1,34 @@
 <?xml version="1.0"?>
 <!-- Build file for cyclone Written by: Hao Wu -->
-<project name="cyclone" default="build-cyclone" basedir=".">
+<project name="cyclone" default="build-all" basedir=".">
 	<!-- define Java source and target version -->
 	<property name="java.targetversion" value="1.7" />
 	<property name="java.sourceversion" value="1.7" />
 	<!-- source -->
-	<property name="src.dir"  location="${basedir}/src/" />
+	<property name="src.dir"  location="${basedir}/src/org/nuim/cyclone" />
+	<property name="parser.dir"  location="${src.dir}/parser" />
 	<property name="test.src.dir"  location="${basedir}/test" />
+	<property name="test.parser.files.dir"  location="${test.src.dir}/parser/files" />
+
 	<!-- target -->
 	<property name="build.dir" location="${basedir}/build"/>
 	<property name="build.classes.dir"  location="${build.dir}/classes"/>
 	<property name="test.build.dir"     location="${build.dir}/classes/test"/>
-	<property name="library.dir"     location="${basedir}/lib/"/>
-	
+	<property name="library.dir"     location="${basedir}/lib"/>
+	<property name="test.parser.dir"     location="${test.build.dir}/test/parser"/>
+
 	<!-- add libraries -->
 	<property name="lib.dir"   location="${basedir}/lib"/>
 	<property name="com.microsoft.z3.jar"	location="${lib.dir}/com.microsoft.z3.jar"/>
 	<property name="junit.jar"	location="${lib.dir}/junit.jar"	/>
 	<property name="uran.jar" location="${lib.dir}/uran.jar" />
-
+	<property name="antlr.jar" location="${lib.dir}/antlr-3.4-complete.jar"/>
+	
 	<path id="classpath.test">
 		<pathelement location="${junit.jar}"/>
 		<pathelement location="${build.classes.dir}"/>   
 	    <pathelement location="${com.microsoft.z3.jar}"/>
+		<pathelement location="${antlr.jar}"/>
 	</path>
 
 	<target name="config-info">
@@ -35,7 +41,23 @@
 		<echo> windows </echo>
 	</target>
 
-	<target name="build-cyclone">
+	<target name="build-all" description="build everything including testing" depends="build-parser, build-cyclone, build-test, run-parser-test"> </target>
+	
+	<target name="build-parser">
+		<echo>Generating Parser...</echo>
+		<concat destfile="${parser.dir}/StateMachine.g">	
+			<fileset file="${parser.dir}/StateMachine.gpart" />
+			<fileset file="${parser.dir}/LexerRules.gpart" />
+		</concat>
+
+		<java classname="org.antlr.Tool" dir="${parser.dir}" fork="yes">
+			<classpath path="${antlr.jar}"/>
+			<arg line="StateMachine.g"/>
+		</java>
+		<echo>Leave Parser...</echo>
+	</target>
+
+	<target name="build-cyclone" depends="build-parser">
 		<echo>Building Cyclone...</echo>
 			<mkdir dir="${build.classes.dir}"/>
 			<javac srcdir="${src.dir}" destdir="${build.classes.dir}"
@@ -45,4 +67,29 @@
 			</javac>
 		<echo>Leave Cyclone...</echo>
 	</target>
+
+	<target name="build-test">
+		<echo>Building Test Cases...</echo>
+			<mkdir dir="${test.build.dir}"/>
+			<javac srcdir="${test.src.dir}" destdir="${test.build.dir}"
+    			  deprecation="on" debug="on" listfiles="off"
+				  classpath="${com.microsoft.z3.jar}:${uran.jar}:${antlr.jar}:${build.classes.dir}:${junit.jar}"
+		   		  source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="true">
+			</javac>
+		<echo>Leave Test Cases...</echo>
+	</target>
+
+	<target name="run-parser-test">
+		<echo>"Running parser test cases..." </echo>
+		<junit haltonfailure="yes" printsummary="on" fork="true">
+		<formatter type="brief" usefile="no"/>
+		<classpath>
+				<path refid="classpath.test" />
+				<pathelement location="${test.build.dir}"/>
+		</classpath>
+		<test name="test.parser.ParserTest" />
+		</junit>
+		<echo>"Leaving parser test." </echo>
+	</target>
+
 </project>

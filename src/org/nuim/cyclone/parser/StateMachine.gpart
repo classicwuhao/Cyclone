@@ -1,0 +1,210 @@
+/* Author: Hao Wu 
+ * A simple state machine language for specifying state machines.
+ * 03-July-2020
+ */
+grammar StateMachine;
+options {
+    superClass = BaseParser;
+    backtrack=true;
+    memoize=true;
+}
+
+@header{
+package org.nuim.cyclone.parser;
+import java.util.Collections;
+import java.util.Arrays;
+}
+
+@lexer::header {
+package org.nuim.cyclone.parser;
+}
+
+@lexer::members {
+    private ParseErrorHandler fParseErrorHandler;
+
+    public String getFilename() {
+        return fParseErrorHandler.getFileName();
+    }
+    
+    @Override
+    public String getErrorHeader(RecognitionException e) {
+    	return "line " + e.line + ":" + e.charPositionInLine;
+    }
+    	
+    public void emitErrorMessage(String msg) {
+        fParseErrorHandler.reportError(msg);
+    }
+ 
+    public void init(ParseErrorHandler handler) {
+        fParseErrorHandler = handler;
+    }
+}
+
+machine:
+    MACHINE identifier LBRACE
+        (globalVariableDecl)*
+        (state)* (trans)*
+        (invariantExpression)*
+    RBRACE EOF
+;
+
+state:
+    (stateModifier) ? STATE identifier LBRACE
+        (localVariableDecl)*
+        (expression SEMI)*
+    RBRACE
+;
+
+trans: TRANS identifier LBRACE
+        identifier ARROW identifier ON label
+    RBRACE
+;
+
+invariantExpression:
+    INVARIANT 
+        (identifier) ? 
+    LBRACE 
+        (expression SEMI)+ 
+    RBRACE
+;
+
+label:
+    STRINGLITERAL
+;
+
+identifier: IDENT ;
+
+stateModifier: 
+      START 
+    | FINAL
+;
+
+literal:
+      INTLITERAL
+    | REALLITERAL
+    | BOOLLITERAL
+    | STRINGLITERAL
+    | CHARLITERAL
+;
+
+globalVariableDecl :
+    type variableDeclarator
+    SEMI
+;
+
+localVariableDecl :
+    type variableDeclarator
+    SEMI
+;
+
+modifier :
+        'global'
+    |   'native'
+;
+
+type :
+        primitiveType
+    |   enumType
+;
+
+primitiveType:
+      INT      
+    | BOOL         
+    | REAL         
+    | STRING       
+;
+
+enumType :
+    ENUM LBRACE identifier (COMMA identifier)* RBRACE
+;
+
+variableDeclarator :
+    identifier 
+    ('=' variableInitializer)? 
+    (WHERE expression) ?
+;
+
+expression:
+        conditionalOrExpression
+        (assignmentOperator expression
+        )? 
+    ;
+
+assignmentOperator 
+    :   '='
+;
+
+conditionalOrExpression 
+    :   conditionalAndExpression
+        ('||' conditionalAndExpression
+        )*
+    ;
+
+conditionalAndExpression
+    :
+    relationalExpression 
+     ('&&' relationalExpression
+        )*
+    ;
+
+relationalExpression 
+    : additiveExpression
+        (relationalOp additiveExpression
+        )*
+;
+
+relationalOp 
+    :    '<=' 
+    |    '>='
+    |   '<'
+    |   '>'
+    ;
+
+additiveExpression 
+    :   multiplicativeExpression
+        (   
+            (   '+'
+            |   '-'
+            )
+            multiplicativeExpression
+         )*
+    ;
+
+multiplicativeExpression 
+    :
+        unaryExpression
+        (   
+            (   '*'
+            |   '/'
+            |   '%'
+            )
+            unaryExpression
+        )*
+    ;
+
+unaryExpression 
+    :   '+'  unaryExpression
+    |   '-' unaryExpression
+    |   '++' unaryExpression
+    |   '--' unaryExpression
+    |   unaryExpressionNotPlusMinus
+    ;
+
+unaryExpressionNotPlusMinus 
+    :   '!' unaryExpression
+    |   primary
+    ;
+
+primary 
+    :   parExpression 
+    |   identifier
+    |   literal
+    ;
+
+variableInitializer: 
+        expression
+    ;
+
+parExpression 
+    :   '(' expression ')'
+    ;

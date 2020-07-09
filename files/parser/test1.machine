@@ -1,0 +1,48 @@
+/* 
+ * Test case 
+ *	
+ */
+machine test1{
+	
+	//global variables
+	int people=2;
+	int room_capacity=50;
+	bool flag = true;
+	bool transition_flag = !flag && false;
+
+	//states
+	/* starting state
+	 * increase the number of people 
+	 */
+	start state S0{
+		//local variables
+		int count where count>=0 && count<=10;
+		bool visit=true;
+		people = people + count;
+	}
+
+	/* 
+	 * final state
+	 * decrease the number of people 
+	 */
+	final state S1{
+		//local variables
+		int count where count>=0 && count<=5;
+		bool visit=false;
+		people = people - count;
+	}
+
+	//transitions
+	transition t1 {S0 -> S1 on "people leave"}
+	transition t2 {S1 -> S0 on "people enter"}
+	transition t3 {S0 -> S0 on "people enter"}
+	transition t4 {S1 -> S1 on "people leave"}
+
+	//invariants
+	/* any time the number of people cannot be negative*/
+	invariant Positive {people>=0;}
+
+	/* any time the number of people cannot be greater than room capacity*/
+	invariant Capacity {people<=room_capacity;}
+
+}
