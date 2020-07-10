@@ -13,6 +13,9 @@ options {
 package org.nuim.cyclone.parser;
 import java.util.Collections;
 import java.util.Arrays;
+import org.nuim.cyclone.parser.ast.*;
+import org.nuim.cyclone.model.type.*;
+import org.nuim.cyclone.model.value.*;
 }
 
 @lexer::header {
@@ -72,7 +75,9 @@ label:
     STRINGLITERAL
 ;
 
-identifier: IDENT ;
+identifier returns [String name]:
+    str=IDENT {$name=$str.getText();}
+;
 
 stateModifier: 
       START 
@@ -87,8 +92,8 @@ literal:
     | CHARLITERAL
 ;
 
-globalVariableDecl :
-    type variableDeclarator
+globalVariableDecl returns [ASTVariable v]:
+    t=type n=variableDeclarator {n.createVariable();$v=n;}
     SEMI
 ;
 
@@ -102,24 +107,25 @@ modifier :
     |   'native'
 ;
 
-type :
-        primitiveType
+type returns [Type t] :
+        p=primitiveType {$t=p;}
     |   enumType
 ;
 
-primitiveType:
-      INT      
-    | BOOL         
-    | REAL         
-    | STRING       
+primitiveType returns [Type t]:
+      INT {$t= new IntType();}
+    | BOOL {$t=new BoolType();}
+    | REAL {$t=new RealType();} 
+    | STRING 
 ;
 
 enumType :
     ENUM LBRACE identifier (COMMA identifier)* RBRACE
 ;
 
-variableDeclarator :
-    identifier 
+variableDeclarator returns [ASTVariable var]:
+    {$var=new ASTVariable();}
+    n=identifier {$var.name=n;}
     ('=' variableInitializer)? 
     (WHERE expression) ?
 ;
