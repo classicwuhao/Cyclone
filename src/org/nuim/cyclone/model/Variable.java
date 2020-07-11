@@ -2,7 +2,7 @@ package org.nuim.cyclone.model;
 import org.nuim.cyclone.model.type.Type;
 import org.nuim.cyclone.model.value.Value;
 
-public class Variable {
+public class Variable extends Element{
     private Type type;
     private String name;
     private Value value;
@@ -23,6 +23,7 @@ public class Variable {
     public boolean hasValue(){return !(this.value==null);};
 
     public String name(){return this.name;}
+    @Override
     public String toString(){
             return (this.value==null) ? 
                     this.name +":"+this.type

@@ -6,9 +6,9 @@ public class BoolType extends Type {
         super ("bool");
     }
 
-    
-    
     @Override
     public boolean isBoolType(){return true;}
-    
+
+    @Override
+    public String toString(){return this.name();}
 }

@@ -9,6 +9,9 @@ machine test1{
 	int room_capacity=50;
 	bool flag = true;
 	bool transition_flag = !flag && false;
+	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
+	string name ="test";
+	real pi=3.1415926;
 
 	//states
 	/* starting state

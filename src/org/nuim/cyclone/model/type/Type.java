@@ -13,4 +13,7 @@ public abstract class Type {
     public boolean isBoolType(){return false;}
     public boolean isRealType(){return false;}
     public boolean isEnumType(){return false;}
-}
+    public boolean isStringType(){return false;}
+    public abstract String toString();
+    
+}   

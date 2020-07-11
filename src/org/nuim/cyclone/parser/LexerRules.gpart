@@ -81,8 +81,9 @@ INTLITERAL:
 
 
 REALLITERAL:
-    INT ('.' INT (('e' | 'E') ('+' | '-')? INT)? | ('e' | 'E') ('+' | '-')? INT)
+    INTLITERAL (DOT INTLITERAL) ?
     ;
+//('.' INT (('e' | 'E') ('+' | '-')? INT)? | ('e' | 'E') ('+' | '-')? INT)
 
 CHARLITERAL
     :   '\'' 

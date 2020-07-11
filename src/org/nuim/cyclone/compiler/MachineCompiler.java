@@ -10,6 +10,8 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.nuim.cyclone.parser.*;
 import org.nuim.cyclone.util.*;
+import org.nuim.cyclone.parser.ast.ASTMachine;
+import org.nuim.cyclone.model.Machine;
 
 public class MachineCompiler {
 
@@ -39,7 +41,9 @@ public class MachineCompiler {
         parser.init(errHandler);
 
         try{
-            parser.machine();
+            ASTMachine node=parser.machine();
+            Machine machine = node.gen();
+            out.println(machine.toString(),Color.BLUE);
             if (errHandler.errorCount() == 0 ) {
                 out.println("Compile is successful.",Color.GREEN);
             }

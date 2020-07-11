@@ -43,9 +43,10 @@ package org.nuim.cyclone.parser;
     }
 }
 
-machine:
-    MACHINE identifier LBRACE
-        (globalVariableDecl)*
+machine returns [ASTMachine machine]:
+
+    MACHINE name=identifier {$machine = new ASTMachine(name);} LBRACE
+        (v=globalVariableDecl {$machine.addVariable(v);})*
         (state)* (trans)*
         (invariantExpression)*
     RBRACE EOF
@@ -93,7 +94,7 @@ literal:
 ;
 
 globalVariableDecl returns [ASTVariable v]:
-    t=type n=variableDeclarator {n.createVariable();$v=n;}
+    t=type n=variableDeclarator {n.type=t;n.createVariable();$v=n;}
     SEMI
 ;
 
@@ -109,18 +110,18 @@ modifier :
 
 type returns [Type t] :
         p=primitiveType {$t=p;}
-    |   enumType
+    |   e=enumType{$t=e;}
 ;
 
 primitiveType returns [Type t]:
       INT {$t= new IntType();}
     | BOOL {$t=new BoolType();}
     | REAL {$t=new RealType();} 
-    | STRING 
+    | STRING {$t=new StringType();}
 ;
 
-enumType :
-    ENUM LBRACE identifier (COMMA identifier)* RBRACE
+enumType returns [EnumType t] :
+    ENUM {$t=new EnumType();} LBRACE name=identifier {$t.add(name);} (COMMA l=identifier {$t.add(l);})* RBRACE
 ;
 
 variableDeclarator returns [ASTVariable var]:

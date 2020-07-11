@@ -9,4 +9,6 @@ public class RealType extends Type {
     @Override
     public boolean isRealType(){return true;}
 
+    @Override
+    public String toString(){return this.name();}
 }

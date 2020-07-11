@@ -9,4 +9,6 @@ public class IntType extends Type{
     @Override
     public boolean isIntType(){return true;}
 
+    @Override
+    public String toString(){return this.name();}
 }
