@@ -6,10 +6,10 @@ public class SymTable {
     HashMap<Integer,Variable> table32 = new HashMap<Integer,Variable>();
     
     public SymTable(){}
-    public void store(Variable variable){
+    public void store(Variable variable) throws SemanticException{
         int hashcode = variable.name().hashCode();
         if (table32.containsKey(hashcode))
-            throw new RuntimeException("Variable "+variable.name()+" is already defined.");
+            throw new SemanticException("Variable "+variable.name()+" is already defined.");
         else
             table32.put(hashcode,variable); 
     }

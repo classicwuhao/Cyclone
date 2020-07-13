@@ -9,7 +9,9 @@ public class ASTVariable extends ASTNode{
     public Type type;
     public String name;
     public Value value;
-
+    private ASTExpression initializer;
+    private ASTExpression constraint;
+    
     public ASTVariable(){super();}
     /* create a new variable for our machine */
     public void createVariable(){this.variable=new Variable(type,name);}

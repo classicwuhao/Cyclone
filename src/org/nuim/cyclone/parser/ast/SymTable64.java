@@ -6,10 +6,10 @@ public class SymTable64 {
     HashMap<Long,Variable> table64 = new HashMap<Long,Variable>();
     public SymTable64(){}
 
-    public void store(Variable variable){
+    public void store(Variable variable) throws SemanticException{
         long hashcode = hash(variable.name());
         if (table64.containsKey(hashcode))
-            throw new RuntimeException("Variable "+variable.name()+" is already defined.");
+            throw new SemanticException("Variable "+variable.name()+" is already defined.");
         else 
             table64.put(hashcode,variable);
     }

@@ -7,6 +7,6 @@ public abstract class ASTNode extends Element{
     
     public ASTNode(){super();}
     public ASTNode(String name){super(name);}
-    public abstract Element gen();
+    public abstract Element gen() throws SemanticException;
     
 }

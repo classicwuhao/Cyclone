@@ -3,7 +3,7 @@ package org.nuim.cyclone.parser.ast;
 import org.antlr.runtime.Token;
 
 public class SemanticException extends Exception{
-
+    private static final long serialVersionUID = 1L;
     private Token token;
 
     public SemanticException(String message){
@@ -19,7 +19,8 @@ public class SemanticException extends Exception{
     /*
      * return a readable message with detailed token information if we have.
      * */ 
-    public String message(){
+    @Override
+    public String getMessage(){
         StringBuffer sb = new StringBuffer();
 
         if (this.token!=null){

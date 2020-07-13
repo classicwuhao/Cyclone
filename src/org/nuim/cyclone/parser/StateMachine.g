@@ -85,12 +85,12 @@ stateModifier:
     | FINAL
 ;
 
-literal:
-      INTLITERAL
-    | REALLITERAL
-    | BOOLLITERAL
-    | STRINGLITERAL
-    | CHARLITERAL
+literal returns [ASTLiteral literal_node]:
+      l=INTLITERAL {$literal_node=new ASTLiteral(ASTLiteral.LiteralType.INT,l);}
+    | r=REALLITERAL {$literal_node=new ASTLiteral(ASTLiteral.LiteralType.REAL,r);}
+    | b=BOOLLITERAL {$literal_node=new ASTLiteral(ASTLiteral.LiteralType.BOOL,b);}
+    | s=STRINGLITERAL {$literal_node=new ASTLiteral(ASTLiteral.LiteralType.STRING,s);}
+    | c=CHARLITERAL {$literal_node=new ASTLiteral(ASTLiteral.LiteralType.CHAR,c);}
 ;
 
 globalVariableDecl returns [ASTVariable v]:

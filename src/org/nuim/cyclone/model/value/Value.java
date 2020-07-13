@@ -1,8 +1,8 @@
 package org.nuim.cyclone.model.value;
 
 import org.nuim.cyclone.model.type.Type;
-
-public abstract class Value {
+import org.nuim.cyclone.model.Element;
+public abstract class Value extends Element{
     // ecah value has its type.
     private Type type;
 
@@ -10,10 +10,12 @@ public abstract class Value {
         this.type = type;
     }
 
-    public abstract String toString();
+    //public abstract String toString();
     public Type type(){return this.type;};
     public boolean isIntValue(){return false;}
     public boolean isBoolValue(){return false;}
     public boolean isRealValue(){return false;}
     public boolean isEnumValue(){return false;}
+    public boolean isStringValue(){return false;}
+    public boolean isCharValue(){return false;}
 }
