@@ -131,6 +131,10 @@ variableDeclarator returns [ASTVariable var]:
     (WHERE expression) ?
 ;
 
+variableInitializer: 
+        expression
+    ;
+
 expression:
         conditionalOrExpression
         (assignmentOperator expression
@@ -206,10 +210,6 @@ primary
     :   parExpression 
     |   identifier
     |   literal
-    ;
-
-variableInitializer: 
-        expression
     ;
 
 parExpression 
