@@ -131,21 +131,21 @@ variableDeclarator returns [ASTVariable var]:
     (WHERE expression) ?
 ;
 
-variableInitializer: 
-        expression
+variableInitializer returns [ASTExpression expr]: 
+        n=expression {$expr=n;}
     ;
 
-expression:
-        conditionalOrExpression
-        (assignmentOperator expression
-        )? 
+expression returns [ASTExpression expr]:
+        nOrExpr=conditionalOrExpression {$expr=$nOrExpr.expr;}
+        (assignmentOperator nExpr=expression{$expr=nExpr;}
+        )?
     ;
 
 assignmentOperator 
     :   '='
 ;
 
-conditionalOrExpression 
+conditionalOrExpression returns [ASTExpression expr]
     :   conditionalAndExpression
         ('||' conditionalAndExpression
         )*
