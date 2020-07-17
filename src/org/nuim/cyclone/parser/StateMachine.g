@@ -45,7 +45,7 @@ package org.nuim.cyclone.parser;
 
 machine returns [ASTMachine machine]:
 
-    MACHINE name=identifier {$machine = new ASTMachine(name);} LBRACE
+    MACHINE name=identifier {$machine = new ASTMachine( ((ASTIdentifier) name).identifier() );} LBRACE
         (v=globalVariableDecl {$machine.addVariable(v);})*
         (state)* (trans)*
         (invariantExpression)*
@@ -76,8 +76,8 @@ label:
     STRINGLITERAL
 ;
 
-identifier returns [String name]:
-    str=IDENT {$name=$str.getText();}
+identifier returns [ASTExpression expr]:
+    str=IDENT {$expr= new ASTIdentifier(str);}
 ;
 
 stateModifier: 
@@ -121,13 +121,14 @@ primitiveType returns [Type t]:
 ;
 
 enumType returns [EnumType t] :
-    ENUM {$t=new EnumType();} LBRACE name=identifier {$t.add(name);} (COMMA l=identifier {$t.add(l);})* RBRACE
+    ENUM {$t=new EnumType();} LBRACE name=identifier {$t.add(name.toString());} 
+    (COMMA l=identifier {$t.add(l.toString());})* RBRACE
 ;
 
 variableDeclarator returns [ASTVariable var]:
     {$var=new ASTVariable();}
-    n=identifier {$var.name=n;}
-    ('=' variableInitializer)? 
+    n=identifier {$var.name=n.toString();}
+    ('=' n=variableInitializer {$var.initializer=n;})? 
     (WHERE expression) ?
 ;
 
@@ -146,20 +147,20 @@ assignmentOperator
 ;
 
 conditionalOrExpression returns [ASTExpression expr]
-    :   conditionalAndExpression
+    :   n=conditionalAndExpression {$expr=n;}
         ('||' conditionalAndExpression
         )*
     ;
 
-conditionalAndExpression
+conditionalAndExpression returns [ASTExpression expr]
     :
-    relationalExpression 
+     n=relationalExpression {$expr=n;}
      ('&&' relationalExpression
         )*
     ;
 
-relationalExpression 
-    : additiveExpression
+relationalExpression returns [ASTExpression expr]
+    : n=additiveExpression {$expr=n;}
         (relationalOp additiveExpression
         )*
 ;
@@ -171,8 +172,8 @@ relationalOp
     |   '>'
     ;
 
-additiveExpression 
-    :   multiplicativeExpression
+additiveExpression returns [ASTExpression expr]
+    :   n=multiplicativeExpression {$expr=n;}
         (   
             (   '+'
             |   '-'
@@ -181,9 +182,9 @@ additiveExpression
          )*
     ;
 
-multiplicativeExpression 
+multiplicativeExpression returns [ASTExpression expr]
     :
-        unaryExpression
+        n=unaryExpression {$expr=n;}
         (   
             (   '*'
             |   '/'
@@ -193,26 +194,26 @@ multiplicativeExpression
         )*
     ;
 
-unaryExpression 
+unaryExpression returns [ASTExpression expr]
     :   '+'  unaryExpression
     |   '-' unaryExpression
     |   '++' unaryExpression
     |   '--' unaryExpression
-    |   unaryExpressionNotPlusMinus
+    |   n=unaryExpressionNotPlusMinus {$expr=n;}
     ;
 
-unaryExpressionNotPlusMinus 
+unaryExpressionNotPlusMinus returns [ASTExpression expr]
     :   '!' unaryExpression
-    |   primary
+    |   p=primary {$expr=p;}
     ;
 
-primary 
+primary returns [ASTExpression expr]
     :   parExpression 
     |   identifier
-    |   literal
+    |   literExpr=literal {$expr=literExpr;}
     ;
 
-parExpression 
+parExpression returns [ASTExpression expr]
     :   '(' expression ')'
     ;/*
 --------- Start of file LexerRules.gpart -------------------- 
@@ -320,6 +321,10 @@ STRINGLITERAL
 BOOLLITERAL
     : 'true'
     | 'false'
+;
+
+ENUMLITERAL
+    : HASH IDENT
 ;
 
 fragment

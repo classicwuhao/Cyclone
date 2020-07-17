@@ -21,7 +21,8 @@ public class Variable extends Element{
     public Type type(){return this.type;}
     public Value value(){return this.value;}
     public boolean hasValue(){return !(this.value==null);};
-
+    public void setValue(Value value){this.value=value;}
+    
     public String name(){return this.name;}
     @Override
     public String toString(){

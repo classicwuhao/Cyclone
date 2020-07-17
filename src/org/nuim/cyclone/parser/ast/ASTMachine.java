@@ -25,7 +25,12 @@ public class ASTMachine extends ASTNode{
     }   
 
     public void addVariable(ASTVariable node){
-        variables.add(node.gen());
+        try{
+            variables.add(node.gen());
+        }
+        catch (SemanticException e){
+            System.err.println("Semantic error: cannot generate variable, "+e.getMessage());
+        }
     } 
 
     @Override

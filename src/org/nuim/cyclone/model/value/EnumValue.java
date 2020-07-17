@@ -4,26 +4,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class EnumValue extends Value {
-    private List<String> value = new ArrayList<String>();
+    private String value;
 
-    public EnumValue(){
+    public EnumValue(String value){
         super(new EnumType());
+        this.value=value;
     }
 
-    public void add(String literal){
-        this.value.add(literal);
-    }
-
-    public List<String> value(){return this.value;}
+    public String value(){return this.value;}
     
     @Override
     public String toString(){
-        StringBuffer sb = new StringBuffer();
-        sb.append("{ ");
-        for (String literal : this.value)
-            sb.append(literal+" ");
-        sb.append("}");
-        return sb.toString();
+        return "#" + this.value;
     }
 
     @Override

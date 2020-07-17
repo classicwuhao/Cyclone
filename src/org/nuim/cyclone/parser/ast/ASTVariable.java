@@ -1,16 +1,14 @@
 package org.nuim.cyclone.parser.ast;
 
 import org.nuim.cyclone.model.type.Type;
-import org.nuim.cyclone.model.value.Value;
 import org.nuim.cyclone.model.Variable;
 
-public class ASTVariable extends ASTNode{
+public class ASTVariable extends ASTExpression{
     private Variable variable;
     public Type type;
     public String name;
-    public Value value;
-    private ASTExpression initializer;
-    private ASTExpression constraint;
+    public ASTExpression initializer;
+    public ASTExpression constraint;
     
     public ASTVariable(){super();}
     /* create a new variable for our machine */
@@ -18,9 +16,17 @@ public class ASTVariable extends ASTNode{
     public Variable variable(){return this.variable;}
     
     @Override
-    public Variable gen(){
+    public Variable gen() throws SemanticException{
         if (this.variable==null)
             createVariable();
+
+        /* leave complex expression to the solver. */ 
+        if (this.initializer!=null){
+            if (this.initializer.isASTLitreal()){
+                ASTLiteral literal = (ASTLiteral)initializer;
+                 this.variable.setValue(literal.gen());
+            }
+        }
 
         return this.variable;
     }

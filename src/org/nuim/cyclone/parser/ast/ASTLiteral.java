@@ -6,7 +6,7 @@ import org.antlr.runtime.Token;
 
 public class ASTLiteral extends ASTExpression {
     public static enum LiteralType {
-        INT, BOOL, REAL, STRING, CHAR
+        INT, BOOL, REAL, STRING, CHAR, ENUM
     };
 
     private LiteralType lt;
@@ -41,12 +41,24 @@ public class ASTLiteral extends ASTExpression {
                 value = new CharValue(str_value.charAt(0));
                 break;
 
+            case REAL:
+                value = new RealValue(Float.parseFloat(str_value));
+                break;
+
+            case ENUM:
+                value = new EnumValue(str_value);
+                break;
+                
             default:
-                throw new SemanticException("cannot determine this literal: " + str_value);
+                throw new SemanticException("invalid literal: " + str_value+ "line:"+
+                    this.token.getLine()+",column:"+this.token.getCharPositionInLine());
            
         }
         return value;
     }
+
+    @Override
+    public boolean isASTLitreal(){return true;}
 
     @Override
     public String toString(){return this.token.getText();}
