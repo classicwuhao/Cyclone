@@ -1,12 +1,12 @@
 package org.nuim.cyclone.parser.ast;
-import org.nuim.cyclone.model.Element;
+import org.nuim.cyclone.model.Expression;
+import org.nuim.cyclone.model.NamedElement;
 /*
  * The node of our AST 
  * */
-public abstract class ASTNode extends Element{
-    
+public abstract class ASTNode extends NamedElement{
     public ASTNode(){super();}
     public ASTNode(String name){super(name);}
-    public abstract Element gen() throws SemanticException;
+    public abstract Expression gen() throws SemanticException;
     
 }

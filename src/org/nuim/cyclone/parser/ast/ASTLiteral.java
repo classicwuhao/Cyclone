@@ -13,10 +13,11 @@ public class ASTLiteral extends ASTExpression {
     private Token token;
 
     public ASTLiteral() {
-        super();
+        super("");
     }
 
     public ASTLiteral(LiteralType lt, Token token) {
+        super(token.getText());
         this.lt = lt;
         this.token = token;
     }

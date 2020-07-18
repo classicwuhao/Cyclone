@@ -2,34 +2,28 @@ package org.nuim.cyclone.model;
 import org.nuim.cyclone.model.type.Type;
 import org.nuim.cyclone.model.value.Value;
 
-public class Variable extends Element{
-    private Type type;
-    private String name;
+public class Variable extends Expression{
     private Value value;
     
     public Variable (Type type, String name){
-        this.type = type;
-        this.name = name;
+        super(name,type);
     }
 
     public Variable (Type type, String name, Value value){
-        this.type = type;
-        this.name = name;
+        super(name,type);
         this.value = value;
     }
 
-    public Type type(){return this.type;}
     public Value value(){return this.value;}
     public boolean hasValue(){return !(this.value==null);};
     public void setValue(Value value){this.value=value;}
     
-    public String name(){return this.name;}
     @Override
     public String toString(){
             return (this.value==null) ? 
-                    this.name +":"+this.type
+                    this.name() +":"+this.type()
                 :
-                    this.name+":"+this.type+"["+this.value.toString()+"]";
+                    this.name()+":"+this.type()+"["+this.value.toString()+"]";
     }
     
 }

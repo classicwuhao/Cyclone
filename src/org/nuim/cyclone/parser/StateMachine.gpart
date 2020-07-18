@@ -138,13 +138,9 @@ variableInitializer returns [ASTExpression expr]:
 
 expression returns [ASTExpression expr]:
         nImpliesExpr = conditionalImpliesExpression {$expr=$nImpliesExpr.expr;}
-        (assignmentOperator nExpr=expression{$expr=nExpr;}
+        ('=' nExpr=expression{$expr=nExpr;}
         )?
     ;
-
-assignmentOperator 
-    :   '='
-;
 
 conditionalImpliesExpression returns [ASTExpression expr]
     :   nOrExpr=conditionalOrExpression {$expr=$nOrExpr.expr;}
@@ -156,43 +152,49 @@ conditionalImpliesExpression returns [ASTExpression expr]
 
 conditionalOrExpression returns [ASTExpression expr]
     :   nAndExpr=conditionalAndExpression {$expr=$nAndExpr.expr;}
-        ('||' conditionalAndExpression
+        (
+            operator='||' n1=conditionalAndExpression
+            {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
         )*
     ;
 
 conditionalAndExpression returns [ASTExpression expr]
-    :
-     nXorExpr=conditionalXorExpression {$expr=$nXorExpr.expr;}
-     ('&&' conditionalXorExpression
+    :   nXorExpr=conditionalXorExpression {$expr=$nXorExpr.expr;}
+        ( 
+             operator='&&' n1=conditionalXorExpression
+             {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
         )*
     ;
 
 conditionalXorExpression returns [ASTExpression expr]
-    : nRelExpr = relationalExpression {$expr=$nRelExpr.expr;}
-    (XOR relationalExpression)*
+    :   nRelExpr = relationalExpression {$expr=$nRelExpr.expr;}
+        (
+            operator=XOR n1=relationalExpression
+            {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
+        )*
 ;
 
 relationalExpression returns [ASTExpression expr]
     : nAddExpr=additiveExpression {$expr=$nAddExpr.expr;}
-        (relationalOp additiveExpression
+        (
+            operator=relationalOp n1=additiveExpression
+            {$expr= new ASTBinaryExpression(operator,$expr,$n1.expr);}
         )*
 ;
 
-relationalOp 
-    :    '<=' 
-    |    '>='
-    |   '<'
-    |   '>'
+relationalOp returns [Token token]
+    :    t='<=' {$token=t;}
+    |    t='>=' {$token=t;}
+    |    t='<'  {$token=t;}
+    |    t='>'  {$token=t;}
     ;
 
 additiveExpression returns [ASTExpression expr]
     :   nMulExpr=multiplicativeExpression {$expr=$nMulExpr.expr;}
         (   
-            (   '+'
-            |   '-'
-            )
-            multiplicativeExpression
-         )*
+            operator=('+' | '-') n1=multiplicativeExpression
+            {$expr= new ASTBinaryExpression(operator,$expr,$n1.expr);}
+        )*
     ;
 
 multiplicativeExpression returns [ASTExpression expr]
@@ -208,7 +210,7 @@ multiplicativeExpression returns [ASTExpression expr]
     ;
 
 unaryExpression returns [ASTExpression expr]
-    :   '+'  unaryExpression
+    :   '+' unaryExpression
     |   '-' unaryExpression
     |   '++' unaryExpression
     |   '--' unaryExpression
@@ -221,11 +223,11 @@ unaryExpressionNotPlusMinus returns [ASTExpression expr]
     ;
 
 primary returns [ASTExpression expr]
-    :   parExpression 
-    |   identifier
+    :   pExpr=parExpression {$expr=$pExpr.expr;}
+    |   id=identifier {$expr=$id.expr;}
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
     ;
 
 parExpression returns [ASTExpression expr]
-    :   '(' expression ')'
+    :   '(' e=expression {$expr=$e.expr;} ')'
     ;

@@ -8,6 +8,7 @@ public class ASTBinaryExpression extends ASTExpression{
     ASTExpression right;
 
     public ASTBinaryExpression(Token token, ASTExpression left, ASTExpression right){
+        super(token.getText());
         this.token = token;
         this.left = left;
         this.right = right;
@@ -20,7 +21,7 @@ public class ASTBinaryExpression extends ASTExpression{
         return this.left.toString() + " " +token.getText() + " " +this.right.toString();
     }
     
-    public Element gen(){
+    public Expression gen(){
         return null;
     }
 

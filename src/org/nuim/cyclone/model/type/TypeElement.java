@@ -1,7 +1,7 @@
 package org.nuim.cyclone.model.type;
-import org.nuim.cyclone.model.Element;
+import org.nuim.cyclone.model.NamedElement;
 
-public abstract class TypeElement extends Element {
-    public TypeElement(){super();}
+public abstract class TypeElement extends NamedElement {
+    //public TypeElement(){super();}
     public TypeElement(String name){super(name);}
 }

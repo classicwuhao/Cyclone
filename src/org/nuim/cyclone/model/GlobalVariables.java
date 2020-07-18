@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.nuim.cyclone.parser.ast.SymTable64; //use 64bit symbol table
 import org.nuim.cyclone.parser.ast.SemanticException;
 /* Wrapper for our symbol table. Seperate machine construction from AST travesal.*/ 
-public final class GlobalVariables extends Element{
+public final class GlobalVariables extends Expression{
     private SymTable64 variables = new SymTable64();
 
     public GlobalVariables (){
