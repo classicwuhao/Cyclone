@@ -12,7 +12,8 @@ machine test1{
 	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
 	string name ="test";
 	real pi=3.1415926;
-
+	int x = 5;
+	int y = 0;
 	//states
 	/* starting state
 	 * increase the number of people 
@@ -22,6 +23,9 @@ machine test1{
 		int count where count>=0 && count<=10;
 		bool visit=true;
 		people = people + count;
+		
+		(x+y>=5) => (y=x+y-5 && x=5);
+		(x-y>5) => (y=0 && x=x+y);
 	}
 
 	/* 

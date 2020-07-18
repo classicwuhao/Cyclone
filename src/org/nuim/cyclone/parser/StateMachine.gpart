@@ -137,7 +137,7 @@ variableInitializer returns [ASTExpression expr]:
     ;
 
 expression returns [ASTExpression expr]:
-        nOrExpr=conditionalOrExpression {$expr=$nOrExpr.expr;}
+        nImpliesExpr = conditionalImpliesExpression {$expr=$nImpliesExpr.expr;}
         (assignmentOperator nExpr=expression{$expr=nExpr;}
         )?
     ;
@@ -146,21 +146,34 @@ assignmentOperator
     :   '='
 ;
 
+conditionalImpliesExpression returns [ASTExpression expr]
+    :   nOrExpr=conditionalOrExpression {$expr=$nOrExpr.expr;}
+        (
+            operator=IMPLIES n1=conditionalOrExpression 
+            {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
+        )*
+;
+
 conditionalOrExpression returns [ASTExpression expr]
-    :   n=conditionalAndExpression {$expr=n;}
+    :   nAndExpr=conditionalAndExpression {$expr=$nAndExpr.expr;}
         ('||' conditionalAndExpression
         )*
     ;
 
 conditionalAndExpression returns [ASTExpression expr]
     :
-     n=relationalExpression {$expr=n;}
-     ('&&' relationalExpression
+     nXorExpr=conditionalXorExpression {$expr=$nXorExpr.expr;}
+     ('&&' conditionalXorExpression
         )*
     ;
 
+conditionalXorExpression returns [ASTExpression expr]
+    : nRelExpr = relationalExpression {$expr=$nRelExpr.expr;}
+    (XOR relationalExpression)*
+;
+
 relationalExpression returns [ASTExpression expr]
-    : n=additiveExpression {$expr=n;}
+    : nAddExpr=additiveExpression {$expr=$nAddExpr.expr;}
         (relationalOp additiveExpression
         )*
 ;
@@ -173,7 +186,7 @@ relationalOp
     ;
 
 additiveExpression returns [ASTExpression expr]
-    :   n=multiplicativeExpression {$expr=n;}
+    :   nMulExpr=multiplicativeExpression {$expr=$nMulExpr.expr;}
         (   
             (   '+'
             |   '-'
@@ -184,7 +197,7 @@ additiveExpression returns [ASTExpression expr]
 
 multiplicativeExpression returns [ASTExpression expr]
     :
-        n=unaryExpression {$expr=n;}
+        nUnrExpr=unaryExpression {$expr=$nUnrExpr.expr;}
         (   
             (   '*'
             |   '/'
@@ -199,18 +212,18 @@ unaryExpression returns [ASTExpression expr]
     |   '-' unaryExpression
     |   '++' unaryExpression
     |   '--' unaryExpression
-    |   n=unaryExpressionNotPlusMinus {$expr=n;}
+    |   nUnrExprOther=unaryExpressionNotPlusMinus {$expr=$nUnrExprOther.expr;}
     ;
 
 unaryExpressionNotPlusMinus returns [ASTExpression expr]
-    :   '!' unaryExpression
-    |   p=primary {$expr=p;}
+    :   '!' UnrExpr=unaryExpression {$expr=$UnrExpr.expr;}
+    |   nPriExpr=primary {$expr=$nPriExpr.expr;}
     ;
 
 primary returns [ASTExpression expr]
     :   parExpression 
     |   identifier
-    |   literExpr=literal {$expr=literExpr;}
+    |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
     ;
 
 parExpression returns [ASTExpression expr]

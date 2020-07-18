@@ -55,6 +55,8 @@ RPAREN		 : ')';
 SEMI		 : ';';
 SLASH 		 : '/';
 STAR 		 : '*';
+XOR          : 'xor';
+IMPLIES      : '=>';
 
 //keywords
 STATE		 : 'state';
@@ -71,6 +73,10 @@ ENUM         : 'enum';
 WHERE        : 'where';
 START        : 'start';
 FINAL        : 'final';
+GOAL         : 'goal';
+CHECK        : 'check';
+FOR          : 'for';
+
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';
