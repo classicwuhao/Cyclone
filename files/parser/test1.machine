@@ -12,8 +12,9 @@ machine test1{
 	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
 	string name ="test";
 	real pi=3.1415926;
-	int x = 5;
-	int y = 0;
+	int x = 10-(5+0);
+	int y = x++;
+	
 	//states
 	/* starting state
 	 * increase the number of people 

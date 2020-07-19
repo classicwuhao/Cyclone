@@ -57,7 +57,7 @@ SLASH 		 : '/';
 STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
-
+NOT          : '!';
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';

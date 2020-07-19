@@ -6,7 +6,7 @@ public abstract class NamedElement extends Element{
     public NamedElement(String name){
         this.name=name;
     }
-    
+    public void setName(String name){this.name=name;}
     public String name(){return this.name;}
     public String toString(){return this.name();}
 }

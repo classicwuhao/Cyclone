@@ -13,7 +13,7 @@ public class ASTBinaryExpression extends ASTExpression{
         this.left = left;
         this.right = right;
     }
-
+    
     public ASTExpression left(){return this.left;}
     public ASTExpression right(){return this.right;}
 
@@ -21,8 +21,12 @@ public class ASTBinaryExpression extends ASTExpression{
         return this.left.toString() + " " +token.getText() + " " +this.right.toString();
     }
     
-    public Expression gen(){
-        return null;
+    public Expression gen() throws SemanticException{
+        Expression [] args = new Expression[2];
+        args[0]=left.gen();
+        args[1]=right.gen();
+        OpExpr expr = new OpExpr(this.name(),args);
+        return expr;
     }
 
 }

@@ -26,6 +26,9 @@ public class ASTVariable extends ASTExpression{
                 ASTLiteral literal = (ASTLiteral)initializer;
                  this.variable.setValue(literal.gen());
             }
+            else{
+                this.variable.setInitializer(initializer.gen());
+            }
         }
 
         return this.variable;

@@ -33,8 +33,8 @@ public class ASTMachine extends ASTNode{
     /* generate our Machine */ 
     public Machine gen(){
         Machine machine = new Machine(this.name());
-
         machine.setVariables(this.variables);
+        
         return machine;
     }
     

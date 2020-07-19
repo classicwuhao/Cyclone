@@ -218,8 +218,14 @@ unaryExpression returns [ASTExpression expr]
     ;
 
 unaryExpressionNotPlusMinus returns [ASTExpression expr]
-    :   '!' UnrExpr=unaryExpression {$expr=$UnrExpr.expr;}
-    |   nPriExpr=primary {$expr=$nPriExpr.expr;}
+    :   not='!' UnrExpr=unaryExpression {$expr=new ASTUnaryExpression($not,$UnrExpr.expr);}
+    |   nPriExpr=primary op=('++' | '--')? {
+        // check operator, it is not null then it must be a postfix expression
+        if ($op!=null)
+            $expr=new ASTUnaryExpression($op,$nPriExpr.expr);
+        else
+            $expr=$nPriExpr.expr;
+        }
     ;
 
 primary returns [ASTExpression expr]
@@ -289,7 +295,7 @@ SLASH 		 : '/';
 STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
-
+NOT          : '!';
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';

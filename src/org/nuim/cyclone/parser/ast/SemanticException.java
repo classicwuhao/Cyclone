@@ -33,6 +33,4 @@ public class SemanticException extends Exception{
 
         return sb.append(super.getMessage()).toString();
     }
-
-
 }
