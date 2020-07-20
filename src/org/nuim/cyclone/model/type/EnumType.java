@@ -2,7 +2,7 @@ package org.nuim.cyclone.model.type;
 import java.util.List;
 import java.util.ArrayList;
 
-public class EnumType extends Type {
+public class EnumType extends NonPrimitiveType {
     private List<String> value = new ArrayList<String>();
 
     public EnumType(){

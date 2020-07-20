@@ -1,6 +1,6 @@
 package org.nuim.cyclone.model.type;
 
-public class IntType extends Type{
+public class IntType extends PrimitiveType{
 
     public IntType(){
         super("int");

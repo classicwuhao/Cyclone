@@ -36,6 +36,9 @@ public abstract class BoolOperator extends StdOperator{
             };
             this.registerTypeRule(types, new BoolType());
         }
+
+        @Override
+        public boolean isBinaryOperator(){return true;}
     }
 
     public static final class Or extends BoolOperator{
@@ -56,6 +59,8 @@ public abstract class BoolOperator extends StdOperator{
             this.registerTypeRule(types, new BoolType());
         }
 
+        @Override
+        public boolean isBinaryOperator(){return true;}
     }
 
     public static final class Xor extends BoolOperator{
@@ -76,9 +81,10 @@ public abstract class BoolOperator extends StdOperator{
             this.registerTypeRule(types, new BoolType());
         }
 
+        @Override
+        public boolean isBinaryOperator(){return true;}
     }
-
-
+    
     public static final class Implies extends BoolOperator{
 
         public Implies (){
@@ -97,6 +103,8 @@ public abstract class BoolOperator extends StdOperator{
             this.registerTypeRule(types, new BoolType());
         }
 
+        @Override
+        public boolean isBinaryOperator(){return true;}
     }
 
     public static final class Not extends BoolOperator{
@@ -117,6 +125,8 @@ public abstract class BoolOperator extends StdOperator{
             this.registerTypeRule(types, new BoolType());
         }
 
+        @Override
+        public boolean isUnaryOperator(){return true;}
     }
 
 }

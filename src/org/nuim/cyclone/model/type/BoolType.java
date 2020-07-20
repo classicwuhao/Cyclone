@@ -1,6 +1,6 @@
 package org.nuim.cyclone.model.type;
 
-public class BoolType extends Type {
+public class BoolType extends PrimitiveType {
 
     public BoolType(){
         super ("bool");

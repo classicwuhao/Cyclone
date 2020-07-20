@@ -1,6 +1,6 @@
 package org.nuim.cyclone.model.type;
 
-public class RealType extends Type {
+public class RealType extends PrimitiveType {
 
     public RealType(){
         super("real");

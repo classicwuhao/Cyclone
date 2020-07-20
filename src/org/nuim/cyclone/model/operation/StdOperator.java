@@ -10,7 +10,9 @@ public abstract class StdOperator extends Operator{
     public StdOperator(){}
 
     public StdOperator(String operator, int arity){
-        super(operator, arity);
+        super(operator,arity);
     }
+
+    public boolean isStdOperator(){return true;}
 
 }

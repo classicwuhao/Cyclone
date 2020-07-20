@@ -1,6 +1,6 @@
 package org.nuim.cyclone.model.type;
 
-public class CharType extends Type {
+public class CharType extends PrimitiveType {
 
     public CharType(){
         super("char");

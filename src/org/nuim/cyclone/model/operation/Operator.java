@@ -2,31 +2,30 @@ package org.nuim.cyclone.model.operation;
 import org.nuim.cyclone.model.NamedElement;
 import org.nuim.cyclone.model.type.Type;
 import java.util.HashMap;
-
+import java.util.List;
+import java.util.ArrayList;
 /*
  * Generic class for all operators.
  * */ 
 public abstract class Operator extends NamedElement{
     //arguments type.
-    private Type[] args;
-    //resulting type
-    private Type result;
-    
+    private List<TypeDef> typedef = new ArrayList<TypeDef>();
+    private int arity;
+
     private static HashMap<Integer, Operator> opmap = new HashMap<Integer, Operator>(150);
 
+    /* resiger all of our standard operators */ 
     static {
-        opmap.put(BoolOperator.BOOL_AND,new BoolOperator.And());
-        opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Or());
-        opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Xor());
-        opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Implies());
-        opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Not());
+        registerBoolOperators();
+        registerArithOperators();
+        registerRelationalOperators();
     }
 
     public Operator(){}
 
     public Operator(String operator, int arity){
         super(operator);
-        args= new Type[arity];
+        this.arity=arity;
     }
 
     public abstract void register();
@@ -36,11 +35,34 @@ public abstract class Operator extends NamedElement{
       //  if (args==null) throw new TypeException("Missing arguments' type information.");
       //  if (result==null) throw new TypeException("Missing result's type information.");
       //  if (args.length!=this.arity()) throw new TypeException("The number of arguments are not matched with registered operation.");
-        for (int i=0;i<args.length;i++)
-            this.args[i]=args[i];
-        this.result=result;
+        typedef.add(new TypeDef(args,result));
+    }
+
+    public static void registerBoolOperators(){
+        opmap.put(BoolOperator.BOOL_AND,new BoolOperator.And());
+        opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Or());
+        opmap.put(BoolOperator.BOOL_XOR, new BoolOperator.Xor());
+        opmap.put(BoolOperator.BOOL_IMPLIES, new BoolOperator.Implies());
+        opmap.put(BoolOperator.BOOL_NOT, new BoolOperator.Not());
+    }
+
+    public static void registerArithOperators(){
+        opmap.put(ArithOperator.ARITH_PLUS, new ArithOperator.Plus());
+        opmap.put(ArithOperator.ARITH_MINUS, new ArithOperator.Minus());
+        opmap.put(ArithOperator.ARITH_MUL, new ArithOperator.Multiplication());
+        opmap.put(ArithOperator.ARITH_DIV, new ArithOperator.Division());
+        opmap.put(ArithOperator.ARITH_REM, new ArithOperator.Remainder());
+        opmap.put(ArithOperator.ARITH_PLUS_PLUS, new ArithOperator.PlusPlus());
+        opmap.put(ArithOperator.ARITH_MINUS_MINUS, new ArithOperator.MinusMinus());
     }
     
+    public static void registerRelationalOperators(){
+        opmap.put(RelationalOperator.REL_GREATER,new RelationalOperator.Greater());
+        opmap.put(RelationalOperator.REL_GREATER_EQUAL,new RelationalOperator.GreaterEqual());
+        opmap.put(RelationalOperator.REL_LESS,new RelationalOperator.Less());
+        opmap.put(RelationalOperator.REL_LESS_EQUAL,new RelationalOperator.LessEqual());
+    }
+
     public static Operator lookup(String name) throws TypeException{
         if (!opmap.containsKey(name.hashCode()))
             throw new TypeException("Operator: "+name +" is not defined.");
@@ -48,13 +70,33 @@ public abstract class Operator extends NamedElement{
         return operator;
     }
 
+    
+    public boolean isStdOperator(){return false;}
+    public boolean isBinaryOperator(){return false;}
+    public boolean isUnaryOperator(){return false;}
     public boolean isBooleanOperator(){return false;}
     public boolean isArithOperator(){return false;}
+    public boolean isRelationalOperator(){return false;}
+    public int size() {return this.typedef.size();}
 
-    public int arity() {return this.args.length;}
-    public Type[] args(){return this.args;}
-    public Type result(){return this.result;}
-    public boolean isBinaryOperator(){return this.args.length==2;}
-    public boolean isUnaryOperator(){return this.args.length==1;}
+    /*
+     * To be changed: An operator may be overloaded so a fixed arity is not ideal here.
+     * */ 
+    public int arity(){return this.arity;}
+
+    public TypeDef[] typeDefinitions(){
+        TypeDef[] def = new TypeDef[this.typedef.size()];
+        return this.typedef.toArray(def);
+    }
+    
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(this.name()+":\n");
+        for (TypeDef T : this.typedef)
+            sb.append(T.toString()+"\n");
+        
+        return sb.toString();
+    }
 
 }
