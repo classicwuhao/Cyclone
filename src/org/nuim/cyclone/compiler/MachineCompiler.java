@@ -25,7 +25,8 @@ public class MachineCompiler {
         ANTLRInputStream aInput;
         ColorPrint out = new ColorPrint();
         out.println("Launching compiler...",Color.GREEN);
-        
+        int COMPILE_RESULT=COMPILE_SUCCESS;
+
         try {
 			aInput = new ANTLRInputStream(in);
             aInput.name = inName;
@@ -46,20 +47,36 @@ public class MachineCompiler {
             Machine machine=node.gen(new ASTContext());
             out.println(machine.toString(),Color.BLUE);
 
-            if (errHandler.errorCount() == 0 && node.context().errors()==0){
-                //out.println("",Color.GREEN);
-                if (machine.errors()==0){
-                    out.println("Compile is successful.",Color.GREEN);
-                }
-                else{
-                    out.println(machine.errors()+" semantic error(s).",Color.RED);
-                    out.println("Compile is failed.",Color.RED);    
-                }
+            if (errHandler.errorCount() == 0 ){
+                out.println("Syntax checking done.",Color.GREEN);
             }
             else{
-                out.println("Compile is failed.",Color.RED);
-                return COMPILE_ERROR;
+                out.println(errHandler.errorCount()+" syntax error(s).",Color.RED);
+                COMPILE_RESULT = COMPILE_ERROR;
             }
+
+            if (node.context().errors()==0){
+                out.println("Semantic checking done.",Color.GREEN);
+            }
+            else{
+                out.println(node.context().errors()+" semantic error(s).",Color.RED);
+                COMPILE_RESULT = COMPILE_ERROR;
+            }
+
+            if (machine.errors()==0){
+                out.println("Type checking done.",Color.GREEN);
+            }
+            else{
+                out.println(machine.errors()+" type error(s).",Color.RED);
+                COMPILE_RESULT = COMPILE_ERROR;
+            }
+
+            if (COMPILE_RESULT == COMPILE_SUCCESS)
+                out.println("Compile is successful.",Color.GREEN);
+            else
+                out.println("Compile is failed.",Color.RED);
+            
+            return COMPILE_RESULT;
         }
         catch(RecognitionException e){
             err.println(parser.getSourceName() +":" + 

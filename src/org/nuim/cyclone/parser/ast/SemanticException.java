@@ -26,9 +26,9 @@ public class SemanticException extends Exception{
         if (this.token!=null){
             sb.append(this.token.getInputStream().getSourceName());
             sb.append(" line: ");
-            sb.append(this.token.getLine());
+            sb.append(this.token.getLine()+",");
             sb.append(" column: ");
-            sb.append(this.token.getCharPositionInLine());
+            sb.append(this.token.getCharPositionInLine()+",");
         }
 
         return sb.append(super.getMessage()).toString();

@@ -220,12 +220,10 @@ public abstract class ArithOperator extends StdOperator{
          */
         public void register() {
             IntType[] types0={
-                new IntType(),
                 new IntType()
             };
             
             PrimitiveType[] types1={
-                new RealType(),
                 new RealType()
             };
             
@@ -249,12 +247,10 @@ public abstract class ArithOperator extends StdOperator{
          */
         public void register() {
             IntType[] types0={
-                new IntType(),
                 new IntType()
             };
             
             PrimitiveType[] types1={
-                new RealType(),
                 new RealType()
             };
             

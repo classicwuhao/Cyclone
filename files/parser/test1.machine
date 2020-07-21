@@ -5,16 +5,19 @@
 machine test1{
 	
 	//global variables
-	//int people=2+true;
-	//int room_capacity=50;
-	 bool flag = true;
-	 bool transition_flag = !3 && false;
-	// enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
-	 //string name ="test";
-	 //real pi=3.1415926;
-	 //int x = 10-(5+0);
-	// int y = x++;
+	int people=2+true; //type error
+	int room_capacity=50; 
+	bool flag = true;
+	bool transition_flag = !true && false;
+	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
+	string name ="test";
+	real pi=3.1415926;
+	int x = 10-(5+0);
+	int y = !(x++); //type error
+	int z = a; //semantic error
+	bool r = x>3 || y<4 || z<=0;  //type error
 	
+
 	//states
 	/* starting state
 	 * increase the number of people 

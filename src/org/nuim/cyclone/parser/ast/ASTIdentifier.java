@@ -20,11 +20,10 @@ public class ASTIdentifier  extends ASTExpression {
 
     public Expression gen(ASTContext context) throws SemanticException{
         if (this.insideExpression){
-            System.out.println("inside expression.");
             Variable var = context.variables().getVariable(this.name());
             if (var==null){
-                context.logError(token, "No variable"+this.name()+" is found.",true);
-                throw new SemanticException(token, "No variable"+this.name()+" is found.");
+                context.logError(token, " no variable "+this.name()+" is found.",true);
+                throw new SemanticException(token, " no variable "+this.name()+" is found.");
             }
             return var;
         }

@@ -11,7 +11,7 @@ public class TypeChecker extends NamedElement{
         super("type checker");
     }
 
-    public static Type checkOperator(Operator operator, Expression args[]) throws TypeException{
+    public static Type checkOperator(Operator operator, Expression args[]) throws TypeException {
     
         for (int i=0;i<operator.size();i++){
             TypeDef def = operator.get(i);
@@ -20,8 +20,8 @@ public class TypeChecker extends NamedElement{
                     return def.result();
             }
         }
-        
-        throw new TypeException(" no matched types are found.");
+
+        throw new TypeException(" no matched types are found - ");
     }
 
     private static boolean check(TypeDef def, Expression[] args){

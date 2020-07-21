@@ -63,9 +63,9 @@ public abstract class Operator extends NamedElement{
         opmap.put(RelationalOperator.REL_LESS_EQUAL,new RelationalOperator.LessEqual());
     }
 
-    public static Operator lookup(String name) throws TypeException{
+    public static Operator lookup(String name) throws OperatorNotDefinedException{
         if (!opmap.containsKey(name.hashCode()))
-            throw new TypeException("Operator: "+name +" is not defined.");
+            throw new OperatorNotDefinedException(name);
         Operator operator=opmap.get(name.hashCode());
         return operator;
     }

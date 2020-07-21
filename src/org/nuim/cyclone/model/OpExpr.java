@@ -1,6 +1,7 @@
 package org.nuim.cyclone.model;
 import org.nuim.cyclone.model.operation.Operator;
 import org.nuim.cyclone.model.operation.TypeException;
+import org.nuim.cyclone.model.operation.OperatorNotDefinedException;
 import org.nuim.cyclone.model.type.Type;
 import org.nuim.cyclone.model.type.VoidType;
 public class OpExpr extends Expression {
@@ -18,15 +19,15 @@ public class OpExpr extends Expression {
             this.setType(type);
             this.exprs=exprs;
         }
-        catch (TypeException e){
-            //System.err.println(e.getMessage());
-            logErrors("Type error","wrong type(s).");
+        catch(OperatorNotDefinedException e){
+            logErrors("operator error","not defined");
+            
         }
     }
 
     private Type type_checking(Expression[] exprs){
         StringBuffer sb = new StringBuffer();
-
+        
         try{
             Type type = TypeChecker.checkOperator(this.operator,exprs);
             return type;
@@ -34,11 +35,10 @@ public class OpExpr extends Expression {
         catch (TypeException e){
             for (int i=0;i<exprs.length;i++)
                 sb.append(exprs[i].toString()+" (" + exprs[i].type() +") ");
-            System.err.println(this.operator.name()+" cannot be applied to "+sb.toString()+
-            e.getMessage());
+            System.err.println(e.getMessage()+" operator "+this.operator.name()+" cannot be applied to "+sb.toString());
             logErrors("Type error","wrong type(s).");
         }
-
+        
         return new VoidType();
     }
 
