@@ -5,11 +5,17 @@ import org.nuim.cyclone.model.GlobalVariables;
 /*  
  * AST for our machine
  */ 
-public class ASTMachine extends ASTNode{
+public class ASTMachine extends ASTExpression{
     private GlobalVariables variables = new GlobalVariables();
+    //private ASTContext context =  new ASTContext();
+    Machine machine;
 
     public ASTMachine(String name){
         super(name);
+        machine = new Machine();
+        this.setContext(new ASTContext());
+        //context.setVariables(variables);
+        this.context().setVariables(variables);
     }
 
     @Override
@@ -22,7 +28,8 @@ public class ASTMachine extends ASTNode{
 
     public void addVariable(ASTVariable node){
         try{
-            variables.add(node.gen());
+            //this.context.variables().add(node.gen(this.context));
+            variables.add(node.gen(this.context()));
         }
         catch (SemanticException e){
             System.err.println("Semantic error: cannot generate variable, "+e.getMessage());
@@ -31,10 +38,11 @@ public class ASTMachine extends ASTNode{
 
     @Override
     /* generate our Machine */ 
-    public Machine gen(){
-        Machine machine = new Machine(this.name());
-        machine.setVariables(this.variables);
+    public Machine gen(ASTContext context){
         
+        machine.setName(this.name());
+        machine.setVariables(this.variables);
+    
         return machine;
     }
     

@@ -14,8 +14,12 @@ public abstract class Type extends TypeElement{
     public boolean isEnumType(){return false;}
     public boolean isStringType(){return false;}
     public boolean isCharType(){return false;}
+    public boolean isVoidType(){return false;}
     public boolean isPrimitiveType(){return false;}
     public boolean isNonPrimitiveType(){return false;}
     public abstract String toString();
-    
+
+    public boolean equals(Type type){
+        return this.getClass().equals(type.getClass());
+    }
 }   

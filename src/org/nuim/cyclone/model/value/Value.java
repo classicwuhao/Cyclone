@@ -10,7 +10,7 @@ public abstract class Value extends Expression{
     }
 
     //public abstract String toString();
-    public Type type(){return this.type();};
+   // public Type type(){return this.type();};
     public boolean isIntValue(){return false;}
     public boolean isBoolValue(){return false;}
     public boolean isRealValue(){return false;}

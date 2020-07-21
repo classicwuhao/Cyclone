@@ -16,7 +16,7 @@ public class ASTVariable extends ASTExpression{
     public Variable variable(){return this.variable;}
     
     @Override
-    public Variable gen() throws SemanticException{
+    public Variable gen(ASTContext context) throws SemanticException{
         if (this.variable==null)
             createVariable();
 
@@ -24,10 +24,10 @@ public class ASTVariable extends ASTExpression{
         if (this.initializer!=null){
             if (this.initializer.isASTLitreal()){
                 ASTLiteral literal = (ASTLiteral)initializer;
-                 this.variable.setValue(literal.gen());
+                 this.variable.setValue(literal.gen(context));
             }
             else{
-                this.variable.setInitializer(initializer.gen());
+                this.variable.setInitializer(initializer.gen(context));
             }
         }
 

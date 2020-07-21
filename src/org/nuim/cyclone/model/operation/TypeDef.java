@@ -23,7 +23,9 @@ public class TypeDef extends NamedElement{
 
     public Type[] args(){return this.args;}
     public Type result(){return this.result;}
-
+    public Type get(int i){return this.args[i];}
+    public int size(){return this.args.length;}
+    
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();

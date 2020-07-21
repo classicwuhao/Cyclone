@@ -22,7 +22,7 @@ public class ASTLiteral extends ASTExpression {
         this.token = token;
     }
 
-    public Value gen() throws SemanticException {
+    public Value gen(ASTContext context) throws SemanticException {
         Value value;
         String str_value = this.token.getText();
         switch (this.lt) {

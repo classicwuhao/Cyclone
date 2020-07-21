@@ -119,7 +119,6 @@ public abstract class BoolOperator extends StdOperator{
          */
         public void register() {
             BoolType[] types={
-                new BoolType(),
                 new BoolType()
             };
             this.registerTypeRule(types, new BoolType());

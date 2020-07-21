@@ -20,9 +20,9 @@ public class ASTUnaryExpression extends ASTExpression{
         return token.getText()+" "+this.expression.toString();
     }
 
-    public Expression gen() throws SemanticException{
+    public Expression gen(ASTContext context) throws SemanticException{
         Expression[] arg = new Expression[1];
-        arg[0]=expression.gen();
+        arg[0]=expression.gen(context);
 
         return new OpExpr(token.getText(),arg);
     }

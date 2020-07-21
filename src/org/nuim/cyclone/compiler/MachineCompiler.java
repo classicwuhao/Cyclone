@@ -11,6 +11,7 @@ import org.antlr.runtime.RecognitionException;
 import org.nuim.cyclone.parser.*;
 import org.nuim.cyclone.util.*;
 import org.nuim.cyclone.parser.ast.ASTMachine;
+import org.nuim.cyclone.parser.ast.*;
 import org.nuim.cyclone.model.Machine;
 
 public class MachineCompiler {
@@ -42,10 +43,18 @@ public class MachineCompiler {
 
         try{
             ASTMachine node=parser.machine();
-            Machine machine = node.gen();
+            Machine machine=node.gen(new ASTContext());
             out.println(machine.toString(),Color.BLUE);
-            if (errHandler.errorCount() == 0 ) {
-                out.println("Compile is successful.",Color.GREEN);
+
+            if (errHandler.errorCount() == 0 && node.context().errors()==0){
+                //out.println("",Color.GREEN);
+                if (machine.errors()==0){
+                    out.println("Compile is successful.",Color.GREEN);
+                }
+                else{
+                    out.println(machine.errors()+" semantic error(s).",Color.RED);
+                    out.println("Compile is failed.",Color.RED);    
+                }
             }
             else{
                 out.println("Compile is failed.",Color.RED);

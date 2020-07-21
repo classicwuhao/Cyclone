@@ -5,15 +5,15 @@
 machine test1{
 	
 	//global variables
-	int people=2;
-	int room_capacity=50;
-	bool flag = true;
-	bool transition_flag = !flag && false;
-	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
-	string name ="test";
-	real pi=3.1415926;
-	int x = 10-(5+0);
-	int y = x++;
+	//int people=2+true;
+	//int room_capacity=50;
+	 bool flag = true;
+	 bool transition_flag = !3 && false;
+	// enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
+	 //string name ="test";
+	 //real pi=3.1415926;
+	 //int x = 10-(5+0);
+	// int y = x++;
 	
 	//states
 	/* starting state

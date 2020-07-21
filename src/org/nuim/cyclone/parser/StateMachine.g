@@ -230,7 +230,9 @@ unaryExpressionNotPlusMinus returns [ASTExpression expr]
 
 primary returns [ASTExpression expr]
     :   pExpr=parExpression {$expr=$pExpr.expr;}
-    |   id=identifier {$expr=$id.expr;}
+    |   id=identifier {
+            ((ASTIdentifier)id).setExpression();$expr=id;
+        }
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
     ;
 

@@ -21,7 +21,12 @@ public class TypeException extends Exception{
 
     @Override
     public String getMessage(){
-        return this.source+"-"+"["+this.rule+"]:"+super.getMessage();
+        StringBuffer sb = new StringBuffer();
+        if (this.source!=null) sb.append(this.source);
+        if (this.rule!=null) sb.append("["+this.rule+"]");
+        sb.append(super.getMessage());
+        
+        return sb.toString();
     }
 
 }

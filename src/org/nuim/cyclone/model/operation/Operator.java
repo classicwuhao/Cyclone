@@ -38,7 +38,7 @@ public abstract class Operator extends NamedElement{
         typedef.add(new TypeDef(args,result));
     }
 
-    public static void registerBoolOperators(){
+    private static void registerBoolOperators(){
         opmap.put(BoolOperator.BOOL_AND,new BoolOperator.And());
         opmap.put(BoolOperator.BOOL_OR, new BoolOperator.Or());
         opmap.put(BoolOperator.BOOL_XOR, new BoolOperator.Xor());
@@ -46,7 +46,7 @@ public abstract class Operator extends NamedElement{
         opmap.put(BoolOperator.BOOL_NOT, new BoolOperator.Not());
     }
 
-    public static void registerArithOperators(){
+    private static void registerArithOperators(){
         opmap.put(ArithOperator.ARITH_PLUS, new ArithOperator.Plus());
         opmap.put(ArithOperator.ARITH_MINUS, new ArithOperator.Minus());
         opmap.put(ArithOperator.ARITH_MUL, new ArithOperator.Multiplication());
@@ -56,7 +56,7 @@ public abstract class Operator extends NamedElement{
         opmap.put(ArithOperator.ARITH_MINUS_MINUS, new ArithOperator.MinusMinus());
     }
     
-    public static void registerRelationalOperators(){
+    private static void registerRelationalOperators(){
         opmap.put(RelationalOperator.REL_GREATER,new RelationalOperator.Greater());
         opmap.put(RelationalOperator.REL_GREATER_EQUAL,new RelationalOperator.GreaterEqual());
         opmap.put(RelationalOperator.REL_LESS,new RelationalOperator.Less());
@@ -70,7 +70,7 @@ public abstract class Operator extends NamedElement{
         return operator;
     }
 
-    
+    public TypeDef get(int i){return this.typedef.get(i);}
     public boolean isStdOperator(){return false;}
     public boolean isBinaryOperator(){return false;}
     public boolean isUnaryOperator(){return false;}

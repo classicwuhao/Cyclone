@@ -21,10 +21,10 @@ public class ASTBinaryExpression extends ASTExpression{
         return this.left.toString() + " " +token.getText() + " " +this.right.toString();
     }
     
-    public Expression gen() throws SemanticException{
+    public Expression gen(ASTContext context) throws SemanticException{
         Expression [] args = new Expression[2];
-        args[0]=left.gen();
-        args[1]=right.gen();
+        args[0]=left.gen(context);
+        args[1]=right.gen(context);
         OpExpr expr = new OpExpr(this.name(),args);
         return expr;
     }

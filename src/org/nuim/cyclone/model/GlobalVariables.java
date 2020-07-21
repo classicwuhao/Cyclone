@@ -20,6 +20,8 @@ public final class GlobalVariables extends Expression{
         }
     }
     public Variable getVariable(String var){return variables.lookup(var);}
+    public SymTable64 symbols (){return this.variables;}
+    public int size(){return this.variables.size();}
     
     public String toString(){
         return variables.toString();

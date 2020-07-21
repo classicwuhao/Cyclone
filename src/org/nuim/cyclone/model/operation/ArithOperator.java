@@ -11,7 +11,7 @@ public abstract class ArithOperator extends StdOperator{
     public static int ARITH_DIV="/".hashCode();
     public static int ARITH_REM="%".hashCode();
     public static int ARITH_PLUS_PLUS="++".hashCode();
-    public static int ARITH_MINUS_MINUS="++".hashCode();
+    public static int ARITH_MINUS_MINUS="--".hashCode();
 
     public ArithOperator(){
         super();

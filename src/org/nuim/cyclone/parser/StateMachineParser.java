@@ -1,4 +1,4 @@
-// $ANTLR 3.4 StateMachine.g 2020-07-20 11:04:45
+// $ANTLR 3.4 StateMachine.g 2020-07-21 16:21:09
 
 package org.nuim.cyclone.parser;
 import java.util.Collections;
@@ -2438,12 +2438,14 @@ public class StateMachineParser extends BaseParser {
                     state._fsp--;
                     if (state.failed) return expr;
 
-                    if ( state.backtracking==0 ) {expr =id;}
+                    if ( state.backtracking==0 ) {
+                                ((ASTIdentifier)id).setExpression();expr =id;
+                            }
 
                     }
                     break;
                 case 3 :
-                    // StateMachine.g:234:9: nLiteralExpr= literal
+                    // StateMachine.g:236:9: nLiteralExpr= literal
                     {
                     pushFollow(FOLLOW_literal_in_primary1654);
                     nLiteralExpr=literal();
@@ -2475,7 +2477,7 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "parExpression"
-    // StateMachine.g:237:1: parExpression returns [ASTExpression expr] : '(' e= expression ')' ;
+    // StateMachine.g:239:1: parExpression returns [ASTExpression expr] : '(' e= expression ')' ;
     public final ASTExpression parExpression() throws RecognitionException {
         ASTExpression expr = null;
 
@@ -2487,8 +2489,8 @@ public class StateMachineParser extends BaseParser {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 29) ) { return expr; }
 
-            // StateMachine.g:238:5: ( '(' e= expression ')' )
-            // StateMachine.g:238:9: '(' e= expression ')'
+            // StateMachine.g:240:5: ( '(' e= expression ')' )
+            // StateMachine.g:240:9: '(' e= expression ')'
             {
             match(input,LPAREN,FOLLOW_LPAREN_in_parExpression1679); if (state.failed) return expr;
 
