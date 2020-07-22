@@ -16,6 +16,7 @@ public abstract class Operator extends NamedElement{
 
     /* resiger all of our standard operators */ 
     static {
+        registerStdOperators();
         registerBoolOperators();
         registerArithOperators();
         registerRelationalOperators();
@@ -36,6 +37,11 @@ public abstract class Operator extends NamedElement{
       //  if (result==null) throw new TypeException("Missing result's type information.");
       //  if (args.length!=this.arity()) throw new TypeException("The number of arguments are not matched with registered operation.");
         typedef.add(new TypeDef(args,result));
+    }
+
+    private static void registerStdOperators(){
+        opmap.put(StdOperator.STD_EQUAL_EQUAL, new StdOperator.EqualEqual());
+        opmap.put(StdOperator.STD_NOT_EQUAL, new StdOperator.NotEqual());
     }
 
     private static void registerBoolOperators(){

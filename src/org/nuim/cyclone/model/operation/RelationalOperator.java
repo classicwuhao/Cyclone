@@ -69,10 +69,10 @@ public abstract class RelationalOperator extends StdOperator{
         }
 
         /**
-         * 1. INT > INT -> BOOL
-         * 2. INT > REAL -> BOOL 
-         * 3. REAL > INT -> BOOL 
-         * 4. REAL > REAL -> BOOL
+         * 1. INT >= INT -> BOOL
+         * 2. INT >= REAL -> BOOL 
+         * 3. REAL >= INT -> BOOL 
+         * 4. REAL >= REAL -> BOOL
          */
         public void register() {
             IntType[] types0={

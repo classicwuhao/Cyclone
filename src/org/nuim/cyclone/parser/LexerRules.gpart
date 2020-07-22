@@ -73,6 +73,8 @@ ENUM         : 'enum';
 WHERE        : 'where';
 START        : 'start';
 FINAL        : 'final';
+ABSTRACT     : 'abstract';
+NORMAL       : 'normal';
 GOAL         : 'goal';
 CHECK        : 'check';
 FOR          : 'for';

@@ -1,7 +1,11 @@
 package org.nuim.cyclone.model;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Machine extends Expression{
     private GlobalVariables variables;
+    private List<State> states = new ArrayList<State>();
 
     public Machine(){
         super();
@@ -22,6 +26,10 @@ public class Machine extends Expression{
         return errorLog().errors();
     }
 
+    public void addState(State state){
+        this.states.add(state);
+    }
+    
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();

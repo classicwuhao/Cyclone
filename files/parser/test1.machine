@@ -5,19 +5,19 @@
 machine test1{
 	
 	//global variables
-	int people=2 where people +2 && people<=10;
+	int people=2 where people >=2 && people<=10; 
 	int room_capacity=50; 
 	bool flag = true;
 	bool transition_flag = !true && false;
 	enum {monday, tuesday, wednesday, thursday, friday, saturday, sunday} week;
 	string name ="test";
 	real pi=3.1415926;
-	int x = 10-(5+0);
+	int x = 5;
+	int y = 0;
 	//int y = !(x++); //type error
 	//int z = a; //semantic error
 	//bool r = x>3 || y<4 || z<=0;  //type error
 	
-
 	//states
 	/* starting state
 	 * increase the number of people 
@@ -25,11 +25,13 @@ machine test1{
 	start state S0{
 		//local variables
 		int count where count>=0 && count<=10;
-		bool visit=true;
+		//bool visit=true;
 		people = people + count;
 		
-		(x+y>=5) => (y=x+y-5 && x=5);
-		(x-y>5) => (y=0 && x=x+y);
+		//(x+y>=5) => 
+		//(x+y>=5) => (x=5);
+		//&& (y=x+y-5 && x=5);
+		//(x-y>5) => (y=0 && x=x+y);
 	}
 
 	/* 
@@ -39,7 +41,7 @@ machine test1{
 	final state S1{
 		//local variables
 		int count where count>=0 && count<=5;
-		bool visit=false;
+		//bool visit=false;
 		people = people - count;
 	}
 

@@ -47,15 +47,21 @@ machine returns [ASTMachine machine]:
 
     MACHINE name=identifier {$machine = new ASTMachine( ((ASTIdentifier) name).identifier() );} LBRACE
         (v=globalVariableDecl {$machine.addVariable(v);})*
-        (state)* (trans)*
+        (s=state {$machine.addState(s);} )* (trans)*
         (invariantExpression)*
     RBRACE EOF
 ;
 
-state:
-    (stateModifier) ? STATE identifier LBRACE
-        (localVariableDecl)*
-        (expression SEMI)*
+state returns [ASTState aststate]
+@init{
+    $aststate=new ASTState();
+    $aststate.setModifier(ASTStateModifier.NORMAL);
+}
+:
+    (m=stateModifier  {$aststate.setModifier(m);} ) ? 
+    STATE e=identifier {$aststate.setName(e.identifier());$aststate.setToken(e.token());} LBRACE
+        (v=localVariableDecl {$aststate.addVar(v);}  )*
+        (expr=expression SEMI {$aststate.addExpr(expr);} )*
     RBRACE
 ;
 
@@ -76,13 +82,15 @@ label:
     STRINGLITERAL
 ;
 
-identifier returns [ASTExpression expr]:
+identifier returns [ASTIdentifier expr]:
     str=IDENT {$expr= new ASTIdentifier(str);}
 ;
 
-stateModifier: 
-      START 
-    | FINAL
+stateModifier returns [ASTStateModifier modifier]: 
+      START {$modifier=ASTStateModifier.START;}
+    | FINAL {$modifier=ASTStateModifier.FINAL;}
+    | ABSTRACT {$modifier=ASTStateModifier.ABSTRACT;}
+    | NORMAL {$modifier=ASTStateModifier.NORMAL;}
 ;
 
 literal returns [ASTLiteral literal_node]:
@@ -98,8 +106,8 @@ globalVariableDecl returns [ASTVariable v]:
     SEMI
 ;
 
-localVariableDecl :
-    type variableDeclarator
+localVariableDecl returns [ASTVariable v]:
+    t=type n=variableDeclarator {n.type=t;n.createVariable();$v=n;}
     SEMI
 ;
 
@@ -171,11 +179,19 @@ conditionalAndExpression returns [ASTExpression expr]
     ;
 
 conditionalXorExpression returns [ASTExpression expr]
-    :   nRelExpr = relationalExpression {$expr=$nRelExpr.expr;}
+    :   nEquality=equalityExpression {$expr=$nEquality.expr;}
         (
-            operator=XOR n1=relationalExpression
+            operator=XOR n1=equalityExpression
             {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
         )*
+;
+
+equalityExpression returns [ASTExpression expr]
+    :   nRelExpr = relationalExpression {$expr=$nRelExpr.expr;}
+    (
+        operator=('==' | '!=' ) n1=relationalExpression 
+        {$expr= new ASTBinaryExpression($operator,$expr,$n1.expr);}
+    )*
 ;
 
 relationalExpression returns [ASTExpression expr]

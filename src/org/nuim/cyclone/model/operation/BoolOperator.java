@@ -10,7 +10,7 @@ public abstract class BoolOperator extends StdOperator{
     public static int BOOL_XOR="xor".hashCode();
     public static int BOOL_NOT="!".hashCode();
     public static int BOOL_IMPLIES="=>".hashCode();
-
+    
     public BoolOperator(){}
     public BoolOperator(String operator, int arity){
         super(operator,arity);

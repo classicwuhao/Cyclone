@@ -1,6 +1,4 @@
 package org.nuim.cyclone.model;
-import java.util.List;
-import java.util.ArrayList;
 import org.nuim.cyclone.parser.ast.SymTable64; //use 64bit symbol table
 import org.nuim.cyclone.parser.ast.SemanticException;
 /* Wrapper for our symbol table. Seperate machine construction from AST travesal.*/ 

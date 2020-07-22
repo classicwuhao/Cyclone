@@ -24,9 +24,13 @@ public class ASTIdentifier  extends ASTExpression {
         if (this.insideExpression && !context.flag()){
             Variable var = context.variables().getVariable(this.name());
             if (var==null){
-                context.logError(token, " no variable "+this.name()+" is found.",true);
-                throw new SemanticException(token, " no variable "+this.name()+" is found.");
+                var = context.local_variables().lookup(this.name());
+                if (var==null){
+                    context.logError(token, " no variable "+this.name()+" is found.",true);
+                    throw new SemanticException(token, " no variable "+this.name()+" is found.");
+                }
             }
+            
             return var;
         } 
         else if (context.flag()) {

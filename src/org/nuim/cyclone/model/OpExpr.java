@@ -21,13 +21,13 @@ public class OpExpr extends Expression {
         }
         catch(OperatorNotDefinedException e){
             logErrors("operator error","not defined");
+            System.err.println(e.getMessage());
             
         }
     }
 
     private Type type_checking(Expression[] exprs){
         StringBuffer sb = new StringBuffer();
-        
         try{
             Type type = TypeChecker.checkOperator(this.operator,exprs);
             return type;
@@ -37,6 +37,10 @@ public class OpExpr extends Expression {
                 sb.append(exprs[i].toString()+" (" + exprs[i].type() +") ");
             System.err.println(e.getMessage()+" operator "+this.operator.name()+" cannot be applied to "+sb.toString());
             logErrors("Type error","wrong type(s).");
+        }
+        catch (NullPointerException e){
+            logErrors("Type error","null type.");
+            System.err.println("null type");
         }
         
         return new VoidType();
