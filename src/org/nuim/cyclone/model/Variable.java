@@ -6,6 +6,7 @@ public class Variable extends Expression{
     private Value value; // for simple literal
     Expression initializer; // for complex expression rather than simple literal
     Expression constraint;
+    
 
     public Variable (Type type, String name){
         super(name,type);
@@ -32,7 +33,7 @@ public class Variable extends Expression{
     public String toString(){
         StringBuffer sb = new StringBuffer();
         sb.append(this.name()+":"+this.type());
-
+        
         if (this.value!=null){
             sb.append("["+this.value.toString()+"]");
         }

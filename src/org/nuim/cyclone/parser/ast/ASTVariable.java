@@ -2,9 +2,13 @@ package org.nuim.cyclone.parser.ast;
 
 import org.nuim.cyclone.model.type.Type;
 import org.nuim.cyclone.model.Variable;
+import org.nuim.cyclone.model.Expression;
+import org.nuim.cyclone.model.type.BoolType;
+import org.antlr.runtime.Token;
 
 public class ASTVariable extends ASTExpression{
     private Variable variable;
+    private Token token;
     public Type type;
     public String name;
     public ASTExpression initializer;
@@ -14,7 +18,8 @@ public class ASTVariable extends ASTExpression{
     /* create a new variable for our machine */
     public void createVariable(){this.variable=new Variable(type,name);}
     public Variable variable(){return this.variable;}
-    
+    public void setToken(Token token){this.token=token;}
+
     @Override
     public Variable gen(ASTContext context) throws SemanticException{
         if (this.variable==null)
@@ -29,6 +34,24 @@ public class ASTVariable extends ASTExpression{
             else{
                 this.variable.setInitializer(initializer.gen(context));
             }
+        }
+
+        /* 
+        * there extis a constraint for this variable,
+        * we need to put this variable into our symbol table now and set a flag.
+        * we must check constraint expression's type.
+        */ 
+        if (this.constraint!=null){
+            //context.variables().add(this.variable);
+            context.setFlag();
+            context.setLocalInfo(this.variable.name(),this.variable);
+            Expression expr = this.constraint.gen(context);
+            if (!expr.type().equals(new BoolType())){
+                context.logError(this.token," constraint type is not bool. ",true);
+                throw new SemanticException("variable "+this.name+" constraint type is not bool.");
+            }
+            this.variable.setConstraint(expr);
+            context.resetFlag();
         }
 
         return this.variable;

@@ -127,9 +127,13 @@ enumType returns [EnumType t] :
 
 variableDeclarator returns [ASTVariable var]:
     {$var=new ASTVariable();}
-    n=identifier {$var.name=n.toString();}
+    n=identifier 
+        {
+            $var.name=n.toString();
+            $var.setToken( ((ASTIdentifier)n).token());
+        }
     ('=' n=variableInitializer {$var.initializer=n;})? 
-    (WHERE expression) ?
+    (WHERE e=expression {$var.constraint=e;}) ?
 ;
 
 variableInitializer returns [ASTExpression expr]: 
