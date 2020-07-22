@@ -14,7 +14,7 @@ WS:
 
 // Single-line comments
 SL_COMMENT:
-    ('//' | '--')
+    ('//')
     (~(NEWLINE))*
     { $channel=HIDDEN; }
     ;
@@ -58,6 +58,7 @@ STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
 NOT          : '!';
+
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';

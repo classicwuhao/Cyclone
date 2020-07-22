@@ -1,0 +1,45 @@
+/* 
+ * Test case 
+ *	
+ */
+machine Counter{
+	//global variables
+	int counter=0;
+	int max = 10;
+	int min = 0;
+	bool reach = false;
+	int loop=20;
+
+	/* starting state
+	 * increase counter
+	 */
+	start state S0{
+		//local variables
+		counter--;
+
+		(counter>5) => (reach=true);
+		(counter<=5) => (reach=false);
+	}
+
+	/* 
+	 * final state
+	 * decrease counter
+	 */
+	final state S1{
+		//local variables
+		counter++;
+		
+		(counter>5) => (reach=true);
+		(counter<=5) => (reach=false);
+	}
+
+	//transitions
+	transition t1 {S0 -> S1 on "counter--"}
+	transition t2 {S1 -> S0 on "counter++"}
+	transition t3 {S0 -> S0 on "counter++"}
+	transition t4 {S1 -> S1 on "counter--"}
+
+	//invariants
+	invariant Safty {counter>=min && counter<=max;}
+
+}

@@ -69,12 +69,12 @@ public class ASTState extends ASTExpression{
         }
 
         context.setLocalVariables(state.localVariables());
-        
+
         for (ASTExpression expr:this.exprs){
             Expression e = expr.gen(context);
             state.addExpression(e);
         }
-
+        
         return state;
     }
 

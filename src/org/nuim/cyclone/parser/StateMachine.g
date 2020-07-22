@@ -233,18 +233,21 @@ unaryExpression returns [ASTExpression expr]
     :   '+' unaryExpression
     |   '-' unaryExpression
     |   '++' unaryExpression
-    |   '--' unaryExpression
+    |   '--' unaryExpression 
     |   nUnrExprOther=unaryExpressionNotPlusMinus {$expr=$nUnrExprOther.expr;}
     ;
 
 unaryExpressionNotPlusMinus returns [ASTExpression expr]
+@ini{
+    Token op =null;
+}
     :   not='!' UnrExpr=unaryExpression {$expr=new ASTUnaryExpression($not,$UnrExpr.expr);}
-    |   nPriExpr=primary op=('++' | '--')? {
-        // check operator, it is not null then it must be a postfix expression
-        if ($op!=null)
-            $expr=new ASTUnaryExpression($op,$nPriExpr.expr);
-        else
-            $expr=$nPriExpr.expr;
+    |   nPriExpr=primary postfix=('--' | '++')?
+        {
+            if (postfix!=null)
+                $expr=new ASTUnaryExpression($postfix,$nPriExpr.expr);
+            else
+                $expr=$nPriExpr.expr;
         }
     ;
 
@@ -252,6 +255,7 @@ primary returns [ASTExpression expr]
     :   pExpr=parExpression {$expr=$pExpr.expr;}
     |   id=identifier {
             ((ASTIdentifier)id).setExpression();$expr=id;
+            //System.out.println(id+":"+id.token().getLine());
         }
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
     ;
@@ -274,7 +278,7 @@ WS:
 
 // Single-line comments
 SL_COMMENT:
-    ('//' | '--')
+    ('//')
     (~(NEWLINE))*
     { $channel=HIDDEN; }
     ;
@@ -318,6 +322,7 @@ STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
 NOT          : '!';
+
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';

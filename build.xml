@@ -88,6 +88,7 @@
 				<pathelement location="${test.build.dir}"/>
 		</classpath>
 		<test name="test.parser.ParserTest" />
+		<test name="test.model.ModelTest" />
 		</junit>
 		<echo>"Leaving parser test." </echo>
 	</target>
