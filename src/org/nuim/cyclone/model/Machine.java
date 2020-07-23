@@ -35,6 +35,12 @@ public class Machine extends Expression{
         StringBuffer sb = new StringBuffer();
         sb.append(this.name()+": \n");
         sb.append(variables.toString());
+        sb.append("\n");
+        for (State state : states){
+            sb.append(state.toString());
+            sb.append("\n");
+        }
+        sb.append("\n");
 
         return sb.toString();
     }

@@ -258,6 +258,7 @@ primary returns [ASTExpression expr]
             //System.out.println(id+":"+id.token().getLine());
         }
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
+    |   PREV LPAREN identifier RPAREN
     ;
 
 parExpression returns [ASTExpression expr]
@@ -340,6 +341,7 @@ START        : 'start';
 FINAL        : 'final';
 ABSTRACT     : 'abstract';
 NORMAL       : 'normal';
+PREV         : 'prev';
 GOAL         : 'goal';
 CHECK        : 'check';
 FOR          : 'for';

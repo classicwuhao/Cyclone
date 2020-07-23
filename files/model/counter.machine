@@ -8,8 +8,8 @@ machine Counter{
 	int max = 10;
 	int min = 0;
 	bool reach = false;
-	int loop=20;
-
+	int loop= true && false;
+	
 	/* starting state
 	 * increase counter
 	 */

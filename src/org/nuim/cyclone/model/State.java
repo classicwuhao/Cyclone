@@ -41,4 +41,19 @@ public class State extends Expression{
 
     public SymTable64 localVariables(){return this.localVariables;}
     
+    @Override
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.modifier.toString());
+        sb.append(" ");
+        sb.append(this.name());
+        sb.append("\n ");
+        sb.append(localVariables.toString()+" \n");
+
+        for (Expression expr: this.expressions)
+            sb.append(expr.toString());
+
+        return sb.toString();
+    }
+    
 }   

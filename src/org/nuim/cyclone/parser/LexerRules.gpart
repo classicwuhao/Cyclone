@@ -76,6 +76,7 @@ START        : 'start';
 FINAL        : 'final';
 ABSTRACT     : 'abstract';
 NORMAL       : 'normal';
+PREV         : 'prev';
 GOAL         : 'goal';
 CHECK        : 'check';
 FOR          : 'for';

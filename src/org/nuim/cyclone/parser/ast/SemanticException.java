@@ -24,8 +24,9 @@ public class SemanticException extends Exception{
         StringBuffer sb = new StringBuffer();
 
         if (this.token!=null){
-            sb.append(this.token.getInputStream().getSourceName());
-            sb.append(" line: ");
+            //sb.append(this.token.getInputStream().getSourceName());
+            sb.append(" "+this.token.getText()+ " ");
+            sb.append(" @line: ");
             sb.append(this.token.getLine()+",");
             sb.append(" column: ");
             sb.append(this.token.getCharPositionInLine()+",");

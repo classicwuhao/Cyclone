@@ -32,12 +32,18 @@ public class ASTVariable extends ASTExpression{
                  this.variable.setValue(literal.gen(context));
             }
             else{
-                this.variable.setInitializer(initializer.gen(context));
+                Expression expr = initializer.gen(context);
+                if (!this.variable.type().equals(expr.type())){
+                    context.logError(this.token,"Type mismatch: expression has type "+expr.type()+", expected type "+variable.type()+".",true);
+                    throw new SemanticException(this.token," Type mismatch "+ 
+                        "expression has type "+expr.type()+", expected type "+variable.type()+".");
+                }
+                this.variable.setInitializer(expr);
             }
         }
 
         /* 
-        * there extis a constraint for this variable,
+        * there exists a constraint for this variable,
         * we need to put this variable into our symbol table now and set a flag.
         * we must check constraint expression's type.
         */ 
@@ -48,7 +54,7 @@ public class ASTVariable extends ASTExpression{
             Expression expr = this.constraint.gen(context);
             if (!expr.type().equals(new BoolType())){
                 context.logError(this.token," constraint type is not bool. ",true);
-                throw new SemanticException("variable "+this.name+" constraint type is not bool.");
+                throw new SemanticException(this.token,"variable "+this.name+" expect bool type constraint.");
             }
             this.variable.setConstraint(expr);
             context.resetFlag();
