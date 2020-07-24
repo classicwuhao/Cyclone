@@ -1,6 +1,7 @@
 package org.nuim.cyclone.parser.ast;
 import org.antlr.runtime.Token;
 import org.nuim.cyclone.model.*; 
+import org.nuim.cyclone.model.SrcInfo;
 
 public class ASTBinaryExpression extends ASTExpression{
     Token token;
@@ -25,7 +26,7 @@ public class ASTBinaryExpression extends ASTExpression{
         Expression [] args = new Expression[2];
         args[0]=left.gen(context);
         args[1]=right.gen(context);
-        OpExpr expr = new OpExpr(this.name(),args);
+        OpExpr expr = new OpExpr(this.name(),args, new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         return expr;
     }
 

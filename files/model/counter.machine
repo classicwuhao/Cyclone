@@ -8,7 +8,7 @@ machine Counter{
 	int max = 10;
 	int min = 0;
 	bool reach = false;
-	int loop= true && false;
+	//int loop= true && false;
 	
 	/* starting state
 	 * increase counter
@@ -29,8 +29,8 @@ machine Counter{
 		//local variables
 		counter++;
 		
-		(counter>5) => (reach=true);
-		(counter<=5) => (reach=false);
+		(counter>5) => (reach==true);
+		(counter<=5) => (reach==false);
 	}
 
 	//transitions

@@ -1,6 +1,6 @@
 package org.nuim.cyclone.model.type;
 
-public class StringType extends Type {
+public class StringType extends PrimitiveType {
 
     public StringType(){
         super("string");

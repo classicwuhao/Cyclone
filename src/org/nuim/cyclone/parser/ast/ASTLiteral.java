@@ -3,6 +3,7 @@ package org.nuim.cyclone.parser.ast;
 import org.nuim.cyclone.model.type.*;
 import org.nuim.cyclone.model.value.*;
 import org.antlr.runtime.Token;
+import org.nuim.cyclone.model.SrcInfo;
 
 public class ASTLiteral extends ASTExpression {
     public static enum LiteralType {
@@ -55,6 +56,7 @@ public class ASTLiteral extends ASTExpression {
                     this.token.getLine()+",column:"+this.token.getCharPositionInLine());
            
         }
+        value.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         return value;
     }
 

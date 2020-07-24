@@ -24,7 +24,8 @@ public class ASTUnaryExpression extends ASTExpression{
         Expression[] arg = new Expression[1];
         arg[0]=expression.gen(context);
 
-        return new OpExpr(token.getText(),arg);
+        return new OpExpr(token.getText(),arg, 
+            new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
     }
 
 }

@@ -5,6 +5,7 @@ import org.nuim.cyclone.model.Variable;
 import org.nuim.cyclone.model.Expression;
 import org.nuim.cyclone.model.type.BoolType;
 import org.antlr.runtime.Token;
+import org.nuim.cyclone.model.SrcInfo;
 
 public class ASTVariable extends ASTExpression{
     private Variable variable;
@@ -60,6 +61,8 @@ public class ASTVariable extends ASTExpression{
             context.resetFlag();
         }
 
+
+        variable.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         return this.variable;
     }
 

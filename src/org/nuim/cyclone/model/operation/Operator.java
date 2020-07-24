@@ -42,6 +42,11 @@ public abstract class Operator extends NamedElement{
     private static void registerStdOperators(){
         opmap.put(StdOperator.STD_EQUAL_EQUAL, new StdOperator.EqualEqual());
         opmap.put(StdOperator.STD_NOT_EQUAL, new StdOperator.NotEqual());
+        opmap.put(StdOperator.STD_EQUAL, new StdOperator.Equal());
+        opmap.put(StdOperator.STD_PLUS_EQUAL, new StdOperator.PlusEqual());
+        opmap.put(StdOperator.STD_MINUS_EQUAL, new StdOperator.MinusEqual());
+        opmap.put(StdOperator.STD_MUL_EQUAL, new StdOperator.MulEqual());
+        opmap.put(StdOperator.STD_DIV_EQUAL, new StdOperator.DivEqual());
     }
 
     private static void registerBoolOperators(){

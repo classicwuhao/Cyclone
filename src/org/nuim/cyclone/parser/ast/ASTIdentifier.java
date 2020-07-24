@@ -3,6 +3,7 @@ import org.antlr.runtime.Token;
 import org.nuim.cyclone.model.Expression;
 import org.nuim.cyclone.model.IdentExpr;
 import org.nuim.cyclone.model.Variable;
+import org.nuim.cyclone.model.SrcInfo;
 
 public class ASTIdentifier  extends ASTExpression {
     private Token token;
@@ -30,7 +31,7 @@ public class ASTIdentifier  extends ASTExpression {
                     throw new SemanticException(token, " no variable "+this.name()+" is found.");
                 }
             }
-            
+            //var.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
             return var;
         } 
         else if (context.flag()) {
@@ -41,10 +42,14 @@ public class ASTIdentifier  extends ASTExpression {
                 throw new SemanticException(token, " variable "+this.name()+" is not allowed in " + context.getLocalInfo() + " where expression");
             }
 
-            return new IdentExpr(this.token.getText(), var.type());
+            return new IdentExpr(this.token.getText(), var.type(), 
+                new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         }
         else{
-            return new IdentExpr(this.token.getText());
+
+            IdentExpr ident = new IdentExpr(this.token.getText());
+            ident.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
+            return ident;
         }
     }
 

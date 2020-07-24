@@ -4,25 +4,29 @@ import org.nuim.cyclone.model.operation.TypeException;
 import org.nuim.cyclone.model.operation.OperatorNotDefinedException;
 import org.nuim.cyclone.model.type.Type;
 import org.nuim.cyclone.model.type.VoidType;
-public class OpExpr extends Expression {
-    private Expression[] exprs;
+
+public class Assignment extends Expression{
+    private Expression left;
+    private Expression right;
     private Operator operator;
 
-    public OpExpr(String op, Expression[] exprs, SrcInfo info){
-        super(op,info);
-        // create an operator from registered operations.
+    public Assignment(String op,Expression left, Expression right){
         try{
-            operator=Operator.lookup(op);
+            this.operator=Operator.lookup(op);
             //System.err.println(exprs[0].type().getClass());
             //System.err.println(exprs[1].type().getClass());
-            Type type = type_checking(exprs);
+            this.left=left;
+            this.right=right;
+            Type type = type_checking(
+                    new Expression[]{this.left,this.right}
+                );
             this.setType(type);
-            this.exprs=exprs;
+
         }
         catch(OperatorNotDefinedException e){
             logErrors("operator error","not defined");
             System.err.println(e.getMessage());
-        }
+        }        
     }
 
     private Type type_checking(Expression[] exprs){
@@ -46,28 +50,15 @@ public class OpExpr extends Expression {
         return new VoidType();
     }
 
-    public Expression[] args (){
-        return this.exprs;
-    }   
 
-    public int size(){
-        return exprs.length;
-    }
-
-    public Operator operator(){return this.operator;}
+    @Override
+    public boolean isAssignmentExpr(){return true;}
 
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
 
-        sb.append("("+ operator.name()+" ");
-        for (int i=0;i<exprs.length-1;i++)
-            sb.append(exprs[i].toString()+",");
-        
-        
-        sb.append(exprs[exprs.length-1].toString()+")");
-
+        sb.append(this.left.toString()+" "+this.right.toString());
         return sb.toString();
     }
-    
 }

@@ -4,9 +4,15 @@ import org.nuim.cyclone.model.type.Type;
 public abstract class Expression extends NamedElement {
     private Type type;
     private static ErrorLog errlog;
+    private SrcInfo info;
 
     public Expression(){super();}
     
+    public Expression(String name, SrcInfo info){
+        super(name);
+        this.info = info;
+    }
+
     public Expression(String name){
         super(name);
     }
@@ -21,12 +27,24 @@ public abstract class Expression extends NamedElement {
         this.type=type;
     }
 
+    public Expression(String name, Type type, SrcInfo info){
+        super(name);
+        this.type=type;
+        this.info=info;
+    }
+
     public Type type(){return this.type;}
     public void setType(Type type){this.type=type;}
     public void setLog(ErrorLog log){errlog=log;}
+    public void setSrcInfo(SrcInfo info){this.info=info;}
+    public SrcInfo info(){return this.info;}
+
     public static void logErrors(String ErrorType, String Message){
         errlog.logErrors(1);
     }
     public ErrorLog errorLog(){return errlog;}
+
+    public boolean isAssignmentExpr(){return false;}
+
 
 }

@@ -150,9 +150,21 @@ variableInitializer returns [ASTExpression expr]:
 
 expression returns [ASTExpression expr]:
         nImpliesExpr = conditionalImpliesExpression {$expr=$nImpliesExpr.expr;}
-        ('=' nExpr=expression{$expr=nExpr;}
-        )?
+        ( 
+            operator=assignmentOperator nExpr=expression
+            {
+                $expr=new ASTAssignment(operator,nImpliesExpr,nExpr);
+            }
+        ) ?
     ;
+
+assignmentOperator returns [Token token]
+    :   t= '='  {$token=t;}
+    |   t= '+=' {$token=t;}
+    |   t= '-=' {$token=t;}
+    |   t= '*=' {$token=t;}
+    |   t= '/=' {$token=t;}
+;
 
 conditionalImpliesExpression returns [ASTExpression expr]
     :   nOrExpr=conditionalOrExpression {$expr=$nOrExpr.expr;}

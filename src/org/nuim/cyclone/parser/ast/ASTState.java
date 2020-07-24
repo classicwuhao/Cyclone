@@ -2,6 +2,7 @@ package org.nuim.cyclone.parser.ast;
 import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.Variable;
 import org.nuim.cyclone.model.StateModifier;
+import org.nuim.cyclone.model.SrcInfo;
 import org.antlr.runtime.Token ;
 import org.nuim.cyclone.model.Expression;
 import java.util.List;
@@ -75,6 +76,7 @@ public class ASTState extends ASTExpression{
             state.addExpression(e);
         }
         
+        state.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         return state;
     }
 
