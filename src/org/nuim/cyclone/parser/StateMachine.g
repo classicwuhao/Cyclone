@@ -66,7 +66,7 @@ state returns [ASTState aststate]
 ;
 
 trans: TRANS identifier LBRACE
-        identifier ARROW identifier ON label
+        identifier ARROW identifier ON label (WHERE expression)?
     RBRACE
 ;
 
@@ -76,6 +76,8 @@ invariantExpression:
     LBRACE 
         (expression SEMI)+ 
     RBRACE
+    
+    (FOR LBRACE identifier (COMMA identifier)* RBRACE)?
 ;
 
 label:
@@ -270,7 +272,10 @@ primary returns [ASTExpression expr]
             //System.out.println(id+":"+id.token().getLine());
         }
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
-    |   PREV LPAREN identifier RPAREN
+    |   PREV LPAREN pid=identifier RPAREN {
+            ((ASTIdentifier)pid).setExpression();
+            $expr=pid;
+        }
     ;
 
 parExpression returns [ASTExpression expr]

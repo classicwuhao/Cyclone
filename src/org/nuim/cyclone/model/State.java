@@ -51,7 +51,7 @@ public class State extends Expression{
         sb.append(localVariables.toString()+" \n");
 
         for (Expression expr: this.expressions)
-            sb.append(expr.toString());
+            sb.append(expr.toString()+"\n");
 
         return sb.toString();
     }

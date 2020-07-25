@@ -8,6 +8,10 @@ public abstract class Expression extends NamedElement {
 
     public Expression(){super();}
     
+    public Expression(SrcInfo info){
+        this.info=info;
+    }
+
     public Expression(String name, SrcInfo info){
         super(name);
         this.info = info;
@@ -38,13 +42,12 @@ public abstract class Expression extends NamedElement {
     public void setLog(ErrorLog log){errlog=log;}
     public void setSrcInfo(SrcInfo info){this.info=info;}
     public SrcInfo info(){return this.info;}
-
+    public boolean isState(){return false;}
+    public boolean isTransition(){return false;}
+    public boolean isAssignmentExpr(){return false;}
+    
     public static void logErrors(String ErrorType, String Message){
         errlog.logErrors(1);
     }
     public ErrorLog errorLog(){return errlog;}
-
-    public boolean isAssignmentExpr(){return false;}
-
-
 }

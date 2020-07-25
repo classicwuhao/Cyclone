@@ -17,8 +17,8 @@ public abstract class StdOperator extends Operator{
     public static int STD_NOT_EQUAL="!=".hashCode();
     public static int STD_PLUS_EQUAL="+=".hashCode();
     public static int STD_MINUS_EQUAL="-=".hashCode();
-    public static int STD_MUL_EQUAL="-=".hashCode();
-    public static int STD_DIV_EQUAL="-=".hashCode();
+    public static int STD_MUL_EQUAL="*=".hashCode();
+    public static int STD_DIV_EQUAL="/=".hashCode();
     public static int STD_EQUAL="=".hashCode();
 
     public StdOperator(){}

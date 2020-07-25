@@ -32,7 +32,7 @@ public class TypeDef extends NamedElement{
         sb.append(this.name()+":");
         for (int i=0;i<this.args.length-1;i++){
             sb.append(this.args[i].toString());
-            sb.append("x");
+            sb.append(" x ");
         }
         sb.append(this.args[this.args.length-1]);
         sb.append("->");

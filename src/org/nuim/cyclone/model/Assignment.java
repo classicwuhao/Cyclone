@@ -10,7 +10,8 @@ public class Assignment extends Expression{
     private Expression right;
     private Operator operator;
 
-    public Assignment(String op,Expression left, Expression right){
+    public Assignment(String op,Expression left, Expression right, SrcInfo info){
+        super(op,info);
         try{
             this.operator=Operator.lookup(op);
             //System.err.println(exprs[0].type().getClass());
@@ -32,12 +33,13 @@ public class Assignment extends Expression{
     private Type type_checking(Expression[] exprs){
         StringBuffer sb = new StringBuffer();
         try{
-            Type type = TypeChecker.checkOperator(this.operator,exprs);
-            return type;
+            TypeChecker.checkOperator(this.operator,exprs);
+            return new VoidType();
         }
         catch (TypeException e){
-            for (int i=0;i<exprs.length;i++)
-                sb.append(exprs[i].toString()+" (" + exprs[i].type() +") ");
+            for (int i=0;i<exprs.length-1;i++)
+                sb.append(exprs[i].toString()+",");
+            sb.append(exprs[exprs.length-1].toString());
             System.err.println(e.getMessage()+this.info().toString()+
                 " operator "+this.operator.name()+" cannot be applied to "+sb.toString());
             logErrors("Type error","wrong type(s).");
@@ -58,7 +60,10 @@ public class Assignment extends Expression{
     public String toString(){
         StringBuffer sb = new StringBuffer();
 
-        sb.append(this.left.toString()+" "+this.right.toString());
+        sb.append("("+this.operator.name()+" "+this.left.toString()+" "+this.right.toString()+")");
+        sb.append("->");
+        sb.append(this.type().name());
+
         return sb.toString();
     }
 }

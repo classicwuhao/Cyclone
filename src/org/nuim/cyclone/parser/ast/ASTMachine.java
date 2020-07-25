@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class ASTMachine extends ASTExpression{
     private GlobalVariables variables = new GlobalVariables();
     private List<ASTState> states = new ArrayList<ASTState>();
-
+    private List<ASTInvariant> invaraints = new ArrayList<ASTInvariant>();
+    
     Machine machine;
 
     public ASTMachine(String name){

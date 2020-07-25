@@ -29,14 +29,13 @@ public class ASTAssignment extends ASTExpression {
         Expression rightExpr=this.right.gen(context);
 
         // we leave it to our type checker. 
-        
+
         /*if (!leftExpr.type().equals(rightExpr.type())){
             context.logError(token,"Type mismatch - "+ "expression has type "+rightExpr.type()+", exptected type "+leftExpr.type(),true);
             throw new SemanticException(token, "Type mismatch - "+ "expression has type "+rightExpr.type()+", exptected type "+leftExpr.type());
         }*/
-       Assignment assign = new Assignment(token.getText(),leftExpr,rightExpr);
-       assign.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
+       return new Assignment(token.getText(),leftExpr,rightExpr, 
+                    new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         
-       return assign;
     }
 }   

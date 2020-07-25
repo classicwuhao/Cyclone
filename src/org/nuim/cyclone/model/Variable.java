@@ -32,10 +32,10 @@ public class Variable extends Expression{
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
-        sb.append(this.name()+":"+this.type());
-        
+        sb.append(this.name());
+        //+":"+this.type()
         if (this.value!=null){
-            sb.append("["+this.value.toString()+"]");
+            sb.append("@"+this.value.toString());
         }
         
         if (this.initializer!=null){
