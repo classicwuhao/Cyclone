@@ -1,0 +1,36 @@
+open util/ordering[Time]
+sig Time {
+    state: one State
+}
+abstract sig State {}
+abstract sig Login extends State {}
+abstract sig Reports extends Login {}
+
+one sig Logout extends State {}
+one sig Students, Summary, Standards extends Reports {}
+one sig Answers extends Login {}
+
+pred transition[t: Time, start: State, end: State] {
+  t.state in start
+  t.next.state in end
+}
+
+pred logout[t: Time] { transition[t, Login, Logout] }
+pred login[t: Time] { transition[t, Logout, Summary] }
+pred students[t: Time] { transition[t, Reports, Students] }
+pred summary[t: Time] { transition[t, Reports, Summary] }
+pred standards[t: Time] { transition[t, Reports, Standards] }
+pred answers[t: Time] { transition[t, Students, Answers] }
+pred close_answers[t: Time] { transition[t, Answers, Students] }
+
+fact Trace {
+  first.state = Summary
+  all t: Time - last |
+    logout[t] or
+    login[t] or
+    students[t] or
+    summary[t] or
+    standards[t] or
+    answers[t] or
+    close_answers[t]
+}
