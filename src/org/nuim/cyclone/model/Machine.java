@@ -2,10 +2,12 @@ package org.nuim.cyclone.model;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Machine extends Expression{
     private GlobalVariables variables;
-    private List<State> states = new ArrayList<State>();
+    private Map<String, State> states = new TreeMap<String, State>();
 
     public Machine(){
         super();
@@ -26,8 +28,14 @@ public class Machine extends Expression{
         return errorLog().errors();
     }
 
-    public void addState(State state){
-        this.states.add(state);
+    public void addState(State state) throws InvalidSpecException{
+        if (states.containsKey(state.name())){
+            logErrors(state.info()," Spec has already contained a state: "+state.name());
+            throw new InvalidSpecException(state.info()," Spec has already contained a state: "+state.name());  
+        }
+
+        states.put(state.name(),state);
+        state.setOwner(this);
     }
     
     @Override
@@ -36,8 +44,8 @@ public class Machine extends Expression{
         sb.append(this.name()+": \n");
         sb.append(variables.toString());
         sb.append("\n");
-        for (State state : states){
-            sb.append(state.toString());
+        for (String name : states.keySet()){
+            sb.append(states.get(name));
             sb.append("\n");
         }
         sb.append("\n");

@@ -8,7 +8,8 @@ public class State extends Expression{
     private StateModifier modifier;
     private SymTable64 localVariables = new SymTable64();
     private List<Expression> expressions = new ArrayList<Expression>();
-
+    private Machine owner=null;
+    
     public State(){
         super();
     }
@@ -23,6 +24,10 @@ public class State extends Expression{
     }
 
     public StateModifier modifier(){return this.modifier;}
+    public void setOwner(Machine machine){
+        this.owner=machine;
+    }
+    public Machine owner(){return this.owner;}
     public void setModifier(StateModifier modifier){
         this.modifier=modifier;
     }

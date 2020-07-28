@@ -14,6 +14,7 @@ public class ASTAssignment extends ASTExpression {
         this.token = token;
         this.left = left;
         this.right = right;
+        
     }
 
     public ASTExpression leftExpr(){return this.left;}

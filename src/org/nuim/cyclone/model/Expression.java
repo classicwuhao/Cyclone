@@ -49,5 +49,8 @@ public abstract class Expression extends NamedElement {
     public static void logErrors(String ErrorType, String Message){
         errlog.logErrors(1);
     }
+    public static void logErrors(SrcInfo info, String message){
+        errlog.logErrors(info, message);
+    }
     public ErrorLog errorLog(){return errlog;}
 }

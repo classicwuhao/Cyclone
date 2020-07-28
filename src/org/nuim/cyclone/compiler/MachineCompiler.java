@@ -67,7 +67,7 @@ public class MachineCompiler {
                 out.println("Type checking done.",Color.GREEN);
             }
             else{
-                out.println(machine.errors()+" type error(s).",Color.RED);
+                out.println(machine.errors()+" type/spec error(s).",Color.RED);
                 COMPILE_RESULT = COMPILE_ERROR;
             }
 

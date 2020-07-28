@@ -4,7 +4,6 @@ import org.nuim.cyclone.model.type.*;
 import org.nuim.cyclone.model.value.*;
 import org.antlr.runtime.Token;
 import org.nuim.cyclone.model.SrcInfo;
-
 public class ASTLiteral extends ASTExpression {
     public static enum LiteralType {
         INT, BOOL, REAL, STRING, CHAR, ENUM

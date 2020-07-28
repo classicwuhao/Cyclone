@@ -3,7 +3,7 @@ import org.nuim.cyclone.model.operation.*;
 import org.nuim.cyclone.model.type.*;
 
 /* We define our type checker here 
- *  
+ * 
  * */ 
 public class TypeChecker extends NamedElement{
     

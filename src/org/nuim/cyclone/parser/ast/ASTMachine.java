@@ -2,6 +2,7 @@ package org.nuim.cyclone.parser.ast;
 import org.nuim.cyclone.model.Machine;
 import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.GlobalVariables;
+import org.nuim.cyclone.model.InvalidSpecException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -64,8 +65,10 @@ public class ASTMachine extends ASTExpression{
                 System.err.println("State "+ aststate.name()+ " cannot be generated - " +e.getMessage());
                 context.logError(aststate.token()," cannot generate state",true);
             }
+            catch(InvalidSpecException e){ // we do not log error here as it is recorded.
+                System.err.println(e.getMessage());
+            }
         }
-
         return machine;
     }
     
