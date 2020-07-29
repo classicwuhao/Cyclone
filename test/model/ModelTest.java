@@ -14,6 +14,7 @@ import org.antlr.runtime.RecognitionException;
 import org.nuim.cyclone.compiler.MachineCompiler;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.nuim.cyclone.util.BitVector;
 
 public class ModelTest {
     public ModelTest(){
@@ -28,7 +29,12 @@ public class ModelTest {
     @Test
     public void test0(){
         ModelTest model = new ModelTest();
+        //BitVector bv = new BitVector(11,true);
+        //System.out.println(bv.equals(1001));
+       // System.out.println(bv.and(1111));
+
         assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case0());
+
     }
 
     public int Case0(){

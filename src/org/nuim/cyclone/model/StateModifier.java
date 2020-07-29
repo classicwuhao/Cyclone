@@ -1,20 +1,32 @@
 package org.nuim.cyclone.model;
 
+/**
+ * Bit vector for modifier: 
+ * |START |NORMAL | ABSTRACT | FINAL |
+ */
+
 public enum StateModifier {
     START{
             public String toString(){return "start";}
-            public int bit(){return 1;}
     }, 
     FINAL{
             public String toString(){return "final";}
-            public int bit(){return 4;}
     },
     NORMAL{
             public String toString(){return "normal";}
-            public int bit(){return 8;}
     },
     ABSTRACT {
             public String toString(){return "abstract";}
-            public int bit(){return 16;}
+    };
+
+    static{
+        START.bits=1000;
+        FINAL.bits=1;
+        NORMAL.bits=100;
+        ABSTRACT.bits=10;
     }
+
+    private int bits;
+
+    public int bits(){return bits;}
 };

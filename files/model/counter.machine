@@ -78,6 +78,7 @@ machine Counter{
 		 * is semantically valid. 
 		 *	
 		 * If this is to be implemented, semantics for statements and block are to be added into current implmentation.
+		 * Further, control flow analysis is needed for generating formulas. This could be challenging in terms of implementation.
 		 */
 	}
 

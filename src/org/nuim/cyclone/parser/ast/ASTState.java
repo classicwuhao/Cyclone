@@ -5,12 +5,15 @@ import org.nuim.cyclone.model.StateModifier;
 import org.nuim.cyclone.model.SrcInfo;
 import org.antlr.runtime.Token ;
 import org.nuim.cyclone.model.Expression;
+import org.nuim.cyclone.util.BitVector;
+import org.nuim.cyclone.model.InvalidSpecException;
 import java.util.List;
 import java.util.ArrayList;
 
 public class ASTState extends ASTExpression{
     private Token token;
     private ASTStateModifier modifier;
+    private BitVector vector = new BitVector(4,false); // 4 bits for our modifier.
     private List<ASTExpression> exprs = new ArrayList<ASTExpression>();
     private List<ASTVariable> variables = new ArrayList<ASTVariable>();
 
@@ -22,8 +25,36 @@ public class ASTState extends ASTExpression{
         super(name);
     }
 
-    public void setModifier(ASTStateModifier modifier){
-        this.modifier=modifier;
+    public void setModifier(ASTStateModifier modifier) throws SemanticException{
+        switch (modifier){
+            case  START:
+            if (vector.get(0)==1)
+                throw new SemanticException(token," is already defined as start state.");
+            else
+                vector.set(0,1);
+            break;
+
+            case FINAL:
+            if (vector.get(3)==1)
+                throw new SemanticException(token," is already defined as final state.");
+            else
+                vector.set(3,1);
+            break;
+            
+            case NORMAL:
+            if (vector.get(1)==1)
+                throw new SemanticException(token," is already defined as normal state.");
+            else
+                vector.set(1,1);
+            break;
+
+            case ABSTRACT:
+            if (vector.get(2)==1)
+                throw new SemanticException(token," is already defined as abstract state.");
+            else
+                vector.set(2,1);
+            break;
+        }
     }
 
     public void addExpr(ASTExpression expr){
@@ -43,25 +74,14 @@ public class ASTState extends ASTExpression{
     }
 
     public State gen(ASTContext context) throws SemanticException{
-        State state = new State();
+        State state = new State(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         state.setName(this.token.getText());
 
-        switch (this.modifier){
-            case  START:
-            state.setModifier(StateModifier.START);
-            break;
-
-            case  FINAL:
-            state.setModifier(StateModifier.FINAL);
-            break;
-
-            case  NORMAL:
-            state.setModifier(StateModifier.NORMAL);
-            break;
-
-            case  ABSTRACT:
-            state.setModifier(StateModifier.ABSTRACT);
-            break;
+        try{
+            state.setModifier(this.vector);
+        }
+        catch (InvalidSpecException e){
+            System.err.println(e.getMessage());
         }
         
         for (ASTVariable astvar: variables){

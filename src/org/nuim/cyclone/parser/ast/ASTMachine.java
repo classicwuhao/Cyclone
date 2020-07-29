@@ -42,7 +42,7 @@ public class ASTMachine extends ASTExpression{
             variables.add(node.gen(this.context()));
         }
         catch (SemanticException e){
-            System.err.println("Semantic error: cannot generate variable: "+e.getMessage());
+            System.err.println("Semantic Error: cannot generate variable: "+e.getMessage());
         }
     } 
 

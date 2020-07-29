@@ -7,7 +7,6 @@ public class ErrorLog extends NamedElement{
     private int errors=0; //number of semantic errors.
     private PrintWriter errOut;
     private Stack<Entry<SrcInfo,String>> errStack = new Stack< Entry<SrcInfo,String>>();
-        
     
     /*public void logError(Token token, String message, boolean flag){
         if (flag) errors++;
@@ -18,6 +17,7 @@ public class ErrorLog extends NamedElement{
         this.errors+=k;
     }
     
+    /* general log for all error messages */ 
     public void logErrors(SrcInfo info, String message){
         this.errors++;
         errStack.push(new Entry<SrcInfo, String>(info,message));

@@ -10,19 +10,20 @@ public class BitVector {
 
     public BitVector(int value, boolean flag){
         if (!flag) {
-            vector = new boolean[size];
+            vector = new boolean[value];
             this.size = value;
-            return;
-        }
-        String str = String.valueOf(value);
-        vector = new boolean[str.length()];
-        for (int i=0;i<str.length();i++)
-            vector[i]= (str.charAt(i)=='0') ? false : true;
+            
+        }else{
+            String str = String.valueOf(value);
+            vector = new boolean[str.length()];
+            for (int i=0;i<str.length();i++)
+                vector[i]= (str.charAt(i)=='0') ? false : true;
         
-        this.size = str.length();
+            this.size = str.length();
+        }
     }
 
-    public void set(int value, int index){
+    public void set(int index, int value){
         vector[index] = (value!=0) ? true : false;
     }
 
@@ -37,18 +38,77 @@ public class BitVector {
     public int size(){return this.size;}
 
     public boolean equals(int value){
-        String str = String.valueOf(value);
-        if (str.length()<this.size()){
-            pad0s(str,diff(str.length(),this.size()));
+        //System.out.println("value:"+value);
+        String str1 = Integer.toString(value);
+        String str2 = this.toString();
+       // System.out.println("str1:"+str1);
+      //  System.out.println("str2:"+str2);
+
+        if (str1.length()<str2.length()){
+            str1=pad0s(str1,diff(str1.length(),str2.length()));
+            //System.out.println("str1 (pad 0s):"+str1);
         }
         else {
-            return false;
+            str2=pad0s(str2,diff(str1.length(),str2.length()));
+            //System.out.println("str2 (pad 0s):"+str2);
         }
-        
-        for (int i=0;i<this.size();i++)
-            if (str.charAt(i)!=this.getChar(i)) return false;
+
+        for (int i=0;i<str1.length();i++)
+            if (str1.charAt(i)!=str2.charAt(i)) return false;
 
         return true;
+    }
+
+    public BitVector and (int value){
+        String str1 = Integer.toString(value);
+        String str2 = this.toString();
+        //System.out.println("str1:"+str1);
+        //System.out.println("str2:"+str2);
+
+        int m = max(str1.length(),str2.length());
+        BitVector bv = new BitVector(m,false);
+
+        /*  pad 0s */
+        if (str1.length()<str2.length()){
+            str1=pad0s(str1,diff(str1.length(),str2.length()));
+            //System.out.println("str1 (pad 0s):"+str1);
+        }
+        else {
+            str2=pad0s(str2,diff(str1.length(),str2.length()));
+            //System.out.println("str2 (pad 0s):"+str2);
+        }
+        
+        int i=0;
+        for (;i<m;i++)
+            bv.set(i, (str1.charAt(i)=='1' && str2.charAt(i)=='1') ? 1 : 0);
+
+        return bv;
+    }
+    
+    public BitVector or (int value){
+        String str1 = Integer.toString(value);
+        String str2 = this.toString();
+        //System.out.println("str1:"+str1);
+        //System.out.println("str2:"+str2);
+
+        int m = max(str1.length(),str2.length());
+        BitVector bv = new BitVector(m,false);
+
+        /*  pad 0s */
+        if (str1.length()<str2.length()){
+            str1=pad0s(str1,diff(str1.length(),str2.length()));
+            //System.out.println("str1 (pad 0s):"+str1);
+        }
+        else {
+            str2=pad0s(str2,diff(str1.length(),str2.length()));
+            //System.out.println("str2 (pad 0s):"+str2);
+        }
+        
+        int i=0;
+        for (;i<m;i++)
+            bv.set(i, (str1.charAt(i)=='1' || str2.charAt(i)=='1') ? 1 : 0);
+
+        return bv;
     }
 
     public BitVector and(BitVector vector){
