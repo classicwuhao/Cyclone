@@ -55,12 +55,6 @@ machine returns [ASTMachine machine]:
 state returns [ASTState aststate]
 @init{
     $aststate=new ASTState();
-    try{
-        $aststate.setModifier(ASTStateModifier.NORMAL);
-    }
-    catch (SemanticException exception){
-        System.err.println(exception.getMessage());
-    }
 }
 :
     (m=stateModifier  
@@ -72,8 +66,13 @@ state returns [ASTState aststate]
                 System.err.println(exception.getMessage());
             }
         } 
-    ) * 
-
+    ) * {
+        try{
+            if (!$aststate.isModifierSet()) 
+                $aststate.setModifier(ASTStateModifier.NORMAL);
+        }
+        catch (SemanticException exception){System.err.println(exception.getMessage());}
+    }
 
     STATE e=identifier {$aststate.setName(e.identifier());$aststate.setToken(e.token());} LBRACE
         (v=localVariableDecl {$aststate.addVar(v);}  )*

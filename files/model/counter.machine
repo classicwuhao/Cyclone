@@ -40,10 +40,17 @@ machine Counter{
 	/* 
 	 * 2. State section:
 	 * [Done.] Each state has two major sections: 
-	 * [Done.] a) Local variable section: variables created here are only visible to the current state.
-	 * [Done.] b) expression section: every expression used in this section can only be boolean expressions or assignment expressions.	
+	 * [Done.] (a) Local variable section: variables created here are only visible to the current state.
+	 * [Done.] (b) expression section: every expression used in this section can only be boolean expressions or assignment expressions.	
+	 * [Done.] Each state can be declaraed using one or more of the following modifiers:
+	 * 1. start: specify a starting state.
+	 * 2. final: specify a final state (termination)
+	 * 3. normal: allows users to use sections (a) and (b)
+	 * 4. abstract: the same as standard state in FA (no sections (a) and (b) ).
+	 * normal and abstract cannot be used for a state at the same time.
+	 * For example, the following state S0 will cause compiler to throw an InvalidSpec exception.
 	 */
-	start state S0{
+	start abstract normal state S0{
 		/* [Done].
 		 * assignment expression here is not really an assignment expression compare to other programming languages such as: java.
 		 * it is generated as an assertion at SMT level. Thus, semantically speaking it is a speical kind of boolean expression.

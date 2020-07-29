@@ -56,6 +56,8 @@ public class ASTState extends ASTExpression{
             break;
         }
     }
+    
+    public boolean isModifierSet(){return !vector.equals(0);}
 
     public void addExpr(ASTExpression expr){
         this.exprs.add(expr);

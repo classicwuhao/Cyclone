@@ -5,6 +5,7 @@ import org.antlr.runtime.Token;
 public class SemanticException extends Exception{
     private static final long serialVersionUID = 1L;
     private Token token;
+    private static final String head="Semantic Error:";
 
     public SemanticException(String message){
         super(message);
@@ -22,7 +23,7 @@ public class SemanticException extends Exception{
     @Override
     public String getMessage(){
         StringBuffer sb = new StringBuffer();
-
+        sb.append(head);
         if (this.token!=null){
             //sb.append(this.token.getInputStream().getSourceName());
             sb.append(" "+this.token.getText()+ " ");

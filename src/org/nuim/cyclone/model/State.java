@@ -33,7 +33,7 @@ public class State extends Expression{
     }
 
     public BitVector modifier(){
-            return this.modifier;
+        return this.modifier;
     }
 
     public void setOwner(Machine machine){
@@ -42,7 +42,7 @@ public class State extends Expression{
     public Machine owner(){return this.owner;}
 
     public void setModifier(BitVector modifier) throws InvalidSpecException{
-        if (modifier.equals(110)){
+        if (modifier.and(110).equals(110)){
             logErrors(this.info(), " state cannot be normal and abstract at the same time.");
             throw new InvalidSpecException(this.info(), " state cannot be normal and abstract at the same time.");
         }
@@ -66,6 +66,7 @@ public class State extends Expression{
     
     private String modifier2string(){
         String modistr="";
+        if (this.modifier==null) return modistr;
         
         if (this.modifier.and(StateModifier.START.bits()).equals(StateModifier.START.bits()))
             modistr=StateModifier.START.toString();
@@ -78,6 +79,7 @@ public class State extends Expression{
         
         if (this.modifier.and(StateModifier.ABSTRACT.bits()).equals(StateModifier.ABSTRACT.bits()))
             modistr+=" "+StateModifier.ABSTRACT.toString();
+        
         return modistr;
     }
 
