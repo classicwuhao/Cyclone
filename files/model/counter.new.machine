@@ -1,0 +1,31 @@
+/* 
+ * Simple state machine to test semantics
+ * task: constraint traces
+ */
+
+machine SM1{
+	int counter;
+	int M;
+
+    /* START state */
+	start state S0{
+		counter := 0;
+	}
+
+	/* COUNT state */
+	final state S1{
+		counter := counter+1;
+	}
+
+    /* transitions */
+	transition t1 {S0 -> S1 when counter == 0;}
+	transition t2 {S1 -> S0 when counter == M-1;}
+	transition t3 {S1 -> S1 when counter < M-1;}
+
+    /* invariants */
+	invariant Safty {counter <= M;} for {S1}
+	invariant Safty {counter <= M;} for {S0,S1}
+
+    /* traces */
+	Goal Zeno {true} for {all} /* constraint all traces to say we cannot reenter S0 without going S1 3 times */
+}

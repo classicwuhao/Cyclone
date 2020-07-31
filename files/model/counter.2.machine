@@ -1,0 +1,27 @@
+/* 
+ * Simple state machine to test semantics
+ * task: potential overlaping in transitions
+ */
+
+machine SM1{
+	int counter;
+	int M=3;
+
+    /* START state */
+	start state S0{
+		counter := 0;
+	}
+
+	/* COUNT state */
+	final state S1{
+		counter := counter+1;
+	}
+
+    /* transitions */
+	transition t1 {S0 -> S1 when counter == 0;}
+	transition t2 {S1 -> S0 when counter == M-2;}   /* possible overlapping with t3 counter == 1 */
+	transition t3 {S1 -> S1 when counter < M-1;}    /* possible overlapping with t2 counter < 2  */
+
+	invariant Safty {counter <= M;} for {S1}
+	invariant Safty {counter <= M;} for {S0,S1}
+}
