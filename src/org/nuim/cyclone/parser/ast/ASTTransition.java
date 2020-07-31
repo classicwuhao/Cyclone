@@ -74,7 +74,8 @@ public class ASTTransition extends ASTExpression{
             trans.setExpr(this.condition.gen(context));
             context.reset_trans_flag();
         }
-       
+        
+        trans.setSrcInfo(new SrcInfo(src.getText(),src.getLine(),src.getCharPositionInLine()));
         return trans;
     }
 
