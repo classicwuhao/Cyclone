@@ -47,7 +47,7 @@ machine returns [ASTMachine machine]:
 
     MACHINE name=identifier {$machine = new ASTMachine( ((ASTIdentifier) name).identifier() );} LBRACE
         (v=globalVariableDecl {$machine.addVariable(v);})*
-        (s=state {$machine.addState(s);} )* (trans)*
+        (s=state {$machine.addState(s);} )* (t=trans {$machine.addTrans(t);})*
         (invariantExpression)*
     RBRACE EOF
 ;
@@ -80,8 +80,15 @@ state returns [ASTState aststate]
     RBRACE
 ;
 
-trans: TRANS identifier LBRACE
-        identifier ARROW identifier ON label (WHERE expression)?
+trans returns [ASTTransition asttran]
+@init{
+     $asttran = new ASTTransition();
+}
+: TRANS (name = identifier) {$asttran.setName(name.identifier());} LBRACE
+        (src = identifier) {$asttran.setSrc(src.token());} 
+        ARROW (tar = identifier) {$asttran.setTar(tar.token());}
+        ON (l=label) {$asttran.setLabel(l.toString());}
+        (WHERE e=expression {$asttran.setExpression(e);} SEMI)?
     RBRACE
 ;
 
@@ -95,8 +102,8 @@ invariantExpression:
     (FOR LBRACE identifier (COMMA identifier)* RBRACE)?
 ;
 
-label:
-    STRINGLITERAL
+label returns [ASTLiteral literal_node]:
+    s=STRINGLITERAL{$literal_node=new ASTLiteral(ASTLiteral.LiteralType.STRING,s);}
 ;
 
 identifier returns [ASTIdentifier expr]:
@@ -275,22 +282,34 @@ unaryExpressionNotPlusMinus returns [ASTExpression expr]
         {
             if (postfix!=null)
                 $expr=new ASTUnaryExpression($postfix,$nPriExpr.expr);
-            else
-                $expr=$nPriExpr.expr;
+            else{
+                //System.out.println("non-unary expression");
+                $expr=nPriExpr;
+            }
         }
     ;
 
 primary returns [ASTExpression expr]
     :   pExpr=parExpression {$expr=$pExpr.expr;}
-    |   id=identifier {
-            ((ASTIdentifier)id).setExpression();$expr=id;
-            //System.out.println(id+":"+id.token().getLine());
+    |   id=identifier
+        ( DOT member=identifier )?
+        {
+            if (member==null){
+                ((ASTIdentifier)id).setExpression();
+                $expr=id;
+            }
+            else{
+                ASTMember m = new ASTMember(id.token(), id, member);
+                $expr = m;
+            }
         }
     |   nLiteralExpr=literal {$expr=$nLiteralExpr.literal_node;}
     |   PREV LPAREN pid=identifier RPAREN {
             ((ASTIdentifier)pid).setExpression();
+            pid.setPrevious();
             $expr=pid;
         }
+
     ;
 
 parExpression returns [ASTExpression expr]

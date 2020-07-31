@@ -1,7 +1,6 @@
 package org.nuim.cyclone.parser.ast;
 import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.Variable;
-import org.nuim.cyclone.model.StateModifier;
 import org.nuim.cyclone.model.SrcInfo;
 import org.antlr.runtime.Token ;
 import org.nuim.cyclone.model.Expression;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 
 public class ASTState extends ASTExpression{
     private Token token;
-    private ASTStateModifier modifier;
     private BitVector vector = new BitVector(4,false); // 4 bits for our modifier.
     private List<ASTExpression> exprs = new ArrayList<ASTExpression>();
     private List<ASTVariable> variables = new ArrayList<ASTVariable>();
@@ -91,6 +89,7 @@ public class ASTState extends ASTExpression{
             state.addVariable(var);
         }
 
+        context.setState(state.name());
         context.setLocalVariables(state.localVariables());
 
         for (ASTExpression expr:this.exprs){
@@ -99,6 +98,7 @@ public class ASTState extends ASTExpression{
         }
         
         state.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
+        context.setState("");
         return state;
     }
 

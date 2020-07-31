@@ -9,6 +9,7 @@ public class ASTIdentifier  extends ASTExpression {
     private Token token;
     //indicate if this identifier is inside an expression.
     private boolean insideExpression=false;
+    private boolean previous = false;
 
     public ASTIdentifier (Token token){
         super(token.getText());
@@ -17,11 +18,13 @@ public class ASTIdentifier  extends ASTExpression {
 
     public String toString(){return this.token.getText();}
     public String identifier(){return this.token.getText();}
+    public boolean previous(){return this.previous;}
+    public void setPrevious(){this.previous=true;}
     public void setExpression(){this.insideExpression=true;}
     public void unsetExpression(){this.insideExpression=false;}
     public Token token(){return this.token;}
 
-    public Expression gen(ASTContext context) throws SemanticException{
+    public IdentExpr gen(ASTContext context) throws SemanticException{
         if (this.insideExpression && !context.flag()){
             Variable var = context.variables().getVariable(this.name());
             if (var==null){
@@ -32,10 +35,11 @@ public class ASTIdentifier  extends ASTExpression {
                 }
             }
             //var.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
-            return var;
+            return new IdentExpr(this.token.getText(), var.type(), 
+                new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()),this.previous);
         } 
         else if (context.flag()) {
-            //where expression: we do not allow other variables to appear in the expression.
+            //where expression with initialized constraints: we do not allow other variables to appear in the expression.
             Variable var = context.containsLocalInfo(this.name());
             if (var==null){
                 context.logError(token, " variable "+this.name()+" is not allowed in " + context.getLocalInfo() + " where expression",true);
@@ -43,10 +47,9 @@ public class ASTIdentifier  extends ASTExpression {
             }
 
             return new IdentExpr(this.token.getText(), var.type(), 
-                new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
+                new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()),this.previous);
         }
         else{
-
             IdentExpr ident = new IdentExpr(this.token.getText());
             ident.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
             return ident;

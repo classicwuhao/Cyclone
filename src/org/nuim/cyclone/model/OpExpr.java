@@ -21,7 +21,7 @@ public class OpExpr extends Expression {
         }
         catch(OperatorNotDefinedException e){
             logErrors("operator error","not defined");
-            System.err.println(e.getMessage());
+            System.err.println("operator error:"+e.getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ public class OpExpr extends Expression {
         }
         catch (NullPointerException e){
             logErrors("Type error","null type.");
-            //System.err.println("null type");
+            //System.err.println("null type.");
         }
         
         return new VoidType();

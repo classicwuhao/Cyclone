@@ -1,7 +1,8 @@
 package org.nuim.cyclone.parser.ast;
+import org.nuim.cyclone.model.GlobalVariables;
 import org.nuim.cyclone.model.Machine;
 import org.nuim.cyclone.model.State;
-import org.nuim.cyclone.model.GlobalVariables;
+import org.nuim.cyclone.model.Transition;
 import org.nuim.cyclone.model.InvalidSpecException;
 import java.util.List;
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class ASTMachine extends ASTExpression{
     private GlobalVariables variables = new GlobalVariables();
     private List<ASTState> states = new ArrayList<ASTState>();
     private List<ASTInvariant> invaraints = new ArrayList<ASTInvariant>();
-    
+    private List<ASTTransition> transitions = new ArrayList<ASTTransition>();
+
     Machine machine;
 
     public ASTMachine(String name){
@@ -34,6 +36,10 @@ public class ASTMachine extends ASTExpression{
     
     public void addState(ASTState state){
         this.states.add(state);
+    }
+
+    public void addTrans(ASTTransition trans){
+        this.transitions.add(trans);
     }
 
     public void addVariable(ASTVariable node){
@@ -60,12 +66,27 @@ public class ASTMachine extends ASTExpression{
             try{
                 State state = aststate.gen(context);
                 machine.addState(state);
+                context.push(state);
             }
             catch(SemanticException e){
-                System.err.println("State "+ aststate.name()+ " cannot be generated - " +e.getMessage());
-                context.logError(aststate.token()," cannot generate state",true);
+                System.err.println("State "+ aststate.name()+ " cannot be generated - "+e.getMessage());
+                //context.logError(aststate.token()," cannot generate state",true);
             }
             catch(InvalidSpecException e){ // we do not log error here as it is recorded.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        for (int i=0;i<this.transitions.size();i++){
+            ASTTransition asttran=this.transitions.get(i);
+            try{
+                Transition tran=asttran.gen(context);
+                machine.addTrans(tran);
+            }
+            catch (SemanticException e){
+                System.err.println("Transition "+asttran.name()+" cannot be generated - "+e.getMessage());
+            }
+            catch (InvalidSpecException e){ // no error log here.
                 System.err.println(e.getMessage());
             }
         }

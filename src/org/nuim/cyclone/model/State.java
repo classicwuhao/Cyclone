@@ -84,6 +84,9 @@ public class State extends Expression{
     }
 
     @Override
+    public boolean isState(){return true;}
+    
+    @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
         sb.append(modifier2string());

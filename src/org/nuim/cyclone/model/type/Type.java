@@ -17,6 +17,14 @@ public abstract class Type extends TypeElement{
     public boolean isVoidType(){return false;}
     public boolean isPrimitiveType(){return false;}
     public boolean isNonPrimitiveType(){return false;}
+    public boolean isSpecType(){return false;}
+    public boolean isMachineType(){return false;}
+    public boolean isStateType(){return false;}
+    public boolean isTransType(){return false;}
+    public boolean isInvType(){return false;}
+    public boolean isGoalType(){return false;}
+    
+
     public abstract String toString();
 
     public boolean equals(Type type){

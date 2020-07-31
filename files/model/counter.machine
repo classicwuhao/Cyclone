@@ -1,92 +1,15 @@
-/* 
- * Work-in-Progress:
- * 0. Allow expressions to be constructed from pirmitive types.
- * 1. Majority of common expressions are supported and implemented. We allow expressions to be used with the following operators:
- *	!,+,-,=,==,+=,/=*=,!=,>,>=,<,<=,&&,||,xor,=>
- * 2. Semantics for these common expressions have been implemented.
- * 3. Type checking rules for pimritive types are done. 
- * 4. Semantics for STATE is almost done.
- * 5. Cyclone compiler now can handle: lexer, syntax, semantics, type errors.
- * 6. Need test cases (Zheng Cheng to help) for testing cyclone compiler, particular semantics and type checking.
- */
 
- /* Start to develop back-end (generation):
-  * Transition implmentation
-  * Generation engine (Verification Condition). Uran is there to speed up my implementation.
-  */ 
-
- /* 
-  * Each machine has (at least) five major sections:
-  * 1. Global variable declaration: are visible to all states.
-  * 2. State section: describe a finite set of states.
-  * 3. Transition section: describe a finite set of transitions.
-  * 4. Invariant section: describe a finite set of invariants applied to all states.
-  * 5. Goal section: goal to be solved, a (constrained) trace. [yet to be designed, not included here.]
-  */
 machine Counter{
 	int counter=0;
-	int max = 10;
-	int min = 0;
-	bool reach = false;
-	/*
-	 * 1. Global variables: this is the same as variable declarations in any other programming languages.
-	 * [Done.] Primitve types: int, bool, real, char.
-	 * [To be implemented.] Non-Primitive types: Enumeration, String, user-defined type (Sets, Bags, Lists,etc). 
-	 * [Done.] A special type: void type.
-	 * For example, the following variable initialisation causes a type error.
-	 */
-	int loop=2 && reach;
+	//int max = 10;
+	//int min = 0;
+	//bool reach = false;
+	//int loop=2 && reach;
 
-	/* 
-	 * 2. State section:
-	 * [Done.] Each state has two major sections: 
-	 * [Done.] (a) Local variable section: variables created here are only visible to the current state.
-	 * [Done.] (b) expression section: every expression used in this section can only be boolean expressions or assignment expressions.	
-	 * [Done.] Each state can be declaraed using one or more of the following modifiers:
-	 * 1. start: specify a starting state.
-	 * 2. final: specify a final state (termination)
-	 * 3. normal: allows users to use sections (a) and (b)
-	 * 4. abstract: the same as standard state in FA (no sections (a) and (b) ).
-	 * normal and abstract cannot be used for a state at the same time.
-	 * For example, the following state S0 will cause compiler to throw an InvalidSpec exception.
-	 */
-	start abstract normal state S0{
-		/* [Done].
-		 * assignment expression here is not really an assignment expression compare to other programming languages such as: java.
-		 * it is generated as an assertion at SMT level. Thus, semantically speaking it is a speical kind of boolean expression.
-		 * 'counter=5;' is generated as 'counter == 5' at SMT level. The value '5' here is only assigned if the solver returns SAT.
-		 * We use '=' here just for convention purpose.
-		 * Essentially, Cyclone requries every expression to be boolean expression only.
-		 * 2 kinds:
-		 * 1. Explicit boolean expression 
-		 * 2. Implicit boolean expression
-		 */
-
-		counter==prev(counter)-1; // 1. This is a explicit boolean expression. Result type: BOOL
-		counter--; //2. Implicit. the same as 'counter = counter -1;' Semantically, this will be generated as counter=prev(counter)-1; Result type: void
-		counter=prev(counter)-1; // prev: refers to values from previous state. Implicit. Result type: void 
-		/**
-		 * Any assignment expression returns void type.  This design is the same as most of compiler's type checking routine.
-		 * Hence, the following two expressions will cause our compiler to report typing error.
-		 * => is an implication operator requires bot left and right expression to be boolean. 
-		 */
-		(counter>5) => (min=2);
-		(counter<=5) => (reach=false);
-
-		/**
-		 *	- To be considered: since => captures IF-ELSE semantics. However, it is more restrict since types requirement.
-		 *  IF-ELSE: is more relaxed, it allows expressions whose type is void. Thus, the following block
-		 *
-		 * if (counter>5)
-		 *		reach=true;
-		 * else
-		 *		reach=false;
-		 *
-		 * is semantically valid. 
-		 *	
-		 * If this is to be implemented, semantics for statements and block are to be added into current implmentation.
-		 * Further, control flow analysis is needed for generating formulas. This could be challenging in terms of implementation.
-		 */
+	start state S0{
+		bool visited=false;
+		counter==prev(counter)+1;
+		(counter>=5) => (visited==true);
 	}
 
 	/* 
@@ -94,31 +17,13 @@ machine Counter{
 	 * decrease counter
 	 */
 	final state S1{
-		counter=prev(counter)+1; // the same as counter++;
-		
-		(counter>5) => (reach==true);
-		(counter<=5) => (reach==false);
+	 	counter=prev(counter)-1; // the same as counter--;
 	}
 
-	/* 
-	 * 3. Transitions:	
-	 * Every transition is tagged with a label and has its own unique name.
-	 * Every transition can be constrained with a proper boolean expression.
-	 * - The variables can be used in the expression has to be global declared. 
-	 * - See the following transition t1.
-	 * - The variable 'counter' in where clause only refers to the 'counter' in S0.
-	 */ 
-	transition t1 {S0 -> S1 on "counter--" where counter >=4 && counter<=10 }
-	transition t2 {S1 -> S0 on "counter++"}
-	transition t3 {S0 -> S0 on "counter++"}
-	transition t4 {S1 -> S1 on "counter--"}
+	transition t1 {S0 -> S1 on "counter--" where S0.visited==true && counter>=8;}
+	//transition t2 {S1 -> S0 on "counter++"}
+	//transition t3 {S0 -> S0 on "counter++"}
+	//transition t4 {S1 -> S1 on "counter--"}
 
-	/* 4. Invariants:
-	 * [Done.] Every invariant must have boolean type. 
-	 * [Done.] State invariant (Cheng Zheng to see) is just a single boolean expression in a state. For example, counter>0 or true==counter>0;
-	 * - Local invaraint: an invarint to be applied to finite set of states. 
-	 * - For example, see the following invariant. 
-	 * - Invariant 'Safty' applies to all states in this machine.
-	 */
-	invariant Safty {counter>=min && counter<=max;} for {S0,S1}
+	//invariant Safty {counter>=min && counter<=max;} for {S0,S1}
 }

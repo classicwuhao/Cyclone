@@ -44,7 +44,9 @@ public abstract class Expression extends NamedElement {
     public SrcInfo info(){return this.info;}
     public boolean isState(){return false;}
     public boolean isTransition(){return false;}
+    public boolean isMachine(){return false;}
     public boolean isAssignmentExpr(){return false;}
+    public boolean isIdentExpr(){return true;}
     
     public static void logErrors(String ErrorType, String Message){
         errlog.logErrors(1);
