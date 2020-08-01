@@ -257,19 +257,25 @@ multiplicativeExpression returns [ASTExpression expr]
     :
         nUnrExpr=unaryExpression {$expr=$nUnrExpr.expr;}
         (   
-            (   '*'
-            |   '/'
-            |   '%'
-            )
-            unaryExpression
+            operator = (   '*' |   '/' |   '%' )
+            m1=unaryExpression {$expr = new ASTBinaryExpression(operator,$expr, $m1.expr);}
         )*
     ;
 
 unaryExpression returns [ASTExpression expr]
-    :   '+' unaryExpression
-    |   '-' unaryExpression
-    |   '++' unaryExpression
-    |   '--' unaryExpression 
+    :   '+' unrExpr=unaryExpression {$expr=$unrExpr.expr;}
+    |   '-' unrExpr=unaryExpression 
+    {   
+        if (unrExpr.isASTLitreal())
+            ((ASTLiteral)unrExpr).setMinus();
+
+        if (unrExpr.isASTIdentifier())
+            ((ASTIdentifier)unrExpr).setMinus();
+        
+        $expr=unrExpr;
+    }
+    //|   '++' unaryExpression
+    //|   '--' unaryExpression 
     |   nUnrExprOther=unaryExpressionNotPlusMinus {$expr=$nUnrExprOther.expr;}
     ;
 

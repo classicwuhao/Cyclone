@@ -7,9 +7,10 @@ import org.nuim.cyclone.model.SrcInfo;
  * */ 
 public class IdentExpr extends Expression {
 
-    /* An identifier referr to a value in previous state */ 
+    /* An identifier refers to a value in previous state */ 
     private boolean previous = false;
-
+    /* An identifier has a negative sign. */ 
+    private boolean minus = false;
     public IdentExpr(String name, Type type, SrcInfo info, boolean previous){
         super(name, type, info);
         this.previous=previous;
@@ -21,6 +22,8 @@ public class IdentExpr extends Expression {
 
     public boolean previous(){return this.previous;}
     public void setPrevious(boolean previous){this.previous=previous;}
+    public boolean minus(){return this.minus;}
+    public void setMinus(boolean minus){this.minus=minus;}
 
     @Override
     public boolean isIdentExpr(){return true;}
@@ -33,7 +36,12 @@ public class IdentExpr extends Expression {
             sb.append("prev(");
             sb.append(super.name());
             sb.append(")");
-        }else{
+        }
+        else if (minus){
+            sb.append("-");
+            sb.append(super.name());
+        }
+        else{
             sb.append(super.name());
         }
         

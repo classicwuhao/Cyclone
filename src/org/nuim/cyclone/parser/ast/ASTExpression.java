@@ -14,9 +14,9 @@ public abstract class ASTExpression extends ASTNode {
     }
     
     public boolean isASTLitreal(){return false;}
+    public boolean isASTIdentifier(){return false;}
     public ASTContext context(){return this.context;}
     public void setContext(ASTContext context){this.context=context;}
     public abstract Expression gen(ASTContext context) throws SemanticException;
     
-
 }

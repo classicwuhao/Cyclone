@@ -1,13 +1,19 @@
 
 machine Counter{
 	int counter=0;
+	int m = -50;
+	int x;
+	int y=-x+x;
 	//int max = 10;
 	//int min = 0;
 	//bool reach = false;
 	//int loop=2 && reach;
 
 	start state S0{
+		int z=1;
 		bool visited=false;
+		x=prev(x)+y;
+		z=0;
 		counter==prev(counter)+1;
 		(counter>=5) => (visited==true);
 	}
@@ -21,7 +27,7 @@ machine Counter{
 	}
 
 	transition t1 {S0 -> S1 on "counter--" where S0.visited==true && counter>=8;}
-	//transition t2 {S1 -> S0 on "counter++"}
+	transition t2 {S1 -> S0 on "counter++"}
 	//transition t3 {S0 -> S0 on "counter++"}
 	//transition t4 {S1 -> S1 on "counter--"}
 

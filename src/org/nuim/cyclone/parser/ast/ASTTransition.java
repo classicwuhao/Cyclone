@@ -68,7 +68,8 @@ public class ASTTransition extends ASTExpression{
             }
 
             /* TODO: Before setting up our new context information, we need to remember current information. */ 
-
+            context.setState(src_state.name());
+            context.set_extra_info(this.src.getText());
             context.setLocalVariables(src_state.localVariables());
             context.set_trans_flag();
             trans.setExpr(this.condition.gen(context));

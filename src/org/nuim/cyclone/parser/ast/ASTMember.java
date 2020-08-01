@@ -41,7 +41,16 @@ public class ASTMember extends ASTExpression {
             throw new SemanticException(token," prev cannot be applied to a state member.");
         }
 
+        /* State accessor:
+         * check if this state accessor is the same as source state.
+         * 
+         * */ 
         IdentExpr e1= this.source.gen(context);
+        if (!e1.name().equals(context.state())){
+            context.logError(this.source.token()," expect state accessor "+context.extra_info(),true);
+            throw new SemanticException(this.source.token(), " expect state accessor "+context.extra_info());
+        }
+
         IdentExpr e2= this.member.gen(context);
 
         Variable var = context.local_variables().lookup(e2.name());

@@ -22,6 +22,7 @@ public class ASTContext extends NamedElement{
     private Stack<String> errStack = new Stack<String>();
     private Entry<String,Variable> localInfo; // used for where epxression.
     private String current_state; //use for state member accessor. Example: S1.x=prev(S1.x)+1
+    private String extra_info; //use for extra information message.
     Map<String, State> states = new TreeMap<String, State>();
 
     /* All important flags during AST traversal to help determine its semantics. */ 
@@ -64,7 +65,7 @@ public class ASTContext extends NamedElement{
     public State fetch(String name){
         return states.get(name);
     }
-    
+
     public void setVariables(GlobalVariables variables){this.variables=variables;}
     public GlobalVariables variables(){return this.variables;}
     public void setLocalVariables(SymTable64 table){
@@ -79,6 +80,12 @@ public class ASTContext extends NamedElement{
     public void set_trans_flag(){this.trans_where_flag=true;}
     public void reset_trans_flag(){this.trans_where_flag=false;}
 
+    public void set_extra_info(String message){
+        this.extra_info=message;
+    }
+
+    public String extra_info(){return this.extra_info;}
+    
     public void setLocalInfo(String name, Variable var){
         this.localInfo = new Entry<String,Variable>(name,var);
     }   

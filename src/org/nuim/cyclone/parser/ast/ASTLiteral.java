@@ -21,6 +21,10 @@ public class ASTLiteral extends ASTExpression {
         this.lt = lt;
         this.token = token;
     }
+    
+    public void setMinus(){
+        this.token.setText("-"+this.token.getText());
+    }
 
     public Value gen(ASTContext context) throws SemanticException {
         Value value;

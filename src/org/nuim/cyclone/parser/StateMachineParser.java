@@ -1,4 +1,4 @@
-// $ANTLR 3.4 StateMachine.g 2020-07-31 17:05:08
+// $ANTLR 3.4 StateMachine.g 2020-08-01 21:20:36
 
 package org.nuim.cyclone.parser;
 import java.util.Collections;
@@ -113,7 +113,7 @@ public class StateMachineParser extends BaseParser {
     }
     public StateMachineParser(TokenStream input, RecognizerSharedState state) {
         super(input, state);
-        this.state.ruleMemo = new HashMap[90+1];
+        this.state.ruleMemo = new HashMap[88+1];
          
 
     }
@@ -428,7 +428,7 @@ public class StateMachineParser extends BaseParser {
                 int alt7=2;
                 int LA7_0 = input.LA(1);
 
-                if ( (LA7_0==BOOLLITERAL||LA7_0==CHARLITERAL||LA7_0==IDENT||LA7_0==INTLITERAL||LA7_0==LPAREN||LA7_0==MINUS||LA7_0==NOT||(LA7_0 >= PLUS && LA7_0 <= PREV)||LA7_0==REALLITERAL||LA7_0==STRINGLITERAL||LA7_0==72||LA7_0==74) ) {
+                if ( (LA7_0==BOOLLITERAL||LA7_0==CHARLITERAL||LA7_0==IDENT||LA7_0==INTLITERAL||LA7_0==LPAREN||LA7_0==MINUS||LA7_0==NOT||(LA7_0 >= PLUS && LA7_0 <= PREV)||LA7_0==REALLITERAL||LA7_0==STRINGLITERAL) ) {
                     alt7=1;
                 }
 
@@ -663,7 +663,7 @@ public class StateMachineParser extends BaseParser {
                 int alt10=2;
                 int LA10_0 = input.LA(1);
 
-                if ( (LA10_0==BOOLLITERAL||LA10_0==CHARLITERAL||LA10_0==IDENT||LA10_0==INTLITERAL||LA10_0==LPAREN||LA10_0==MINUS||LA10_0==NOT||(LA10_0 >= PLUS && LA10_0 <= PREV)||LA10_0==REALLITERAL||LA10_0==STRINGLITERAL||LA10_0==72||LA10_0==74) ) {
+                if ( (LA10_0==BOOLLITERAL||LA10_0==CHARLITERAL||LA10_0==IDENT||LA10_0==INTLITERAL||LA10_0==LPAREN||LA10_0==MINUS||LA10_0==NOT||(LA10_0 >= PLUS && LA10_0 <= PREV)||LA10_0==REALLITERAL||LA10_0==STRINGLITERAL) ) {
                     alt10=1;
                 }
 
@@ -2511,20 +2511,23 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "multiplicativeExpression"
-    // StateMachine.g:256:1: multiplicativeExpression returns [ASTExpression expr] : nUnrExpr= unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )* ;
+    // StateMachine.g:256:1: multiplicativeExpression returns [ASTExpression expr] : nUnrExpr= unaryExpression (operator= ( '*' | '/' | '%' ) m1= unaryExpression )* ;
     public final ASTExpression multiplicativeExpression() throws RecognitionException {
         ASTExpression expr = null;
 
         int multiplicativeExpression_StartIndex = input.index();
 
+        Token operator=null;
         ASTExpression nUnrExpr =null;
+
+        ASTExpression m1 =null;
 
 
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 27) ) { return expr; }
 
-            // StateMachine.g:257:5: (nUnrExpr= unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )* )
-            // StateMachine.g:258:9: nUnrExpr= unaryExpression ( ( '*' | '/' | '%' ) unaryExpression )*
+            // StateMachine.g:257:5: (nUnrExpr= unaryExpression (operator= ( '*' | '/' | '%' ) m1= unaryExpression )* )
+            // StateMachine.g:258:9: nUnrExpr= unaryExpression (operator= ( '*' | '/' | '%' ) m1= unaryExpression )*
             {
             pushFollow(FOLLOW_unaryExpression_in_multiplicativeExpression1767);
             nUnrExpr=unaryExpression();
@@ -2534,7 +2537,7 @@ public class StateMachineParser extends BaseParser {
 
             if ( state.backtracking==0 ) {expr =nUnrExpr;}
 
-            // StateMachine.g:259:9: ( ( '*' | '/' | '%' ) unaryExpression )*
+            // StateMachine.g:259:9: (operator= ( '*' | '/' | '%' ) m1= unaryExpression )*
             loop30:
             do {
                 int alt30=2;
@@ -2547,8 +2550,10 @@ public class StateMachineParser extends BaseParser {
 
                 switch (alt30) {
             	case 1 :
-            	    // StateMachine.g:260:13: ( '*' | '/' | '%' ) unaryExpression
+            	    // StateMachine.g:260:13: operator= ( '*' | '/' | '%' ) m1= unaryExpression
             	    {
+            	    operator=(Token)input.LT(1);
+
             	    if ( input.LA(1)==SLASH||input.LA(1)==STAR||input.LA(1)==69 ) {
             	        input.consume();
             	        state.errorRecovery=false;
@@ -2561,11 +2566,13 @@ public class StateMachineParser extends BaseParser {
             	    }
 
 
-            	    pushFollow(FOLLOW_unaryExpression_in_multiplicativeExpression1864);
-            	    unaryExpression();
+            	    pushFollow(FOLLOW_unaryExpression_in_multiplicativeExpression1834);
+            	    m1=unaryExpression();
 
             	    state._fsp--;
             	    if (state.failed) return expr;
+
+            	    if ( state.backtracking==0 ) {expr = new ASTBinaryExpression(operator,expr, m1);}
 
             	    }
             	    break;
@@ -2596,11 +2603,13 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "unaryExpression"
-    // StateMachine.g:268:1: unaryExpression returns [ASTExpression expr] : ( '+' unaryExpression | '-' unaryExpression | '++' unaryExpression | '--' unaryExpression |nUnrExprOther= unaryExpressionNotPlusMinus );
+    // StateMachine.g:265:1: unaryExpression returns [ASTExpression expr] : ( '+' unrExpr= unaryExpression | '-' unrExpr= unaryExpression |nUnrExprOther= unaryExpressionNotPlusMinus );
     public final ASTExpression unaryExpression() throws RecognitionException {
         ASTExpression expr = null;
 
         int unaryExpression_StartIndex = input.index();
+
+        ASTExpression unrExpr =null;
 
         ASTExpression nUnrExprOther =null;
 
@@ -2608,8 +2617,8 @@ public class StateMachineParser extends BaseParser {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 28) ) { return expr; }
 
-            // StateMachine.g:269:5: ( '+' unaryExpression | '-' unaryExpression | '++' unaryExpression | '--' unaryExpression |nUnrExprOther= unaryExpressionNotPlusMinus )
-            int alt31=5;
+            // StateMachine.g:266:5: ( '+' unrExpr= unaryExpression | '-' unrExpr= unaryExpression |nUnrExprOther= unaryExpressionNotPlusMinus )
+            int alt31=3;
             switch ( input.LA(1) ) {
             case PLUS:
                 {
@@ -2619,16 +2628,6 @@ public class StateMachineParser extends BaseParser {
             case MINUS:
                 {
                 alt31=2;
-                }
-                break;
-            case 72:
-                {
-                alt31=3;
-                }
-                break;
-            case 74:
-                {
-                alt31=4;
                 }
                 break;
             case BOOLLITERAL:
@@ -2641,7 +2640,7 @@ public class StateMachineParser extends BaseParser {
             case REALLITERAL:
             case STRINGLITERAL:
                 {
-                alt31=5;
+                alt31=3;
                 }
                 break;
             default:
@@ -2655,61 +2654,47 @@ public class StateMachineParser extends BaseParser {
 
             switch (alt31) {
                 case 1 :
-                    // StateMachine.g:269:9: '+' unaryExpression
+                    // StateMachine.g:266:9: '+' unrExpr= unaryExpression
                     {
-                    match(input,PLUS,FOLLOW_PLUS_in_unaryExpression1898); if (state.failed) return expr;
+                    match(input,PLUS,FOLLOW_PLUS_in_unaryExpression1870); if (state.failed) return expr;
 
-                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1900);
-                    unaryExpression();
+                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1874);
+                    unrExpr=unaryExpression();
 
                     state._fsp--;
                     if (state.failed) return expr;
+
+                    if ( state.backtracking==0 ) {expr =unrExpr;}
 
                     }
                     break;
                 case 2 :
-                    // StateMachine.g:270:9: '-' unaryExpression
+                    // StateMachine.g:267:9: '-' unrExpr= unaryExpression
                     {
-                    match(input,MINUS,FOLLOW_MINUS_in_unaryExpression1910); if (state.failed) return expr;
+                    match(input,MINUS,FOLLOW_MINUS_in_unaryExpression1886); if (state.failed) return expr;
 
-                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1912);
-                    unaryExpression();
+                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1890);
+                    unrExpr=unaryExpression();
 
                     state._fsp--;
                     if (state.failed) return expr;
+
+                    if ( state.backtracking==0 ) {   
+                            if (unrExpr.isASTLitreal())
+                                ((ASTLiteral)unrExpr).setMinus();
+
+                            if (unrExpr.isASTIdentifier())
+                                ((ASTIdentifier)unrExpr).setMinus();
+                            
+                            expr =unrExpr;
+                        }
 
                     }
                     break;
                 case 3 :
-                    // StateMachine.g:271:9: '++' unaryExpression
+                    // StateMachine.g:279:9: nUnrExprOther= unaryExpressionNotPlusMinus
                     {
-                    match(input,72,FOLLOW_72_in_unaryExpression1922); if (state.failed) return expr;
-
-                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1924);
-                    unaryExpression();
-
-                    state._fsp--;
-                    if (state.failed) return expr;
-
-                    }
-                    break;
-                case 4 :
-                    // StateMachine.g:272:9: '--' unaryExpression
-                    {
-                    match(input,74,FOLLOW_74_in_unaryExpression1934); if (state.failed) return expr;
-
-                    pushFollow(FOLLOW_unaryExpression_in_unaryExpression1936);
-                    unaryExpression();
-
-                    state._fsp--;
-                    if (state.failed) return expr;
-
-                    }
-                    break;
-                case 5 :
-                    // StateMachine.g:273:9: nUnrExprOther= unaryExpressionNotPlusMinus
-                    {
-                    pushFollow(FOLLOW_unaryExpressionNotPlusMinus_in_unaryExpression1949);
+                    pushFollow(FOLLOW_unaryExpressionNotPlusMinus_in_unaryExpression1919);
                     nUnrExprOther=unaryExpressionNotPlusMinus();
 
                     state._fsp--;
@@ -2739,7 +2724,7 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "unaryExpressionNotPlusMinus"
-    // StateMachine.g:276:1: unaryExpressionNotPlusMinus returns [ASTExpression expr] : (not= '!' UnrExpr= unaryExpression |nPriExpr= primary (postfix= ( '--' | '++' ) )? );
+    // StateMachine.g:282:1: unaryExpressionNotPlusMinus returns [ASTExpression expr] : (not= '!' UnrExpr= unaryExpression |nPriExpr= primary (postfix= ( '--' | '++' ) )? );
     public final ASTExpression unaryExpressionNotPlusMinus() throws RecognitionException {
         ASTExpression expr = null;
 
@@ -2755,7 +2740,7 @@ public class StateMachineParser extends BaseParser {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 29) ) { return expr; }
 
-            // StateMachine.g:280:5: (not= '!' UnrExpr= unaryExpression |nPriExpr= primary (postfix= ( '--' | '++' ) )? )
+            // StateMachine.g:286:5: (not= '!' UnrExpr= unaryExpression |nPriExpr= primary (postfix= ( '--' | '++' ) )? )
             int alt33=2;
             int LA33_0 = input.LA(1);
 
@@ -2775,11 +2760,11 @@ public class StateMachineParser extends BaseParser {
             }
             switch (alt33) {
                 case 1 :
-                    // StateMachine.g:280:9: not= '!' UnrExpr= unaryExpression
+                    // StateMachine.g:286:9: not= '!' UnrExpr= unaryExpression
                     {
-                    not=(Token)match(input,NOT,FOLLOW_NOT_in_unaryExpressionNotPlusMinus1980); if (state.failed) return expr;
+                    not=(Token)match(input,NOT,FOLLOW_NOT_in_unaryExpressionNotPlusMinus1950); if (state.failed) return expr;
 
-                    pushFollow(FOLLOW_unaryExpression_in_unaryExpressionNotPlusMinus1984);
+                    pushFollow(FOLLOW_unaryExpression_in_unaryExpressionNotPlusMinus1954);
                     UnrExpr=unaryExpression();
 
                     state._fsp--;
@@ -2790,15 +2775,15 @@ public class StateMachineParser extends BaseParser {
                     }
                     break;
                 case 2 :
-                    // StateMachine.g:281:9: nPriExpr= primary (postfix= ( '--' | '++' ) )?
+                    // StateMachine.g:287:9: nPriExpr= primary (postfix= ( '--' | '++' ) )?
                     {
-                    pushFollow(FOLLOW_primary_in_unaryExpressionNotPlusMinus1998);
+                    pushFollow(FOLLOW_primary_in_unaryExpressionNotPlusMinus1968);
                     nPriExpr=primary();
 
                     state._fsp--;
                     if (state.failed) return expr;
 
-                    // StateMachine.g:281:33: (postfix= ( '--' | '++' ) )?
+                    // StateMachine.g:287:33: (postfix= ( '--' | '++' ) )?
                     int alt32=2;
                     int LA32_0 = input.LA(1);
 
@@ -2807,7 +2792,7 @@ public class StateMachineParser extends BaseParser {
                     }
                     switch (alt32) {
                         case 1 :
-                            // StateMachine.g:281:33: postfix= ( '--' | '++' )
+                            // StateMachine.g:287:33: postfix= ( '--' | '++' )
                             {
                             postfix=(Token)input.LT(1);
 
@@ -2860,7 +2845,7 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "primary"
-    // StateMachine.g:292:1: primary returns [ASTExpression expr] : (pExpr= parExpression |id= identifier ( DOT member= identifier )? |nLiteralExpr= literal | PREV LPAREN pid= identifier RPAREN );
+    // StateMachine.g:298:1: primary returns [ASTExpression expr] : (pExpr= parExpression |id= identifier ( DOT member= identifier )? |nLiteralExpr= literal | PREV LPAREN pid= identifier RPAREN );
     public final ASTExpression primary() throws RecognitionException {
         ASTExpression expr = null;
 
@@ -2880,7 +2865,7 @@ public class StateMachineParser extends BaseParser {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 30) ) { return expr; }
 
-            // StateMachine.g:293:5: (pExpr= parExpression |id= identifier ( DOT member= identifier )? |nLiteralExpr= literal | PREV LPAREN pid= identifier RPAREN )
+            // StateMachine.g:299:5: (pExpr= parExpression |id= identifier ( DOT member= identifier )? |nLiteralExpr= literal | PREV LPAREN pid= identifier RPAREN )
             int alt35=4;
             switch ( input.LA(1) ) {
             case LPAREN:
@@ -2918,9 +2903,9 @@ public class StateMachineParser extends BaseParser {
 
             switch (alt35) {
                 case 1 :
-                    // StateMachine.g:293:9: pExpr= parExpression
+                    // StateMachine.g:299:9: pExpr= parExpression
                     {
-                    pushFollow(FOLLOW_parExpression_in_primary2044);
+                    pushFollow(FOLLOW_parExpression_in_primary2014);
                     pExpr=parExpression();
 
                     state._fsp--;
@@ -2931,15 +2916,15 @@ public class StateMachineParser extends BaseParser {
                     }
                     break;
                 case 2 :
-                    // StateMachine.g:294:9: id= identifier ( DOT member= identifier )?
+                    // StateMachine.g:300:9: id= identifier ( DOT member= identifier )?
                     {
-                    pushFollow(FOLLOW_identifier_in_primary2058);
+                    pushFollow(FOLLOW_identifier_in_primary2028);
                     id=identifier();
 
                     state._fsp--;
                     if (state.failed) return expr;
 
-                    // StateMachine.g:295:9: ( DOT member= identifier )?
+                    // StateMachine.g:301:9: ( DOT member= identifier )?
                     int alt34=2;
                     int LA34_0 = input.LA(1);
 
@@ -2948,11 +2933,11 @@ public class StateMachineParser extends BaseParser {
                     }
                     switch (alt34) {
                         case 1 :
-                            // StateMachine.g:295:11: DOT member= identifier
+                            // StateMachine.g:301:11: DOT member= identifier
                             {
-                            match(input,DOT,FOLLOW_DOT_in_primary2070); if (state.failed) return expr;
+                            match(input,DOT,FOLLOW_DOT_in_primary2040); if (state.failed) return expr;
 
-                            pushFollow(FOLLOW_identifier_in_primary2074);
+                            pushFollow(FOLLOW_identifier_in_primary2044);
                             member=identifier();
 
                             state._fsp--;
@@ -2978,9 +2963,9 @@ public class StateMachineParser extends BaseParser {
                     }
                     break;
                 case 3 :
-                    // StateMachine.g:306:9: nLiteralExpr= literal
+                    // StateMachine.g:312:9: nLiteralExpr= literal
                     {
-                    pushFollow(FOLLOW_literal_in_primary2099);
+                    pushFollow(FOLLOW_literal_in_primary2069);
                     nLiteralExpr=literal();
 
                     state._fsp--;
@@ -2991,19 +2976,19 @@ public class StateMachineParser extends BaseParser {
                     }
                     break;
                 case 4 :
-                    // StateMachine.g:307:9: PREV LPAREN pid= identifier RPAREN
+                    // StateMachine.g:313:9: PREV LPAREN pid= identifier RPAREN
                     {
-                    match(input,PREV,FOLLOW_PREV_in_primary2111); if (state.failed) return expr;
+                    match(input,PREV,FOLLOW_PREV_in_primary2081); if (state.failed) return expr;
 
-                    match(input,LPAREN,FOLLOW_LPAREN_in_primary2113); if (state.failed) return expr;
+                    match(input,LPAREN,FOLLOW_LPAREN_in_primary2083); if (state.failed) return expr;
 
-                    pushFollow(FOLLOW_identifier_in_primary2117);
+                    pushFollow(FOLLOW_identifier_in_primary2087);
                     pid=identifier();
 
                     state._fsp--;
                     if (state.failed) return expr;
 
-                    match(input,RPAREN,FOLLOW_RPAREN_in_primary2119); if (state.failed) return expr;
+                    match(input,RPAREN,FOLLOW_RPAREN_in_primary2089); if (state.failed) return expr;
 
                     if ( state.backtracking==0 ) {
                                 ((ASTIdentifier)pid).setExpression();
@@ -3033,7 +3018,7 @@ public class StateMachineParser extends BaseParser {
 
 
     // $ANTLR start "parExpression"
-    // StateMachine.g:315:1: parExpression returns [ASTExpression expr] : '(' e= expression ')' ;
+    // StateMachine.g:321:1: parExpression returns [ASTExpression expr] : '(' e= expression ')' ;
     public final ASTExpression parExpression() throws RecognitionException {
         ASTExpression expr = null;
 
@@ -3045,12 +3030,12 @@ public class StateMachineParser extends BaseParser {
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 31) ) { return expr; }
 
-            // StateMachine.g:316:5: ( '(' e= expression ')' )
-            // StateMachine.g:316:9: '(' e= expression ')'
+            // StateMachine.g:322:5: ( '(' e= expression ')' )
+            // StateMachine.g:322:9: '(' e= expression ')'
             {
-            match(input,LPAREN,FOLLOW_LPAREN_in_parExpression2145); if (state.failed) return expr;
+            match(input,LPAREN,FOLLOW_LPAREN_in_parExpression2115); if (state.failed) return expr;
 
-            pushFollow(FOLLOW_expression_in_parExpression2149);
+            pushFollow(FOLLOW_expression_in_parExpression2119);
             e=expression();
 
             state._fsp--;
@@ -3058,7 +3043,7 @@ public class StateMachineParser extends BaseParser {
 
             if ( state.backtracking==0 ) {expr =e;}
 
-            match(input,RPAREN,FOLLOW_RPAREN_in_parExpression2153); if (state.failed) return expr;
+            match(input,RPAREN,FOLLOW_RPAREN_in_parExpression2123); if (state.failed) return expr;
 
             }
 
@@ -3094,10 +3079,10 @@ public class StateMachineParser extends BaseParser {
     public static final BitSet FOLLOW_stateModifier_in_state173 = new BitSet(new long[]{0x6000400000800010L});
     public static final BitSet FOLLOW_STATE_in_state203 = new BitSet(new long[]{0x0000000040000000L});
     public static final BitSet FOLLOW_identifier_in_state207 = new BitSet(new long[]{0x0000002000000000L});
-    public static final BitSet FOLLOW_LBRACE_in_state211 = new BitSet(new long[]{0x80DC8A0340080B00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_localVariableDecl_in_state224 = new BitSet(new long[]{0x80DC8A0340080B00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_LBRACE_in_state211 = new BitSet(new long[]{0x80DC8A0340080B00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_localVariableDecl_in_state224 = new BitSet(new long[]{0x80DC8A0340080B00L,0x0000000000000001L});
     public static final BitSet FOLLOW_expression_in_state243 = new BitSet(new long[]{0x0200000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_state245 = new BitSet(new long[]{0x009C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_SEMI_in_state245 = new BitSet(new long[]{0x009C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_RBRACE_in_state256 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_TRANS_in_trans273 = new BitSet(new long[]{0x0000000040000000L});
     public static final BitSet FOLLOW_identifier_in_trans280 = new BitSet(new long[]{0x0000002000000000L});
@@ -3107,15 +3092,15 @@ public class StateMachineParser extends BaseParser {
     public static final BitSet FOLLOW_identifier_in_trans321 = new BitSet(new long[]{0x0002000000000000L});
     public static final BitSet FOLLOW_ON_in_trans334 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000001L});
     public static final BitSet FOLLOW_label_in_trans339 = new BitSet(new long[]{0x0010000000000000L,0x0000000000000004L});
-    public static final BitSet FOLLOW_WHERE_in_trans353 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_WHERE_in_trans353 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_expression_in_trans357 = new BitSet(new long[]{0x0200000000000000L});
     public static final BitSet FOLLOW_SEMI_in_trans361 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_RBRACE_in_trans369 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_INVARIANT_in_invariantExpression381 = new BitSet(new long[]{0x0000002040000000L});
     public static final BitSet FOLLOW_identifier_in_invariantExpression393 = new BitSet(new long[]{0x0000002000000000L});
-    public static final BitSet FOLLOW_LBRACE_in_invariantExpression403 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_LBRACE_in_invariantExpression403 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_expression_in_invariantExpression415 = new BitSet(new long[]{0x0200000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_invariantExpression417 = new BitSet(new long[]{0x009C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_SEMI_in_invariantExpression417 = new BitSet(new long[]{0x009C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_RBRACE_in_invariantExpression426 = new BitSet(new long[]{0x0000000001000002L});
     public static final BitSet FOLLOW_FOR_in_invariantExpression438 = new BitSet(new long[]{0x0000002000000000L});
     public static final BitSet FOLLOW_LBRACE_in_invariantExpression440 = new BitSet(new long[]{0x0000000040000000L});
@@ -3153,13 +3138,13 @@ public class StateMachineParser extends BaseParser {
     public static final BitSet FOLLOW_identifier_in_enumType828 = new BitSet(new long[]{0x0010000000010000L});
     public static final BitSet FOLLOW_RBRACE_in_enumType834 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_identifier_in_variableDeclarator858 = new BitSet(new long[]{0x0000000000200002L,0x0000000000000004L});
-    public static final BitSet FOLLOW_EQUAL_in_variableDeclarator876 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_EQUAL_in_variableDeclarator876 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_variableInitializer_in_variableDeclarator880 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000004L});
-    public static final BitSet FOLLOW_WHERE_in_variableDeclarator892 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_WHERE_in_variableDeclarator892 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_expression_in_variableDeclarator896 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_expression_in_variableInitializer924 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_conditionalImpliesExpression_in_expression954 = new BitSet(new long[]{0x0000000000200002L,0x0000000000001A80L});
-    public static final BitSet FOLLOW_assignmentOperator_in_expression983 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_assignmentOperator_in_expression983 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_expression_in_expression987 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_EQUAL_in_assignmentOperator1039 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_73_in_assignmentOperator1055 = new BitSet(new long[]{0x0000000000000002L});
@@ -3167,57 +3152,53 @@ public class StateMachineParser extends BaseParser {
     public static final BitSet FOLLOW_71_in_assignmentOperator1085 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_76_in_assignmentOperator1100 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_conditionalOrExpression_in_conditionalImpliesExpression1123 = new BitSet(new long[]{0x0000000080000002L});
-    public static final BitSet FOLLOW_IMPLIES_in_conditionalImpliesExpression1151 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_IMPLIES_in_conditionalImpliesExpression1151 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_conditionalOrExpression_in_conditionalImpliesExpression1155 = new BitSet(new long[]{0x0000000080000002L});
     public static final BitSet FOLLOW_conditionalAndExpression_in_conditionalOrExpression1202 = new BitSet(new long[]{0x0000000000000002L,0x0000000000010000L});
-    public static final BitSet FOLLOW_80_in_conditionalOrExpression1230 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_80_in_conditionalOrExpression1230 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_conditionalAndExpression_in_conditionalOrExpression1234 = new BitSet(new long[]{0x0000000000000002L,0x0000000000010000L});
     public static final BitSet FOLLOW_conditionalXorExpression_in_conditionalAndExpression1284 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000040L});
-    public static final BitSet FOLLOW_70_in_conditionalAndExpression1314 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_70_in_conditionalAndExpression1314 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_conditionalXorExpression_in_conditionalAndExpression1318 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000040L});
     public static final BitSet FOLLOW_equalityExpression_in_conditionalXorExpression1369 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000010L});
-    public static final BitSet FOLLOW_XOR_in_conditionalXorExpression1397 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_XOR_in_conditionalXorExpression1397 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_equalityExpression_in_conditionalXorExpression1401 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000010L});
     public static final BitSet FOLLOW_relationalExpression_in_equalityExpression1449 = new BitSet(new long[]{0x0001000000000002L,0x0000000000002000L});
-    public static final BitSet FOLLOW_set_in_equalityExpression1469 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_set_in_equalityExpression1469 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_relationalExpression_in_equalityExpression1480 = new BitSet(new long[]{0x0001000000000002L,0x0000000000002000L});
     public static final BitSet FOLLOW_additiveExpression_in_relationalExpression1517 = new BitSet(new long[]{0x000001800C000002L});
-    public static final BitSet FOLLOW_relationalOp_in_relationalExpression1545 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_relationalOp_in_relationalExpression1545 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_additiveExpression_in_relationalExpression1549 = new BitSet(new long[]{0x000001800C000002L});
     public static final BitSet FOLLOW_LESS_EQUAL_in_relationalOp1596 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_GREATER_EQUAL_in_relationalOp1611 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_LESS_in_relationalOp1626 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_GREATER_in_relationalOp1642 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_multiplicativeExpression_in_additiveExpression1670 = new BitSet(new long[]{0x0004080000000002L});
-    public static final BitSet FOLLOW_set_in_additiveExpression1701 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
+    public static final BitSet FOLLOW_set_in_additiveExpression1701 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
     public static final BitSet FOLLOW_multiplicativeExpression_in_additiveExpression1711 = new BitSet(new long[]{0x0004080000000002L});
     public static final BitSet FOLLOW_unaryExpression_in_multiplicativeExpression1767 = new BitSet(new long[]{0x1400000000000002L,0x0000000000000020L});
-    public static final BitSet FOLLOW_set_in_multiplicativeExpression1796 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_multiplicativeExpression1864 = new BitSet(new long[]{0x1400000000000002L,0x0000000000000020L});
-    public static final BitSet FOLLOW_PLUS_in_unaryExpression1898 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1900 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_unaryExpression1910 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1912 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_72_in_unaryExpression1922 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1924 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_74_in_unaryExpression1934 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1936 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_unaryExpressionNotPlusMinus_in_unaryExpression1949 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NOT_in_unaryExpressionNotPlusMinus1980 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_unaryExpression_in_unaryExpressionNotPlusMinus1984 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_primary_in_unaryExpressionNotPlusMinus1998 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000500L});
-    public static final BitSet FOLLOW_set_in_unaryExpressionNotPlusMinus2002 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_parExpression_in_primary2044 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_identifier_in_primary2058 = new BitSet(new long[]{0x0000000000020002L});
-    public static final BitSet FOLLOW_DOT_in_primary2070 = new BitSet(new long[]{0x0000000040000000L});
-    public static final BitSet FOLLOW_identifier_in_primary2074 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_literal_in_primary2099 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PREV_in_primary2111 = new BitSet(new long[]{0x0000020000000000L});
-    public static final BitSet FOLLOW_LPAREN_in_primary2113 = new BitSet(new long[]{0x0000000040000000L});
-    public static final BitSet FOLLOW_identifier_in_primary2117 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_primary2119 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_parExpression2145 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000501L});
-    public static final BitSet FOLLOW_expression_in_parExpression2149 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_RPAREN_in_parExpression2153 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_multiplicativeExpression1800 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_unaryExpression_in_multiplicativeExpression1834 = new BitSet(new long[]{0x1400000000000002L,0x0000000000000020L});
+    public static final BitSet FOLLOW_PLUS_in_unaryExpression1870 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1874 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_unaryExpression1886 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_unaryExpression_in_unaryExpression1890 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_unaryExpressionNotPlusMinus_in_unaryExpression1919 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NOT_in_unaryExpressionNotPlusMinus1950 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_unaryExpression_in_unaryExpressionNotPlusMinus1954 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_primary_in_unaryExpressionNotPlusMinus1968 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000500L});
+    public static final BitSet FOLLOW_set_in_unaryExpressionNotPlusMinus1972 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_parExpression_in_primary2014 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_identifier_in_primary2028 = new BitSet(new long[]{0x0000000000020002L});
+    public static final BitSet FOLLOW_DOT_in_primary2040 = new BitSet(new long[]{0x0000000040000000L});
+    public static final BitSet FOLLOW_identifier_in_primary2044 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_literal_in_primary2069 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PREV_in_primary2081 = new BitSet(new long[]{0x0000020000000000L});
+    public static final BitSet FOLLOW_LPAREN_in_primary2083 = new BitSet(new long[]{0x0000000040000000L});
+    public static final BitSet FOLLOW_identifier_in_primary2087 = new BitSet(new long[]{0x0100000000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_primary2089 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LPAREN_in_parExpression2115 = new BitSet(new long[]{0x008C8A0240000A00L,0x0000000000000001L});
+    public static final BitSet FOLLOW_expression_in_parExpression2119 = new BitSet(new long[]{0x0100000000000000L});
+    public static final BitSet FOLLOW_RPAREN_in_parExpression2123 = new BitSet(new long[]{0x0000000000000002L});
 
 }
