@@ -1,5 +1,5 @@
 package org.nuim.cyclone.model;
-
+import org.nuim.cyclone.model.type.spec.TransType;
 public class Transition extends Expression {
 
     /* we use only src and tar in AST traversal */
@@ -15,11 +15,11 @@ public class Transition extends Expression {
     private Expression whereExpr;
 
     public Transition(String name){
-        super(name);
+        super(name, new TransType());
     }
     
     public Transition(String name, String label){
-        super(name);
+        super(name, new TransType());
         this.setLabel(label);
     }
 
@@ -27,7 +27,8 @@ public class Transition extends Expression {
         super(name, info);
         this.src = src;
         this.tar = tar;
-    }   
+        this.setType(new TransType());
+    } 
 
     public void setSrc(String src){this.src=src;}
     public void setTar(String tar){this.tar=tar;}

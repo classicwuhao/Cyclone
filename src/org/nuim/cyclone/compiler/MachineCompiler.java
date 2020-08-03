@@ -41,10 +41,11 @@ public class MachineCompiler {
 
         lexer.init(errHandler);
         parser.init(errHandler);
+        ASTContext context = new ASTContext(inName, err);
 
         try{
             ASTMachine node=parser.machine();
-            Machine machine=node.gen(new ASTContext());
+            Machine machine=node.gen(context);
             out.println(machine.toString(),Color.BLUE);
 
             if (errHandler.errorCount() == 0 ){

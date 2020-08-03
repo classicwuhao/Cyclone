@@ -4,6 +4,7 @@ import org.nuim.cyclone.model.Machine;
 import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.Transition;
 import org.nuim.cyclone.model.InvalidSpecException;
+import org.nuim.cyclone.model.Invariant;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,18 +13,14 @@ import java.util.ArrayList;
  */ 
 public class ASTMachine extends ASTExpression{
     private GlobalVariables variables = new GlobalVariables();
+    private List<ASTVariable> vars = new ArrayList<ASTVariable>();
     private List<ASTState> states = new ArrayList<ASTState>();
-    private List<ASTInvariant> invaraints = new ArrayList<ASTInvariant>();
+    private List<ASTInvariant> invariants = new ArrayList<ASTInvariant>();
     private List<ASTTransition> transitions = new ArrayList<ASTTransition>();
-
-    Machine machine;
+    private Machine machine;
 
     public ASTMachine(String name){
         super(name);
-        machine = new Machine();
-        this.setContext(new ASTContext());
-        //context.setVariables(variables);
-        this.context().setVariables(variables);
     }
 
     @Override
@@ -33,7 +30,11 @@ public class ASTMachine extends ASTExpression{
         sb.append(this.name());
         return sb.toString();
     }
-    
+
+    public void addVariable(ASTVariable node){
+        vars.add(node);
+    } 
+
     public void addState(ASTState state){
         this.states.add(state);
     }
@@ -42,25 +43,31 @@ public class ASTMachine extends ASTExpression{
         this.transitions.add(trans);
     }
 
-    public void addVariable(ASTVariable node){
-        try{
-            //this.context.variables().add(node.gen(this.context));
-            variables.add(node.gen(this.context()));
-        }
-        catch (SemanticException e){
-            System.err.println(e.getMessage());
-        }
-    } 
+    public void addInv(ASTInvariant inv){
+        this.invariants.add(inv);
+    }
 
     @Override
     /* generate our Machine */ 
     public Machine gen(ASTContext context){
-        
-        machine.setName(this.name());
+        machine = new Machine(this.name());
+        context.setVariables(this.variables);
+        this.setContext(context);
+        /* 
+         * Variables.
+         * */ 
+        for (ASTVariable var : vars){
+            try{
+                this.variables.add(var.gen(context));
+            }
+            catch(SemanticException e){
+                context.out().println(e.getMessage());
+            }
+        }
         machine.setVariables(this.variables);
-        context = this.context();
-        context.setVariables(variables);
-
+        /**
+         * States.
+         */
         for (int i=0;i<this.states.size();i++){
             ASTState aststate = this.states.get(i);
             try{
@@ -70,13 +77,15 @@ public class ASTMachine extends ASTExpression{
             }
             catch(SemanticException e){
                 System.err.println("State "+ aststate.name()+ " cannot be generated - "+e.getMessage());
-                //context.logError(aststate.token()," cannot generate state",true);
             }
             catch(InvalidSpecException e){ // we do not log error here as it is recorded.
                 System.err.println(e.getMessage());
             }
         }
 
+        /**
+         * Transitions.
+         */
         for (int i=0;i<this.transitions.size();i++){
             ASTTransition asttran=this.transitions.get(i);
             try{
@@ -90,6 +99,25 @@ public class ASTMachine extends ASTExpression{
                 System.err.println(e.getMessage());
             }
         }
+
+        /**
+         * Invariants.
+         */
+
+        for (int i=0;i<this.invariants.size();i++){
+            ASTInvariant astinv = this.invariants.get(i);
+            try{
+                Invariant inv = astinv.gen(context);
+                machine.addInvariant(inv);
+            }
+            catch(SemanticException e){
+                System.err.println("Invariant "+astinv.name()+" cannot be generated - "+e.getMessage());
+            }
+            catch (InvalidSpecException e){
+                System.err.println(e.getMessage());
+            }
+        }
+        
         return machine;
     }
     

@@ -91,12 +91,21 @@ public class ASTState extends ASTExpression{
 
         context.setState(state.name());
         context.setLocalVariables(state.localVariables());
-
+        /* set this flag to allow state accessor to be used in our expressions. */ 
+        context.set_trans_flag();
         for (ASTExpression expr:this.exprs){
             Expression e = expr.gen(context);
             state.addExpression(e);
         }
-        
+        context.reset_trans_flag();
+        /* reset the flag */ 
+
+        if (state.isAbstract() && (state.size_of_variables()!=0 || state.size_of_exprs()!=0)){
+            context.out().println("Warnning: state "+ state.name() + " is abstract, its local variables and expressions are ignored.");
+            context.out().flush();
+            state.clearAll();
+        }
+
         state.setSrcInfo(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         context.setState("");
         return state;

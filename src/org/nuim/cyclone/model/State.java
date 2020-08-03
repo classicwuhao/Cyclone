@@ -1,6 +1,7 @@
 package org.nuim.cyclone.model;
 import org.nuim.cyclone.parser.ast.SymTable64;
 import org.nuim.cyclone.parser.ast.SemanticException;
+import org.nuim.cyclone.model.type.spec.StateType;
 import org.nuim.cyclone.util.BitVector;
 import java.util.List;
 import java.util.ArrayList;
@@ -16,19 +17,20 @@ public class State extends Expression{
     private Machine owner=null;
     
     public State(){
-        super();
+        super(new StateType());
     }
 
     public State(SrcInfo info){
         super(info);
+        this.setType(new StateType());
     }
 
     public State(String name){
-        super(name);
+        super(name, new StateType());
     }
 
     public State(String name, BitVector modifier){
-        super(name);
+        super(name, new StateType());
         this.modifier=modifier;
     }
 
@@ -61,9 +63,31 @@ public class State extends Expression{
             // error message
         }
     }
-
+    public int size_of_variables(){return this.localVariables.size();}
+    public int size_of_exprs(){return this.expressions.size();}
+    public List<Expression> expressions(){return this.expressions;}
+    
+    public void clearAll(){
+        this.localVariables.clear();
+    }
     public SymTable64 localVariables(){return this.localVariables;}
     
+    public boolean isStart(){
+        return this.modifier.and(StateModifier.START.bits()).equals(StateModifier.START.bits());
+    }
+
+    public boolean isAbstract(){
+        return this.modifier.and(StateModifier.ABSTRACT.bits()).equals(StateModifier.ABSTRACT.bits());
+    }
+
+    public boolean isNormal(){
+        return this.modifier.and(StateModifier.NORMAL.bits()).equals(StateModifier.NORMAL.bits());
+    }
+
+    public boolean isFinal(){
+        return this.modifier.and(StateModifier.FINAL.bits()).equals(StateModifier.FINAL.bits());
+    }
+
     private String modifier2string(){
         String modistr="";
         if (this.modifier==null) return modistr;

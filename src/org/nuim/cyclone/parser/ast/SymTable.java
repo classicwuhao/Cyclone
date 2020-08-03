@@ -19,7 +19,8 @@ public class SymTable {
     }
 
     public int size(){return table32.size();}
-     
+    public void clear(){table32.clear();} 
+    
     public String toString(){
         StringBuffer sb = new StringBuffer();
         sb.append("{ (");

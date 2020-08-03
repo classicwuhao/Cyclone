@@ -17,7 +17,10 @@ public class ASTVariable extends ASTExpression{
     
     public ASTVariable(){super();}
     /* create a new variable for our machine */
-    public void createVariable(){this.variable=new Variable(type,name);}
+    public void createVariable(){
+        this.setName(name);
+        this.variable=new Variable(type,name);
+    }
     public Variable variable(){return this.variable;}
     public void setToken(Token token){this.token=token;}
 

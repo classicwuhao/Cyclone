@@ -12,9 +12,11 @@ import java.util.Map;
 import java.util.TreeMap;
 /*
  * Context information when we traverse ASTs.
+ * 
+ * @TODO: we also need to record any warnning messages for users.
  * */ 
 public class ASTContext extends NamedElement{
-
+    private PrintWriter out; 
     private GlobalVariables variables;
     private SymTable64 localVariables;
     private int errors=0; //number of semantic errors.
@@ -23,7 +25,7 @@ public class ASTContext extends NamedElement{
     private Entry<String,Variable> localInfo; // used for where epxression.
     private String current_state; //use for state member accessor. Example: S1.x=prev(S1.x)+1
     private String extra_info; //use for extra information message.
-    Map<String, State> states = new TreeMap<String, State>();
+    private Map<String, State> states = new TreeMap<String, State>();
 
     /* All important flags during AST traversal to help determine its semantics. */ 
 
@@ -54,6 +56,12 @@ public class ASTContext extends NamedElement{
         initialisation();
     }
 
+    public ASTContext (String name, PrintWriter out){
+        super(name);
+        this.out=out;
+        initialisation();
+    }
+
     private void initialisation(){
         localVariables =  new SymTable64();
     }
@@ -65,6 +73,8 @@ public class ASTContext extends NamedElement{
     public State fetch(String name){
         return states.get(name);
     }
+
+    public PrintWriter out(){return this.out;}
 
     public void setVariables(GlobalVariables variables){this.variables=variables;}
     public GlobalVariables variables(){return this.variables;}
@@ -79,6 +89,7 @@ public class ASTContext extends NamedElement{
     
     public void set_trans_flag(){this.trans_where_flag=true;}
     public void reset_trans_flag(){this.trans_where_flag=false;}
+    public boolean trans_flag(){return this.trans_where_flag;}
 
     public void set_extra_info(String message){
         this.extra_info=message;

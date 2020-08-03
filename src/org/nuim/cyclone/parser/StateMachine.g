@@ -47,8 +47,9 @@ machine returns [ASTMachine machine]:
 
     MACHINE name=identifier {$machine = new ASTMachine( ((ASTIdentifier) name).identifier() );} LBRACE
         (v=globalVariableDecl {$machine.addVariable(v);})*
-        (s=state {$machine.addState(s);} )* (t=trans {$machine.addTrans(t);})*
-        (invariantExpression)*
+        (s=state {$machine.addState(s);} )* 
+        (t=trans {$machine.addTrans(t);})*
+        (i=invariantExpression {$machine.addInv(i);})*
     RBRACE EOF
 ;
 
@@ -92,14 +93,17 @@ trans returns [ASTTransition asttran]
     RBRACE
 ;
 
-invariantExpression:
-    INVARIANT 
-        (identifier) ? 
+invariantExpression returns [ASTInvariant astinv]
+@init{
+    $astinv = new ASTInvariant();
+}
+:   INVARIANT 
+       name = identifier {$astinv.setToken(name.token());}
     LBRACE 
-        (expression SEMI)+ 
+        (e=expression SEMI {$astinv.addExpr(e);})+ 
     RBRACE
     
-    (FOR LBRACE identifier (COMMA identifier)* RBRACE)?
+    (FOR LBRACE s=identifier {$astinv.addState(s);} (COMMA t=identifier {$astinv.addState(t);} )* RBRACE)?
 ;
 
 label returns [ASTLiteral literal_node]:

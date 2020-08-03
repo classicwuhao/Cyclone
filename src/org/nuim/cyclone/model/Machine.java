@@ -1,4 +1,6 @@
 package org.nuim.cyclone.model;
+import org.nuim.cyclone.model.type.spec.MachineType;
+import org.nuim.cyclone.model.type.BoolType;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -6,20 +8,20 @@ public class Machine extends Expression{
     private GlobalVariables variables;
     private Map<String, State> states = new TreeMap<String, State>();
     private Map<String, Transition> transitions = new TreeMap<String, Transition>();
+    private Map<String, Invariant> invariants = new TreeMap<String, Invariant>();
 
     public Machine(){
-        super();
+        super(new MachineType());
         setLog(new ErrorLog());
     }
 
     public Machine(String name){
-        super(name);
+        super(name,new MachineType());
         setLog(new ErrorLog());
     }
     
     public void setVariables (GlobalVariables variables){
         this.variables = variables;
-        
     }
 
     public int errors(){
@@ -65,6 +67,32 @@ public class Machine extends Expression{
 
     }
 
+    public void addInvariant(Invariant inv) throws InvalidSpecException{
+        if (invariants.containsKey(inv.name())){
+            logErrors(inv.info()," Spec has already contained an invariant: "+inv.name());
+            throw new InvalidSpecException(inv.info(), "Spec has already contained an invariant: "+inv.name());
+        }
+        
+        /* check if every expression is boolean */ 
+        for (Expression expr : inv.expressions()){
+            if (!expr.type().equals(new BoolType())){
+                logErrors(inv.info()," expression must be bool "+expr.toString());
+                throw new InvalidSpecException(" expression must be bool "+expr.toString());
+            }
+        }
+        
+        inv.setOwner(this);
+        invariants.put(inv.name(),inv);
+    }
+
+    public Invariant getInv(String name){
+        return invariants.get(name);
+    }
+
+    public Transition getTran(String name){
+        return transitions.get(name);
+    }
+
     public State getState(String name){
         State state;
         if (states.containsKey(name)) {
@@ -73,6 +101,10 @@ public class Machine extends Expression{
         }
         return null;
     }
+
+    public int size_of_states(){return states.size();}
+    public int size_of_transitions(){return transitions.size();}
+    public int size_of_invariants(){return invariants.size();}
 
     @Override
     public boolean isMachine(){return true;}
@@ -91,6 +123,12 @@ public class Machine extends Expression{
 
         for (String name: transitions.keySet()){
             sb.append(transitions.get(name));
+            sb.append("\n");
+        }
+        sb.append("\n");
+
+        for (String name : invariants.keySet()){
+            sb.append(invariants.get(name));
             sb.append("\n");
         }
 

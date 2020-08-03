@@ -41,6 +41,11 @@ public class ASTMember extends ASTExpression {
             throw new SemanticException(token," prev cannot be applied to a state member.");
         }
 
+        if (!context.trans_flag()){
+            context.logError(token, " state accessor cannot be used here.",true);
+            throw new SemanticException(token, " state accessor "+ source.name()+"."+member.name() +" cannot be used here.");
+        }
+
         /* State accessor:
          * check if this state accessor is the same as source state.
          * 

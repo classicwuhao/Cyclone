@@ -22,6 +22,8 @@ public class SymTable64 {
         return table64.get(hash(var.name()));
     }
 
+    public void clear(){table64.clear();}
+    
     public int size(){return table64.size();}
 
     /* 64-bit hashing */

@@ -4,7 +4,7 @@ import org.nuim.cyclone.model.IdentExpr;
 import org.nuim.cyclone.model.Variable;
 import org.nuim.cyclone.model.SrcInfo;
 
-public class ASTIdentifier  extends ASTExpression {
+public class ASTIdentifier extends ASTExpression {
     private Token token;
     //indicate if this identifier is inside an expression.
     private boolean insideExpression=false;
