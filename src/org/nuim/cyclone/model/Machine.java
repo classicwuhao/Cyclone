@@ -57,6 +57,14 @@ public class Machine extends Expression{
             throw new InvalidSpecException(trans.info(), " cannot find target state: "+tar+" in current spec.");
         }
 
+        Expression expr = trans.whereExpr();
+        if (expr!=null){
+            if (!expr.type().equals(new BoolType())){
+                logErrors(expr.info(), " expression must be bool.");
+                throw new InvalidSpecException(expr.info(), " expect a bool expression, "+expr.toString());
+            }
+        }
+
         State source = states.get(src);
         State target = states.get(tar);
 
@@ -77,7 +85,7 @@ public class Machine extends Expression{
         for (Expression expr : inv.expressions()){
             if (!expr.type().equals(new BoolType())){
                 logErrors(inv.info()," expression must be bool "+expr.toString());
-                throw new InvalidSpecException(" expression must be bool "+expr.toString());
+                throw new InvalidSpecException(inv.info()," expect a bool expression, "+expr.toString());
             }
         }
         

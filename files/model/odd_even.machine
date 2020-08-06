@@ -1,0 +1,14 @@
+
+/* a standard DFA machine */
+machine odd_even{
+
+    abstract start state S0{}
+    abstract final state S1{}
+
+
+    transition t1 {S0 -> S1 on "0"}
+    transition t2 {S0 -> S0 on "1"}
+    transition t3 {S1 -> S0 on "0"}
+    transition t4 {S1 -> S1 on "1"}
+
+}

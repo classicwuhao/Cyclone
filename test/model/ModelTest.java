@@ -15,6 +15,8 @@ import org.nuim.cyclone.compiler.MachineCompiler;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.nuim.cyclone.util.BitVector;
+import org.nuim.cyclone.util.AdjList;
+import java.util.List;
 
 public class ModelTest {
     public ModelTest(){
@@ -23,18 +25,35 @@ public class ModelTest {
 
     public static void main (String args[]){
         ModelTest parser = new ModelTest();
-        System.out.println("Testing semantics...");
     }
 
     @Test
     public void test0(){
         ModelTest model = new ModelTest();
-        //BitVector bv = new BitVector(11,true);
-        //System.out.println(bv.equals(1001));
-       // System.out.println(bv.and(1111));
-
         assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case0());
+    }
 
+   @Test
+    public void test1(){
+        ModelTest model = new ModelTest();
+        assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case1());
+    }
+
+    @Test
+    public void test2(){
+        ModelTest model = new ModelTest();
+        assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case2());
+
+        AdjList<Integer> al = new AdjList<Integer>(5);
+        al.set_head(Integer.valueOf(5),1);
+        al.add(Integer.valueOf(2),1);
+        al.add(Integer.valueOf(3),1);
+        al.add(Integer.valueOf(4),1);
+
+        List<Integer> list = al.get_head_all(1);
+        for (Integer i:list){
+            System.out.print(i +" ");
+        }
     }
 
     public int Case0(){
@@ -48,7 +67,32 @@ public class ModelTest {
             err.println("Error:"+e.getMessage());
             return -1;
         }
+    }
 
+    public int Case1(){
+        PrintWriter err = new PrintWriter(System.err);
+        try{
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/model/empty.machine"));
+            int k=MachineCompiler.compileMachine(in,"File",err);
+            return k;
+        }
+        catch(FileNotFoundException e){
+            err.println("Error:"+e.getMessage());
+            return -1;
+        }
+    }
+
+    public int Case2(){
+        PrintWriter err = new PrintWriter(System.err);
+        try{
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/model/odd_even.machine"));
+            int k=MachineCompiler.compileMachine(in,"File",err);
+            return k;
+        }
+        catch(FileNotFoundException e){
+            err.println("Error:"+e.getMessage());
+            return -1;
+        }
     }
 
 }
