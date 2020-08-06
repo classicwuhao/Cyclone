@@ -10,7 +10,7 @@ public class Transition extends Expression {
     private Machine owner;
     private State srcState;
     private State tarState;
-    private String label;
+    private String label="";
     //where expression
     private Expression whereExpr;
 
@@ -37,6 +37,7 @@ public class Transition extends Expression {
 
     public void setLabel(String label){this.label=label;}
     public String label(){return this.label;}
+    public boolean hasLabel(){return this.label!=null;}
     public Machine owner(){return this.owner;}
     public void setOwner(Machine owner){this.owner=owner;}
     public void setSource(State state){this.srcState=state;}
@@ -56,8 +57,10 @@ public class Transition extends Expression {
         sb.append(srcState.name());
         sb.append(" -> ");
         sb.append(tarState.name());
-        sb.append(" on ");
-        sb.append(label);
+        if (this.hasLabel()){
+            sb.append(" on ");
+            sb.append(label);
+        }
         if (whereExpr!=null){
             sb.append(" where ");
             sb.append(whereExpr.toString());

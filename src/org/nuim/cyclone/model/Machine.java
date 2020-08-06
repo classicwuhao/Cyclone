@@ -3,13 +3,17 @@ import org.nuim.cyclone.model.type.spec.MachineType;
 import org.nuim.cyclone.model.type.BoolType;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Machine extends Expression{
     private GlobalVariables variables;
     private Map<String, State> states = new TreeMap<String, State>();
     private Map<String, Transition> transitions = new TreeMap<String, Transition>();
     private Map<String, Invariant> invariants = new TreeMap<String, Invariant>();
-
+    private State start_state;
+    private List<State> final_states = new ArrayList<State>();
+    
     public Machine(){
         super(new MachineType());
         setLog(new ErrorLog());
@@ -34,6 +38,19 @@ public class Machine extends Expression{
             throw new InvalidSpecException(state.info()," Spec has already contained a state: "+state.name());  
         }
 
+        /* we only allow one state to be starting state. */
+        if (state.isStart()){
+            if (start_state==null){
+                start_state = state;
+            }
+            else{
+                logErrors(state.info()," start state is already defined. ");
+                throw new InvalidSpecException(state.info()," state " + start_state.name()+" is already a start state.");
+            }
+        }
+
+        if (state.isFinal()) final_states.add(state);
+        
         states.put(state.name(),state);
         state.setOwner(this);
     }
@@ -108,6 +125,14 @@ public class Machine extends Expression{
             return state;
         }
         return null;
+    }
+
+    public State getStartState(){
+        return this.start_state;
+    }
+
+    public List<State> getFinalStates(){
+        return this.final_states;
     }
 
     public int size_of_states(){return states.size();}

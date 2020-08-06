@@ -19,7 +19,7 @@ machine Counter{
 	}
 
 	transition t1 {S0 -> S1 on "counter--" where S0.visited==true && counter>=8;}
-	transition t2 {S1 -> S0 on "counter++"}
+	transition t2 {S1 -> S0 where counter>=0 && counter<=8;}
 	transition t3 {S0 -> S0 on "counter++"}
 	transition t4 {S1 -> S1 on "counter--"}
 	

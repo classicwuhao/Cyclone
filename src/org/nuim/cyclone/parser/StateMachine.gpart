@@ -88,7 +88,7 @@ trans returns [ASTTransition asttran]
 : TRANS (name = identifier) {$asttran.setName(name.identifier());} LBRACE
         (src = identifier) {$asttran.setSrc(src.token());} 
         ARROW (tar = identifier) {$asttran.setTar(tar.token());}
-        ON (l=label) {$asttran.setLabel(l.toString());}
+        (ON (l=label) {$asttran.setLabel(l.toString());})?
         (WHERE e=expression {$asttran.setExpression(e);} SEMI)?
     RBRACE
 ;
