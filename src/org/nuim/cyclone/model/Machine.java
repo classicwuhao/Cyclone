@@ -1,6 +1,7 @@
 package org.nuim.cyclone.model;
 import org.nuim.cyclone.model.type.spec.MachineType;
 import org.nuim.cyclone.model.type.BoolType;
+import org.nuim.cyclone.compiler.graph.StateMatrix;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Machine extends Expression{
     private Map<String, Invariant> invariants = new TreeMap<String, Invariant>();
     private State start_state;
     private List<State> final_states = new ArrayList<State>();
-    
+
     public Machine(){
         super(new MachineType());
         setLog(new ErrorLog());
@@ -127,6 +128,20 @@ public class Machine extends Expression{
         return null;
     }
 
+    public List<State> AllStates(){
+        List<State> states = new ArrayList<State>();
+        for (String key : this.states.keySet()) states.add(this.states.get(key));
+        return states;
+    }
+    
+    public List<Transition> AllTrans(){
+        List<Transition> trans = new ArrayList<Transition>();
+        for (String key : this.transitions.keySet())
+            trans.add(this.transitions.get(key));
+
+        return trans;
+    }
+    
     public State getStartState(){
         return this.start_state;
     }

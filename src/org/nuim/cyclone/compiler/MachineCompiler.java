@@ -1,7 +1,5 @@
 package org.nuim.cyclone.compiler;
 
-import java.io.PrintStream;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -13,6 +11,7 @@ import org.nuim.cyclone.util.*;
 import org.nuim.cyclone.parser.ast.ASTMachine;
 import org.nuim.cyclone.parser.ast.*;
 import org.nuim.cyclone.model.Machine;
+import org.nuim.cyclone.compiler.graph.StateMatrix;
 
 public class MachineCompiler {
 
@@ -47,7 +46,7 @@ public class MachineCompiler {
             ASTMachine node=parser.machine();
             Machine machine=node.gen(context);
             out.println(machine.toString(),Color.BLUE);
-
+            
             if (errHandler.errorCount() == 0 ){
                 out.println("Syntax checking done.",Color.GREEN);
             }
@@ -64,14 +63,25 @@ public class MachineCompiler {
                 COMPILE_RESULT = COMPILE_ERROR;
             }
 
-            if (machine.errors()==0){
-                out.println("Type/Spec checking done.",Color.GREEN);
-            }
-            else{
+            if (machine.errors()!=0){
                 out.println(machine.errors()+" type/spec error(s).",Color.RED);
                 COMPILE_RESULT = COMPILE_ERROR;
+                out.println("Compile is failed.",Color.RED);
+                return COMPILE_RESULT;
             }
+            
+            out.println("Type/Spec checking done.",Color.GREEN);
+            StateMatrix matrix = new StateMatrix(machine);
+            out.println(matrix.toString(),Color.BLUE);    
+            
+            if (matrix.errors()!=0){
+                out.println(matrix.errors()+" generation error(s).",Color.RED);
+                COMPILE_RESULT = COMPILE_ERROR;
+            }else{
 
+                COMPILE_RESULT = COMPILE_SUCCESS;
+            }
+            
             if (COMPILE_RESULT == COMPILE_SUCCESS)
                 out.println("Compile is successful.",Color.GREEN);
             else

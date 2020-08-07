@@ -27,7 +27,7 @@ public class ModelTest {
         ModelTest parser = new ModelTest();
     }
 
-    @Test
+    //@Test
     public void test0(){
         ModelTest model = new ModelTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case0());
@@ -44,7 +44,7 @@ public class ModelTest {
         ModelTest model = new ModelTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case2());
 
-        AdjList<Integer> al = new AdjList<Integer>(5);
+        /*AdjList<Integer> al = new AdjList<Integer>(5);
         al.set_head(Integer.valueOf(5),1);
         al.add(Integer.valueOf(2),1);
         al.add(Integer.valueOf(3),1);
@@ -53,7 +53,7 @@ public class ModelTest {
         List<Integer> list = al.get_head_all(1);
         for (Integer i:list){
             System.out.print(i +" ");
-        }
+        }*/
     }
 
     public int Case0(){

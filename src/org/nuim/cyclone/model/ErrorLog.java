@@ -23,5 +23,10 @@ public class ErrorLog extends NamedElement{
         errStack.push(new Entry<SrcInfo, String>(info,message));
     }
     
+    public void logErrors(String message){
+        this.errors++;
+        /* need to record error. */ 
+    }
+
     public int errors(){return this.errors;}
 }

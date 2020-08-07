@@ -15,6 +15,8 @@ public class State extends Expression{
     private SymTable64 localVariables = new SymTable64();
     private List<Expression> expressions = new ArrayList<Expression>();
     private Machine owner=null;
+    /* every state has a unique id */
+    private int uid;
     
     public State(){
         super(new StateType());
@@ -66,7 +68,8 @@ public class State extends Expression{
     public int size_of_variables(){return this.localVariables.size();}
     public int size_of_exprs(){return this.expressions.size();}
     public List<Expression> expressions(){return this.expressions;}
-    
+    public int uid(){return this.uid;}
+    public void set_uid(int k){this.uid=k;}
     public void clearAll(){
         this.localVariables.clear();
     }

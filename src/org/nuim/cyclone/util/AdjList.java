@@ -40,7 +40,6 @@ public class AdjList <T> {
     public void add(T t, int index){
         if (head[index]==null){
             set_head(t, index);
-            size=1;
             return;
         }
 
@@ -79,5 +78,9 @@ public class AdjList <T> {
             hl = hl.next;
         }
         return list;
+    }
+
+    public int size(){
+        return this.size;
     }
 }

@@ -1,0 +1,98 @@
+package org.nuim.cyclone.compiler.graph;
+import org.nuim.cyclone.util.AdjList;
+import org.nuim.cyclone.model.State;
+import org.nuim.cyclone.model.Transition;
+import org.nuim.cyclone.model.Machine;
+import org.nuim.cyclone.model.ErrorLog;
+import org.nuim.cyclone.compiler.GenerationException;
+import org.nuim.cyclone.compiler.Context;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class StateMatrix {
+    private AdjList<Integer> sm;
+    private Map <Integer, State> mapping = new TreeMap<Integer, State>();
+    private int start;
+    private Machine machine;
+    private Context context;
+
+    public StateMatrix (Machine machine){
+        this.machine = machine;
+        context = new Context();
+        try{
+            this.build();
+        }catch(GenerationException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void build() throws GenerationException{
+        List<State> states = machine.AllStates();
+        sm = new AdjList<Integer>(states.size());
+        
+        /* set start state to 0 always */ 
+        State start_state = machine.getStartState();
+        if (start_state==null){
+            //log errors.
+            context.reportError(" machine does not have a start state. ");
+            throw new GenerationException(" machine does not have a start state.");
+        }
+        mapping.put(0,machine.getStartState());
+        machine.getStartState().set_uid(0);
+        states.remove(machine.getStartState());
+        sm.add(0,0);
+        
+        for (int i=0;i<states.size();i++){
+            State s = states.get(i);
+            s.set_uid(i+1);
+            mapping.put(i+1,s);
+            sm.add(i+1,i+1);
+        }
+
+        for (Transition trans : machine.AllTrans()){
+            State source = trans.source();
+            State target = trans.target();
+            sm.add(source.uid(),target.uid());
+        }
+
+    }
+
+    public int errors(){
+        return context.errors();
+    }
+
+    public int size(){
+        return sm.size();
+    }
+
+    public int start(){return this.start;}
+
+    public List<Integer> next(int index){
+        return sm.get_head_all(index);
+    }
+
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+
+        for (Integer k : mapping.keySet()){
+            sb.append(k+" -> " + mapping.get(k).name()+", ");
+        }
+
+        sb.append("\n");
+
+        for (int i=0;i<sm.size();i++){
+            List<Integer> list = sm.get_head_all(i);
+            for (int j=0;j<list.size();j++){
+                if (j==0)
+                    sb.append(list.get(j)+":{ ");
+                else
+                    sb.append(list.get(j)+", ");
+            }
+            sb.append("} \n ");
+        }
+
+        return sb.toString();
+    }
+
+}
