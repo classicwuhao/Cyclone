@@ -1,74 +1,85 @@
-Date : 2020-08-03 15:56:24
+Date : 2020-08-19 16:08:47
 Directory : c:\Users\class\Cyclone
-Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
+Total : 237 files,  22095 codes, 2955 comments, 3326 blanks, all 28376 lines
 
 Languages
 +----------+------------+------------+------------+------------+------------+
 | language | files      | code       | comment    | blank      | total      |
 +----------+------------+------------+------------+------------+------------+
-| Java     |        216 |     19,882 |      2,894 |      3,124 |     25,900 |
+| Java     |        233 |     20,650 |      2,920 |      3,232 |     26,802 |
 | ANTLR    |          1 |      1,082 |         28 |         67 |      1,177 |
-| Markdown |          2 |        283 |          0 |         16 |        299 |
-| XML      |          1 |         80 |          5 |         12 |         97 |
+| Markdown |          2 |        284 |          0 |         15 |        299 |
+| XML      |          1 |         79 |          7 |         12 |         98 |
 +----------+------------+------------+------------+------------+------------+
 
 Directories
 +-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                                                        | files      | code       | comment    | blank      | total      |
 +-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                                                           |        220 |     21,327 |      2,927 |      3,219 |     27,473 |
-| build                                                                                                       |        122 |      3,949 |      1,017 |         52 |      5,018 |
-| build\classes                                                                                               |        122 |      3,949 |      1,017 |         52 |      5,018 |
-| build\classes\org                                                                                           |        120 |      3,903 |      1,017 |         52 |      4,972 |
-| build\classes\org\nuim                                                                                      |        120 |      3,903 |      1,017 |         52 |      4,972 |
-| build\classes\org\nuim\cyclone                                                                              |        120 |      3,903 |      1,017 |         52 |      4,972 |
-| build\classes\org\nuim\cyclone\compiler                                                                     |          1 |         44 |          0 |          1 |         45 |
-| build\classes\org\nuim\cyclone\model                                                                        |         80 |      1,327 |          0 |          5 |      1,332 |
+| .                                                                                                           |        237 |     22,095 |      2,955 |      3,326 |     28,376 |
+| build                                                                                                       |        132 |      4,225 |      1,017 |         55 |      5,297 |
+| build\classes                                                                                               |        132 |      4,225 |      1,017 |         55 |      5,297 |
+| build\classes\org                                                                                           |        129 |      4,150 |      1,017 |         55 |      5,222 |
+| build\classes\org\nuim                                                                                      |        129 |      4,150 |      1,017 |         55 |      5,222 |
+| build\classes\org\nuim\cyclone                                                                              |        129 |      4,150 |      1,017 |         55 |      5,222 |
+| build\classes\org\nuim\cyclone\compiler                                                                     |          6 |        235 |          0 |          2 |        237 |
+| build\classes\org\nuim\cyclone\compiler\gen                                                                 |          1 |         60 |          0 |          0 |         60 |
+| build\classes\org\nuim\cyclone\compiler\graph                                                               |          1 |         48 |          0 |          1 |         49 |
+| build\classes\org\nuim\cyclone\model                                                                        |         80 |      1,330 |          0 |          6 |      1,336 |
 | build\classes\org\nuim\cyclone\model\operation                                                              |         31 |        527 |          0 |          2 |        529 |
 | build\classes\org\nuim\cyclone\model\type                                                                   |         18 |        180 |          0 |          0 |        180 |
 | build\classes\org\nuim\cyclone\model\type\spec                                                              |          6 |         52 |          0 |          0 |         52 |
 | build\classes\org\nuim\cyclone\model\value                                                                  |          7 |         82 |          0 |          0 |         82 |
-| build\classes\org\nuim\cyclone\parser                                                                       |         35 |      2,434 |      1,017 |         46 |      3,497 |
-| build\classes\org\nuim\cyclone\parser\ast                                                                   |         27 |        667 |         14 |          1 |        682 |
-| build\classes\org\nuim\cyclone\util                                                                         |          4 |         98 |          0 |          0 |         98 |
-| build\classes\test                                                                                          |          2 |         46 |          0 |          0 |         46 |
-| build\classes\test\test                                                                                     |          2 |         46 |          0 |          0 |         46 |
-| build\classes\test\test\model                                                                               |          1 |         23 |          0 |          0 |         23 |
+| build\classes\org\nuim\cyclone\parser                                                                       |         35 |      2,437 |      1,017 |         47 |      3,501 |
+| build\classes\org\nuim\cyclone\parser\ast                                                                   |         27 |        669 |         14 |          1 |        684 |
+| build\classes\org\nuim\cyclone\util                                                                         |          8 |        148 |          0 |          0 |        148 |
+| build\classes\test                                                                                          |          3 |         75 |          0 |          0 |         75 |
+| build\classes\test\test                                                                                     |          3 |         75 |          0 |          0 |         75 |
+| build\classes\test\test\model                                                                               |          1 |         29 |          0 |          0 |         29 |
 | build\classes\test\test\parser                                                                              |          1 |         23 |          0 |          0 |         23 |
-| src                                                                                                         |         93 |     16,934 |      1,902 |      3,121 |     21,957 |
-| src\org                                                                                                     |         81 |     16,248 |      1,831 |      2,997 |     21,076 |
-| src\org\nuim                                                                                                |         81 |     16,248 |      1,831 |      2,997 |     21,076 |
-| src\org\nuim\cyclone                                                                                        |         81 |     16,248 |      1,831 |      2,997 |     21,076 |
-| src\org\nuim\cyclone\compiler                                                                               |          1 |         78 |          0 |         16 |         94 |
-| src\org\nuim\cyclone\model                                                                                  |         51 |      1,833 |        196 |        492 |      2,521 |
+| build\classes\test\test\path                                                                                |          1 |         23 |          0 |          0 |         23 |
+| src                                                                                                         |         99 |     17,354 |      1,920 |      3,216 |     22,490 |
+| src\org                                                                                                     |         87 |     16,668 |      1,849 |      3,092 |     21,609 |
+| src\org\nuim                                                                                                |         87 |     16,668 |      1,849 |      3,092 |     21,609 |
+| src\org\nuim\cyclone                                                                                        |         87 |     16,668 |      1,849 |      3,092 |     21,609 |
+| src\org\nuim\cyclone\compiler                                                                               |          6 |        361 |         13 |         81 |        455 |
+| src\org\nuim\cyclone\compiler\gen                                                                           |          1 |         99 |          6 |         21 |        126 |
+| src\org\nuim\cyclone\compiler\graph                                                                         |          1 |         87 |          3 |         19 |        109 |
+| src\org\nuim\cyclone\model                                                                                  |         51 |      1,888 |        199 |        502 |      2,589 |
 | src\org\nuim\cyclone\model\operation                                                                        |          8 |        814 |        142 |        218 |      1,174 |
 | src\org\nuim\cyclone\model\type                                                                             |         18 |        181 |         12 |         67 |        260 |
 | src\org\nuim\cyclone\model\type\spec                                                                        |          6 |         54 |          3 |         24 |         81 |
 | src\org\nuim\cyclone\model\value                                                                            |          7 |        102 |          4 |         37 |        143 |
-| src\org\nuim\cyclone\parser                                                                                 |         25 |     14,171 |      1,620 |      2,436 |     18,227 |
-| src\org\nuim\cyclone\parser\ast                                                                             |         19 |        827 |         75 |        188 |      1,090 |
-| src\org\nuim\cyclone\util                                                                                   |          4 |        166 |         15 |         53 |        234 |
-| test                                                                                                        |          2 |         81 |          3 |         18 |        102 |
-| test\model                                                                                                  |          1 |         41 |          3 |         10 |         54 |
+| src\org\nuim\cyclone\parser                                                                                 |         25 |     14,183 |      1,622 |      2,440 |     18,245 |
+| src\org\nuim\cyclone\parser\ast                                                                             |         19 |        828 |         75 |        188 |      1,091 |
+| src\org\nuim\cyclone\util                                                                                   |          5 |        236 |         15 |         69 |        320 |
+| test                                                                                                        |          3 |        153 |         11 |         28 |        192 |
+| test\model                                                                                                  |          1 |         75 |         11 |         12 |         98 |
 | test\parser                                                                                                 |          1 |         40 |          0 |          8 |         48 |
+| test\path                                                                                                   |          1 |         38 |          0 |          8 |         46 |
 +-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 
 Files
 +-------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
 | filename                                                                                                    | language | code       | comment    | blank      | total      |
 +-------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
-| c:\Users\class\Cyclone\README.md                                                                            | Markdown |         55 |          0 |         10 |         65 |
-| c:\Users\class\Cyclone\build.xml                                                                            | XML      |         80 |          5 |         12 |         97 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\MachineCompiler.class                        | Java     |         44 |          0 |          1 |         45 |
+| c:\Users\class\Cyclone\README.md                                                                            | Markdown |         55 |          0 |          9 |         64 |
+| c:\Users\class\Cyclone\build.xml                                                                            | XML      |         79 |          7 |         12 |         98 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\Context.class                                | Java     |         12 |          0 |          0 |         12 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\GenerationException.class                    | Java     |         13 |          0 |          0 |         13 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\MachineCompiler.class                        | Java     |         68 |          0 |          1 |         69 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\MachineSolver.class                          | Java     |         34 |          0 |          0 |         34 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\gen\PathGenerator.class                      | Java     |         60 |          0 |          0 |         60 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\compiler\graph\StateMatrix.class                      | Java     |         48 |          0 |          1 |         49 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Assignment.class                                | Java     |         36 |          0 |          0 |         36 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Element.class                                   | Java     |          5 |          0 |          0 |          5 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\ErrorLog.class                                  | Java     |         14 |          0 |          0 |         14 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\ErrorLog.class                                  | Java     |         16 |          0 |          0 |         16 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Expression.class                                | Java     |         24 |          0 |          0 |         24 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\GlobalVariables.class                           | Java     |         19 |          0 |          0 |         19 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\IdentExpr.class                                 | Java     |         20 |          0 |          0 |         20 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\InvalidSpecException.class                      | Java     |         25 |          0 |          0 |         25 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Invariant.class                                 | Java     |         29 |          0 |          0 |         29 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Machine.class                                   | Java     |         60 |          0 |          1 |         61 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Machine.class                                   | Java     |         67 |          0 |          2 |         69 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\MemberAccessor.class                            | Java     |         18 |          0 |          0 |         18 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\NamedElement.class                              | Java     |         10 |          0 |          0 |         10 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\OpExpr.class                                    | Java     |         38 |          0 |          0 |         38 |
@@ -80,7 +91,7 @@ Files
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\StateModifier$4.class                           | Java     |          6 |          0 |          0 |          6 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\StateModifier.class                             | Java     |         20 |          0 |          0 |         20 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\SymTable.class                                  | Java     |         39 |          0 |          0 |         39 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Transition.class                                | Java     |         32 |          0 |          0 |         32 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Transition.class                                | Java     |         26 |          0 |          0 |         26 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\TypeChecker.class                               | Java     |         26 |          0 |          0 |         26 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\TypeRules.class                                 | Java     |          5 |          0 |          0 |          5 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\model\Variable.class                                  | Java     |         29 |          0 |          0 |         29 |
@@ -147,7 +158,7 @@ Files
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\StateMachineLexer$DFA15.class                  | Java     |         18 |          0 |          1 |         19 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\StateMachineLexer$DFA18.class                  | Java     |         17 |          0 |          1 |         18 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\StateMachineLexer.class                        | Java     |        886 |      1,003 |         42 |      1,931 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\StateMachineParser.class                       | Java     |        765 |          0 |          1 |        766 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\StateMachineParser.class                       | Java     |        766 |          0 |          2 |        768 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTAssignment.class                        | Java     |         19 |          0 |          0 |         19 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTBinaryExpression.class                  | Java     |         20 |          0 |          0 |         20 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTConditionalOrExpression.class           | Java     |          9 |          0 |          0 |          9 |
@@ -158,7 +169,7 @@ Files
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTLiteral$1.class                         | Java     |          8 |          0 |          0 |          8 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTLiteral$LiteralType.class               | Java     |         15 |          0 |          0 |         15 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTLiteral.class                           | Java     |         39 |          0 |          0 |         39 |
-| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTMachine.class                           | Java     |         64 |          0 |          1 |         65 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTMachine.class                           | Java     |         66 |          0 |          1 |         67 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTMember.class                            | Java     |         40 |          0 |          0 |         40 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTNode.class                              | Java     |          7 |          0 |          0 |          7 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\ASTState$1.class                           | Java     |         10 |          0 |          0 |         10 |
@@ -175,13 +186,18 @@ Files
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\SemanticException.class                    | Java     |         23 |          0 |          0 |         23 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\SymTable.class                             | Java     |         35 |          0 |          0 |         35 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\parser\ast\SymTable64.class                           | Java     |         37 |          0 |          0 |         37 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\AdjList$1.class                                  | Java     |          4 |          0 |          0 |          4 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\AdjList$Head.class                               | Java     |         13 |          0 |          0 |         13 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\AdjList$Node.class                               | Java     |         11 |          0 |          0 |         11 |
+| c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\AdjList.class                                    | Java     |         22 |          0 |          0 |         22 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\BitVector.class                                  | Java     |         43 |          0 |          0 |         43 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\Color.class                                      | Java     |         15 |          0 |          0 |         15 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\ColorPrint.class                                 | Java     |         18 |          0 |          0 |         18 |
 | c:\Users\class\Cyclone\build\classes\org\nuim\cyclone\util\Entry.class                                      | Java     |         22 |          0 |          0 |         22 |
-| c:\Users\class\Cyclone\build\classes\test\test\model\ModelTest.class                                        | Java     |         23 |          0 |          0 |         23 |
+| c:\Users\class\Cyclone\build\classes\test\test\model\ModelTest.class                                        | Java     |         29 |          0 |          0 |         29 |
 | c:\Users\class\Cyclone\build\classes\test\test\parser\ParserTest.class                                      | Java     |         23 |          0 |          0 |         23 |
-| c:\Users\class\Cyclone\details.md                                                                           | Markdown |        228 |          0 |          6 |        234 |
+| c:\Users\class\Cyclone\build\classes\test\test\path\PathTest.class                                          | Java     |         23 |          0 |          0 |         23 |
+| c:\Users\class\Cyclone\details.md                                                                           | Markdown |        229 |          0 |          6 |        235 |
 | c:\Users\class\Cyclone\src\AlphabetException.class                                                          | Java     |          8 |          0 |          0 |          8 |
 | c:\Users\class\Cyclone\src\AlphabetException.java                                                           | Java     |          9 |          0 |          5 |         14 |
 | c:\Users\class\Cyclone\src\Cyclone.class                                                                    | Java     |         87 |          0 |          0 |         87 |
@@ -194,23 +210,28 @@ Files
 | c:\Users\class\Cyclone\src\State.java                                                                       | Java     |          7 |          1 |          4 |         12 |
 | c:\Users\class\Cyclone\src\TestCyclone.class                                                                | Java     |         64 |          0 |          0 |         64 |
 | c:\Users\class\Cyclone\src\TestCyclone.java                                                                 | Java     |        127 |         23 |         37 |        187 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\MachineCompiler.java                                   | Java     |         78 |          0 |         16 |         94 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\Context.java                                           | Java     |         14 |          1 |          4 |         19 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\GenerationException.java                               | Java     |         14 |          3 |          5 |         22 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\MachineCompiler.java                                   | Java     |        104 |          0 |         24 |        128 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\MachineSolver.java                                     | Java     |         43 |          0 |          8 |         51 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\gen\PathGenerator.java                                 | Java     |         99 |          6 |         21 |        126 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\compiler\graph\StateMatrix.java                                 | Java     |         87 |          3 |         19 |        109 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Assignment.java                                           | Java     |         56 |          3 |         10 |         69 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Element.java                                              | Java     |          5 |          0 |          1 |          6 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\ErrorLog.java                                             | Java     |         17 |          5 |          5 |         27 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\ErrorLog.java                                             | Java     |         20 |          6 |          6 |         32 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Expression.java                                           | Java     |         49 |          0 |         10 |         59 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\GlobalVariables.java                                      | Java     |         23 |          1 |          3 |         27 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\IdentExpr.java                                            | Java     |         37 |          5 |          9 |         51 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\InvalidSpecException.java                                 | Java     |         26 |          0 |          6 |         32 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Invariant.java                                            | Java     |         46 |          0 |          9 |         55 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Machine.java                                              | Java     |        110 |          1 |         27 |        138 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Machine.java                                              | Java     |        156 |          2 |         37 |        195 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\MemberAccessor.java                                       | Java     |         30 |          0 |         10 |         40 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\NamedElement.java                                         | Java     |         11 |          0 |          1 |         12 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\OpExpr.java                                               | Java     |         60 |          4 |         12 |         76 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\SrcInfo.java                                              | Java     |         18 |          3 |          6 |         27 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\State.java                                                | Java     |         97 |          5 |         26 |        128 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\State.java                                                | Java     |        100 |          6 |         25 |        131 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\StateModifier.java                                        | Java     |         23 |          4 |          6 |         33 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Transition.java                                           | Java     |         55 |          3 |         11 |         69 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Transition.java                                           | Java     |         58 |          3 |         11 |         72 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\TypeChecker.java                                          | Java     |         32 |          3 |          8 |         43 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\Variable.java                                             | Java     |         41 |          1 |         10 |         52 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\model\operation\ArithOperator.java                              | Java     |        182 |         36 |         47 |        265 |
@@ -251,7 +272,7 @@ Files
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ParserHelper.java                                        | Java     |         82 |          5 |         12 |         99 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\StateMachine.g                                           | ANTLR    |      1,082 |         28 |         67 |      1,177 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\StateMachineLexer.java                                   | Java     |     10,019 |      1,216 |      1,296 |     12,531 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\StateMachineParser.java                                  | Java     |      2,091 |        273 |        849 |      3,213 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\StateMachineParser.java                                  | Java     |      2,102 |        275 |        853 |      3,230 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTAssignment.java                                   | Java     |         26 |          5 |         11 |         42 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTBinaryExpression.java                             | Java     |         27 |          0 |          6 |         33 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTConditionalOrExpression.java                      | Java     |         10 |          0 |          3 |         13 |
@@ -260,7 +281,7 @@ Files
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTIdentifier.java                                   | Java     |         59 |          4 |          8 |         71 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTInvariant.java                                    | Java     |         47 |          5 |         11 |         63 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTLiteral.java                                      | Java     |         56 |          0 |         15 |         71 |
-| c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTMachine.java                                      | Java     |         94 |         16 |         14 |        124 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTMachine.java                                      | Java     |         95 |         16 |         14 |        125 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTMember.java                                       | Java     |         55 |          5 |         15 |         75 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTNode.java                                         | Java     |          6 |          3 |          2 |         11 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\ASTState.java                                        | Java     |         93 |          2 |         19 |        114 |
@@ -271,11 +292,13 @@ Files
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\SemanticException.java                               | Java     |         28 |          4 |          6 |         38 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\SymTable.java                                        | Java     |         27 |          0 |          5 |         32 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\parser\ast\SymTable64.java                                      | Java     |         38 |          1 |         10 |         49 |
+| c:\Users\class\Cyclone\src\org\nuim\cyclone\util\AdjList.java                                               | Java     |         70 |          0 |         16 |         86 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\util\BitVector.java                                             | Java     |        120 |         15 |         39 |        174 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\util\Color.java                                                 | Java     |         12 |          0 |          2 |         14 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\util\ColorPrint.java                                            | Java     |         11 |          0 |          5 |         16 |
 | c:\Users\class\Cyclone\src\org\nuim\cyclone\util\Entry.java                                                 | Java     |         23 |          0 |          7 |         30 |
-| c:\Users\class\Cyclone\test\model\ModelTest.java                                                            | Java     |         41 |          3 |         10 |         54 |
+| c:\Users\class\Cyclone\test\model\ModelTest.java                                                            | Java     |         75 |         11 |         12 |         98 |
 | c:\Users\class\Cyclone\test\parser\ParserTest.java                                                          | Java     |         40 |          0 |          8 |         48 |
-| Total                                                                                                       |          |     21,327 |      2,927 |      3,219 |     27,473 |
+| c:\Users\class\Cyclone\test\path\PathTest.java                                                              | Java     |         38 |          0 |          8 |         46 |
+| Total                                                                                                       |          |     22,095 |      2,955 |      3,326 |     28,376 |
 +-------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

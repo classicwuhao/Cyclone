@@ -1,28 +1,33 @@
 # Details
 
-Date : 2020-08-03 15:56:24
+Date : 2020-08-19 16:08:47
 
 Directory c:\Users\class\Cyclone
 
-Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
+Total : 237 files,  22095 codes, 2955 comments, 3326 blanks, all 28376 lines
 
 [summary](results.md)
 
 ## Files
 | filename | language | code | comment | blank | total |
 | :--- | :--- | ---: | ---: | ---: | ---: |
-| [README.md](/README.md) | Markdown | 55 | 0 | 10 | 65 |
-| [build.xml](/build.xml) | XML | 80 | 5 | 12 | 97 |
-| [build/classes/org/nuim/cyclone/compiler/MachineCompiler.class](/build/classes/org/nuim/cyclone/compiler/MachineCompiler.class) | Java | 44 | 0 | 1 | 45 |
+| [README.md](/README.md) | Markdown | 55 | 0 | 9 | 64 |
+| [build.xml](/build.xml) | XML | 79 | 7 | 12 | 98 |
+| [build/classes/org/nuim/cyclone/compiler/Context.class](/build/classes/org/nuim/cyclone/compiler/Context.class) | Java | 12 | 0 | 0 | 12 |
+| [build/classes/org/nuim/cyclone/compiler/GenerationException.class](/build/classes/org/nuim/cyclone/compiler/GenerationException.class) | Java | 13 | 0 | 0 | 13 |
+| [build/classes/org/nuim/cyclone/compiler/MachineCompiler.class](/build/classes/org/nuim/cyclone/compiler/MachineCompiler.class) | Java | 68 | 0 | 1 | 69 |
+| [build/classes/org/nuim/cyclone/compiler/MachineSolver.class](/build/classes/org/nuim/cyclone/compiler/MachineSolver.class) | Java | 34 | 0 | 0 | 34 |
+| [build/classes/org/nuim/cyclone/compiler/gen/PathGenerator.class](/build/classes/org/nuim/cyclone/compiler/gen/PathGenerator.class) | Java | 60 | 0 | 0 | 60 |
+| [build/classes/org/nuim/cyclone/compiler/graph/StateMatrix.class](/build/classes/org/nuim/cyclone/compiler/graph/StateMatrix.class) | Java | 48 | 0 | 1 | 49 |
 | [build/classes/org/nuim/cyclone/model/Assignment.class](/build/classes/org/nuim/cyclone/model/Assignment.class) | Java | 36 | 0 | 0 | 36 |
 | [build/classes/org/nuim/cyclone/model/Element.class](/build/classes/org/nuim/cyclone/model/Element.class) | Java | 5 | 0 | 0 | 5 |
-| [build/classes/org/nuim/cyclone/model/ErrorLog.class](/build/classes/org/nuim/cyclone/model/ErrorLog.class) | Java | 14 | 0 | 0 | 14 |
+| [build/classes/org/nuim/cyclone/model/ErrorLog.class](/build/classes/org/nuim/cyclone/model/ErrorLog.class) | Java | 16 | 0 | 0 | 16 |
 | [build/classes/org/nuim/cyclone/model/Expression.class](/build/classes/org/nuim/cyclone/model/Expression.class) | Java | 24 | 0 | 0 | 24 |
 | [build/classes/org/nuim/cyclone/model/GlobalVariables.class](/build/classes/org/nuim/cyclone/model/GlobalVariables.class) | Java | 19 | 0 | 0 | 19 |
 | [build/classes/org/nuim/cyclone/model/IdentExpr.class](/build/classes/org/nuim/cyclone/model/IdentExpr.class) | Java | 20 | 0 | 0 | 20 |
 | [build/classes/org/nuim/cyclone/model/InvalidSpecException.class](/build/classes/org/nuim/cyclone/model/InvalidSpecException.class) | Java | 25 | 0 | 0 | 25 |
 | [build/classes/org/nuim/cyclone/model/Invariant.class](/build/classes/org/nuim/cyclone/model/Invariant.class) | Java | 29 | 0 | 0 | 29 |
-| [build/classes/org/nuim/cyclone/model/Machine.class](/build/classes/org/nuim/cyclone/model/Machine.class) | Java | 60 | 0 | 1 | 61 |
+| [build/classes/org/nuim/cyclone/model/Machine.class](/build/classes/org/nuim/cyclone/model/Machine.class) | Java | 67 | 0 | 2 | 69 |
 | [build/classes/org/nuim/cyclone/model/MemberAccessor.class](/build/classes/org/nuim/cyclone/model/MemberAccessor.class) | Java | 18 | 0 | 0 | 18 |
 | [build/classes/org/nuim/cyclone/model/NamedElement.class](/build/classes/org/nuim/cyclone/model/NamedElement.class) | Java | 10 | 0 | 0 | 10 |
 | [build/classes/org/nuim/cyclone/model/OpExpr.class](/build/classes/org/nuim/cyclone/model/OpExpr.class) | Java | 38 | 0 | 0 | 38 |
@@ -34,7 +39,7 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [build/classes/org/nuim/cyclone/model/StateModifier$4.class](/build/classes/org/nuim/cyclone/model/StateModifier$4.class) | Java | 6 | 0 | 0 | 6 |
 | [build/classes/org/nuim/cyclone/model/StateModifier.class](/build/classes/org/nuim/cyclone/model/StateModifier.class) | Java | 20 | 0 | 0 | 20 |
 | [build/classes/org/nuim/cyclone/model/SymTable.class](/build/classes/org/nuim/cyclone/model/SymTable.class) | Java | 39 | 0 | 0 | 39 |
-| [build/classes/org/nuim/cyclone/model/Transition.class](/build/classes/org/nuim/cyclone/model/Transition.class) | Java | 32 | 0 | 0 | 32 |
+| [build/classes/org/nuim/cyclone/model/Transition.class](/build/classes/org/nuim/cyclone/model/Transition.class) | Java | 26 | 0 | 0 | 26 |
 | [build/classes/org/nuim/cyclone/model/TypeChecker.class](/build/classes/org/nuim/cyclone/model/TypeChecker.class) | Java | 26 | 0 | 0 | 26 |
 | [build/classes/org/nuim/cyclone/model/TypeRules.class](/build/classes/org/nuim/cyclone/model/TypeRules.class) | Java | 5 | 0 | 0 | 5 |
 | [build/classes/org/nuim/cyclone/model/Variable.class](/build/classes/org/nuim/cyclone/model/Variable.class) | Java | 29 | 0 | 0 | 29 |
@@ -101,7 +106,7 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [build/classes/org/nuim/cyclone/parser/StateMachineLexer$DFA15.class](/build/classes/org/nuim/cyclone/parser/StateMachineLexer$DFA15.class) | Java | 18 | 0 | 1 | 19 |
 | [build/classes/org/nuim/cyclone/parser/StateMachineLexer$DFA18.class](/build/classes/org/nuim/cyclone/parser/StateMachineLexer$DFA18.class) | Java | 17 | 0 | 1 | 18 |
 | [build/classes/org/nuim/cyclone/parser/StateMachineLexer.class](/build/classes/org/nuim/cyclone/parser/StateMachineLexer.class) | Java | 886 | 1,003 | 42 | 1,931 |
-| [build/classes/org/nuim/cyclone/parser/StateMachineParser.class](/build/classes/org/nuim/cyclone/parser/StateMachineParser.class) | Java | 765 | 0 | 1 | 766 |
+| [build/classes/org/nuim/cyclone/parser/StateMachineParser.class](/build/classes/org/nuim/cyclone/parser/StateMachineParser.class) | Java | 766 | 0 | 2 | 768 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTAssignment.class](/build/classes/org/nuim/cyclone/parser/ast/ASTAssignment.class) | Java | 19 | 0 | 0 | 19 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTBinaryExpression.class](/build/classes/org/nuim/cyclone/parser/ast/ASTBinaryExpression.class) | Java | 20 | 0 | 0 | 20 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTConditionalOrExpression.class](/build/classes/org/nuim/cyclone/parser/ast/ASTConditionalOrExpression.class) | Java | 9 | 0 | 0 | 9 |
@@ -112,7 +117,7 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [build/classes/org/nuim/cyclone/parser/ast/ASTLiteral$1.class](/build/classes/org/nuim/cyclone/parser/ast/ASTLiteral$1.class) | Java | 8 | 0 | 0 | 8 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTLiteral$LiteralType.class](/build/classes/org/nuim/cyclone/parser/ast/ASTLiteral$LiteralType.class) | Java | 15 | 0 | 0 | 15 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTLiteral.class](/build/classes/org/nuim/cyclone/parser/ast/ASTLiteral.class) | Java | 39 | 0 | 0 | 39 |
-| [build/classes/org/nuim/cyclone/parser/ast/ASTMachine.class](/build/classes/org/nuim/cyclone/parser/ast/ASTMachine.class) | Java | 64 | 0 | 1 | 65 |
+| [build/classes/org/nuim/cyclone/parser/ast/ASTMachine.class](/build/classes/org/nuim/cyclone/parser/ast/ASTMachine.class) | Java | 66 | 0 | 1 | 67 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTMember.class](/build/classes/org/nuim/cyclone/parser/ast/ASTMember.class) | Java | 40 | 0 | 0 | 40 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTNode.class](/build/classes/org/nuim/cyclone/parser/ast/ASTNode.class) | Java | 7 | 0 | 0 | 7 |
 | [build/classes/org/nuim/cyclone/parser/ast/ASTState$1.class](/build/classes/org/nuim/cyclone/parser/ast/ASTState$1.class) | Java | 10 | 0 | 0 | 10 |
@@ -129,13 +134,18 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [build/classes/org/nuim/cyclone/parser/ast/SemanticException.class](/build/classes/org/nuim/cyclone/parser/ast/SemanticException.class) | Java | 23 | 0 | 0 | 23 |
 | [build/classes/org/nuim/cyclone/parser/ast/SymTable.class](/build/classes/org/nuim/cyclone/parser/ast/SymTable.class) | Java | 35 | 0 | 0 | 35 |
 | [build/classes/org/nuim/cyclone/parser/ast/SymTable64.class](/build/classes/org/nuim/cyclone/parser/ast/SymTable64.class) | Java | 37 | 0 | 0 | 37 |
+| [build/classes/org/nuim/cyclone/util/AdjList$1.class](/build/classes/org/nuim/cyclone/util/AdjList$1.class) | Java | 4 | 0 | 0 | 4 |
+| [build/classes/org/nuim/cyclone/util/AdjList$Head.class](/build/classes/org/nuim/cyclone/util/AdjList$Head.class) | Java | 13 | 0 | 0 | 13 |
+| [build/classes/org/nuim/cyclone/util/AdjList$Node.class](/build/classes/org/nuim/cyclone/util/AdjList$Node.class) | Java | 11 | 0 | 0 | 11 |
+| [build/classes/org/nuim/cyclone/util/AdjList.class](/build/classes/org/nuim/cyclone/util/AdjList.class) | Java | 22 | 0 | 0 | 22 |
 | [build/classes/org/nuim/cyclone/util/BitVector.class](/build/classes/org/nuim/cyclone/util/BitVector.class) | Java | 43 | 0 | 0 | 43 |
 | [build/classes/org/nuim/cyclone/util/Color.class](/build/classes/org/nuim/cyclone/util/Color.class) | Java | 15 | 0 | 0 | 15 |
 | [build/classes/org/nuim/cyclone/util/ColorPrint.class](/build/classes/org/nuim/cyclone/util/ColorPrint.class) | Java | 18 | 0 | 0 | 18 |
 | [build/classes/org/nuim/cyclone/util/Entry.class](/build/classes/org/nuim/cyclone/util/Entry.class) | Java | 22 | 0 | 0 | 22 |
-| [build/classes/test/test/model/ModelTest.class](/build/classes/test/test/model/ModelTest.class) | Java | 23 | 0 | 0 | 23 |
+| [build/classes/test/test/model/ModelTest.class](/build/classes/test/test/model/ModelTest.class) | Java | 29 | 0 | 0 | 29 |
 | [build/classes/test/test/parser/ParserTest.class](/build/classes/test/test/parser/ParserTest.class) | Java | 23 | 0 | 0 | 23 |
-| [details.md](/details.md) | Markdown | 228 | 0 | 6 | 234 |
+| [build/classes/test/test/path/PathTest.class](/build/classes/test/test/path/PathTest.class) | Java | 23 | 0 | 0 | 23 |
+| [details.md](/details.md) | Markdown | 229 | 0 | 6 | 235 |
 | [src/AlphabetException.class](/src/AlphabetException.class) | Java | 8 | 0 | 0 | 8 |
 | [src/AlphabetException.java](/src/AlphabetException.java) | Java | 9 | 0 | 5 | 14 |
 | [src/Cyclone.class](/src/Cyclone.class) | Java | 87 | 0 | 0 | 87 |
@@ -148,23 +158,28 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [src/State.java](/src/State.java) | Java | 7 | 1 | 4 | 12 |
 | [src/TestCyclone.class](/src/TestCyclone.class) | Java | 64 | 0 | 0 | 64 |
 | [src/TestCyclone.java](/src/TestCyclone.java) | Java | 127 | 23 | 37 | 187 |
-| [src/org/nuim/cyclone/compiler/MachineCompiler.java](/src/org/nuim/cyclone/compiler/MachineCompiler.java) | Java | 78 | 0 | 16 | 94 |
+| [src/org/nuim/cyclone/compiler/Context.java](/src/org/nuim/cyclone/compiler/Context.java) | Java | 14 | 1 | 4 | 19 |
+| [src/org/nuim/cyclone/compiler/GenerationException.java](/src/org/nuim/cyclone/compiler/GenerationException.java) | Java | 14 | 3 | 5 | 22 |
+| [src/org/nuim/cyclone/compiler/MachineCompiler.java](/src/org/nuim/cyclone/compiler/MachineCompiler.java) | Java | 104 | 0 | 24 | 128 |
+| [src/org/nuim/cyclone/compiler/MachineSolver.java](/src/org/nuim/cyclone/compiler/MachineSolver.java) | Java | 43 | 0 | 8 | 51 |
+| [src/org/nuim/cyclone/compiler/gen/PathGenerator.java](/src/org/nuim/cyclone/compiler/gen/PathGenerator.java) | Java | 99 | 6 | 21 | 126 |
+| [src/org/nuim/cyclone/compiler/graph/StateMatrix.java](/src/org/nuim/cyclone/compiler/graph/StateMatrix.java) | Java | 87 | 3 | 19 | 109 |
 | [src/org/nuim/cyclone/model/Assignment.java](/src/org/nuim/cyclone/model/Assignment.java) | Java | 56 | 3 | 10 | 69 |
 | [src/org/nuim/cyclone/model/Element.java](/src/org/nuim/cyclone/model/Element.java) | Java | 5 | 0 | 1 | 6 |
-| [src/org/nuim/cyclone/model/ErrorLog.java](/src/org/nuim/cyclone/model/ErrorLog.java) | Java | 17 | 5 | 5 | 27 |
+| [src/org/nuim/cyclone/model/ErrorLog.java](/src/org/nuim/cyclone/model/ErrorLog.java) | Java | 20 | 6 | 6 | 32 |
 | [src/org/nuim/cyclone/model/Expression.java](/src/org/nuim/cyclone/model/Expression.java) | Java | 49 | 0 | 10 | 59 |
 | [src/org/nuim/cyclone/model/GlobalVariables.java](/src/org/nuim/cyclone/model/GlobalVariables.java) | Java | 23 | 1 | 3 | 27 |
 | [src/org/nuim/cyclone/model/IdentExpr.java](/src/org/nuim/cyclone/model/IdentExpr.java) | Java | 37 | 5 | 9 | 51 |
 | [src/org/nuim/cyclone/model/InvalidSpecException.java](/src/org/nuim/cyclone/model/InvalidSpecException.java) | Java | 26 | 0 | 6 | 32 |
 | [src/org/nuim/cyclone/model/Invariant.java](/src/org/nuim/cyclone/model/Invariant.java) | Java | 46 | 0 | 9 | 55 |
-| [src/org/nuim/cyclone/model/Machine.java](/src/org/nuim/cyclone/model/Machine.java) | Java | 110 | 1 | 27 | 138 |
+| [src/org/nuim/cyclone/model/Machine.java](/src/org/nuim/cyclone/model/Machine.java) | Java | 156 | 2 | 37 | 195 |
 | [src/org/nuim/cyclone/model/MemberAccessor.java](/src/org/nuim/cyclone/model/MemberAccessor.java) | Java | 30 | 0 | 10 | 40 |
 | [src/org/nuim/cyclone/model/NamedElement.java](/src/org/nuim/cyclone/model/NamedElement.java) | Java | 11 | 0 | 1 | 12 |
 | [src/org/nuim/cyclone/model/OpExpr.java](/src/org/nuim/cyclone/model/OpExpr.java) | Java | 60 | 4 | 12 | 76 |
 | [src/org/nuim/cyclone/model/SrcInfo.java](/src/org/nuim/cyclone/model/SrcInfo.java) | Java | 18 | 3 | 6 | 27 |
-| [src/org/nuim/cyclone/model/State.java](/src/org/nuim/cyclone/model/State.java) | Java | 97 | 5 | 26 | 128 |
+| [src/org/nuim/cyclone/model/State.java](/src/org/nuim/cyclone/model/State.java) | Java | 100 | 6 | 25 | 131 |
 | [src/org/nuim/cyclone/model/StateModifier.java](/src/org/nuim/cyclone/model/StateModifier.java) | Java | 23 | 4 | 6 | 33 |
-| [src/org/nuim/cyclone/model/Transition.java](/src/org/nuim/cyclone/model/Transition.java) | Java | 55 | 3 | 11 | 69 |
+| [src/org/nuim/cyclone/model/Transition.java](/src/org/nuim/cyclone/model/Transition.java) | Java | 58 | 3 | 11 | 72 |
 | [src/org/nuim/cyclone/model/TypeChecker.java](/src/org/nuim/cyclone/model/TypeChecker.java) | Java | 32 | 3 | 8 | 43 |
 | [src/org/nuim/cyclone/model/Variable.java](/src/org/nuim/cyclone/model/Variable.java) | Java | 41 | 1 | 10 | 52 |
 | [src/org/nuim/cyclone/model/operation/ArithOperator.java](/src/org/nuim/cyclone/model/operation/ArithOperator.java) | Java | 182 | 36 | 47 | 265 |
@@ -205,7 +220,7 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [src/org/nuim/cyclone/parser/ParserHelper.java](/src/org/nuim/cyclone/parser/ParserHelper.java) | Java | 82 | 5 | 12 | 99 |
 | [src/org/nuim/cyclone/parser/StateMachine.g](/src/org/nuim/cyclone/parser/StateMachine.g) | ANTLR | 1,082 | 28 | 67 | 1,177 |
 | [src/org/nuim/cyclone/parser/StateMachineLexer.java](/src/org/nuim/cyclone/parser/StateMachineLexer.java) | Java | 10,019 | 1,216 | 1,296 | 12,531 |
-| [src/org/nuim/cyclone/parser/StateMachineParser.java](/src/org/nuim/cyclone/parser/StateMachineParser.java) | Java | 2,091 | 273 | 849 | 3,213 |
+| [src/org/nuim/cyclone/parser/StateMachineParser.java](/src/org/nuim/cyclone/parser/StateMachineParser.java) | Java | 2,102 | 275 | 853 | 3,230 |
 | [src/org/nuim/cyclone/parser/ast/ASTAssignment.java](/src/org/nuim/cyclone/parser/ast/ASTAssignment.java) | Java | 26 | 5 | 11 | 42 |
 | [src/org/nuim/cyclone/parser/ast/ASTBinaryExpression.java](/src/org/nuim/cyclone/parser/ast/ASTBinaryExpression.java) | Java | 27 | 0 | 6 | 33 |
 | [src/org/nuim/cyclone/parser/ast/ASTConditionalOrExpression.java](/src/org/nuim/cyclone/parser/ast/ASTConditionalOrExpression.java) | Java | 10 | 0 | 3 | 13 |
@@ -214,7 +229,7 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [src/org/nuim/cyclone/parser/ast/ASTIdentifier.java](/src/org/nuim/cyclone/parser/ast/ASTIdentifier.java) | Java | 59 | 4 | 8 | 71 |
 | [src/org/nuim/cyclone/parser/ast/ASTInvariant.java](/src/org/nuim/cyclone/parser/ast/ASTInvariant.java) | Java | 47 | 5 | 11 | 63 |
 | [src/org/nuim/cyclone/parser/ast/ASTLiteral.java](/src/org/nuim/cyclone/parser/ast/ASTLiteral.java) | Java | 56 | 0 | 15 | 71 |
-| [src/org/nuim/cyclone/parser/ast/ASTMachine.java](/src/org/nuim/cyclone/parser/ast/ASTMachine.java) | Java | 94 | 16 | 14 | 124 |
+| [src/org/nuim/cyclone/parser/ast/ASTMachine.java](/src/org/nuim/cyclone/parser/ast/ASTMachine.java) | Java | 95 | 16 | 14 | 125 |
 | [src/org/nuim/cyclone/parser/ast/ASTMember.java](/src/org/nuim/cyclone/parser/ast/ASTMember.java) | Java | 55 | 5 | 15 | 75 |
 | [src/org/nuim/cyclone/parser/ast/ASTNode.java](/src/org/nuim/cyclone/parser/ast/ASTNode.java) | Java | 6 | 3 | 2 | 11 |
 | [src/org/nuim/cyclone/parser/ast/ASTState.java](/src/org/nuim/cyclone/parser/ast/ASTState.java) | Java | 93 | 2 | 19 | 114 |
@@ -225,11 +240,13 @@ Total : 220 files,  21327 codes, 2927 comments, 3219 blanks, all 27473 lines
 | [src/org/nuim/cyclone/parser/ast/SemanticException.java](/src/org/nuim/cyclone/parser/ast/SemanticException.java) | Java | 28 | 4 | 6 | 38 |
 | [src/org/nuim/cyclone/parser/ast/SymTable.java](/src/org/nuim/cyclone/parser/ast/SymTable.java) | Java | 27 | 0 | 5 | 32 |
 | [src/org/nuim/cyclone/parser/ast/SymTable64.java](/src/org/nuim/cyclone/parser/ast/SymTable64.java) | Java | 38 | 1 | 10 | 49 |
+| [src/org/nuim/cyclone/util/AdjList.java](/src/org/nuim/cyclone/util/AdjList.java) | Java | 70 | 0 | 16 | 86 |
 | [src/org/nuim/cyclone/util/BitVector.java](/src/org/nuim/cyclone/util/BitVector.java) | Java | 120 | 15 | 39 | 174 |
 | [src/org/nuim/cyclone/util/Color.java](/src/org/nuim/cyclone/util/Color.java) | Java | 12 | 0 | 2 | 14 |
 | [src/org/nuim/cyclone/util/ColorPrint.java](/src/org/nuim/cyclone/util/ColorPrint.java) | Java | 11 | 0 | 5 | 16 |
 | [src/org/nuim/cyclone/util/Entry.java](/src/org/nuim/cyclone/util/Entry.java) | Java | 23 | 0 | 7 | 30 |
-| [test/model/ModelTest.java](/test/model/ModelTest.java) | Java | 41 | 3 | 10 | 54 |
+| [test/model/ModelTest.java](/test/model/ModelTest.java) | Java | 75 | 11 | 12 | 98 |
 | [test/parser/ParserTest.java](/test/parser/ParserTest.java) | Java | 40 | 0 | 8 | 48 |
+| [test/path/PathTest.java](/test/path/PathTest.java) | Java | 38 | 0 | 8 | 46 |
 
 [summary](results.md)
