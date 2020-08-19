@@ -12,22 +12,26 @@ import org.nuim.cyclone.parser.ast.ASTMachine;
 import org.nuim.cyclone.parser.ast.*;
 import org.nuim.cyclone.model.Machine;
 import org.nuim.cyclone.compiler.graph.StateMatrix;
+import org.nuim.cyclone.compiler.gen.PathGenerator;
+import org.nuim.cyclone.compiler.MachineSolver;
+import uran.solver.Result;
 
 public class MachineCompiler {
 
     public static final int COMPILE_ERROR=-1;
     public static final int UNEXPECTED_ERROR=-2;
     public static final int COMPILE_SUCCESS=0;
+    private static ColorPrint out = new ColorPrint();
 
     public static int compileMachine(InputStream in,String inName, PrintWriter err){
         ParseErrorHandler errHandler = new ParseErrorHandler(inName, err);
         ANTLRInputStream aInput;
-        ColorPrint out = new ColorPrint();
+        
         out.println("Launching compiler...",Color.GREEN);
         int COMPILE_RESULT=COMPILE_SUCCESS;
 
         try {
-			aInput = new ANTLRInputStream(in);
+            aInput = new ANTLRInputStream(in);
             aInput.name = inName;
 		} catch (IOException e1) {
             err.println(e1.getMessage());
@@ -87,6 +91,7 @@ public class MachineCompiler {
             else
                 out.println("Compile is failed.",Color.RED);
             
+            compile(matrix);
             return COMPILE_RESULT;
         }
         catch(RecognitionException e){
@@ -97,6 +102,25 @@ public class MachineCompiler {
         }
 
         out.println("compile is finished",Color.GREEN);
+        return COMPILE_SUCCESS;
+    }
+
+    private static int compile(StateMatrix matrix){
+        PathGenerator pgen = new PathGenerator(matrix,6);
+        MachineSolver msolver = new MachineSolver(pgen);
+
+        Result result = msolver.solve();
+
+        if (result==Result.SAT){
+            out.println("sat.",Color.GREEN);
+            out.println("Time spent:" + msolver.time()+" msc ",Color.GREEN);
+            out.println(" Path:"+msolver.Path(),Color.WHITE);
+        }
+        else{
+            out.println(result.toString(),Color.RED);
+            out.println("Time spent:" + msolver.time()+" msc ",Color.RED);
+        } 
+        
         return COMPILE_SUCCESS;
     }
 

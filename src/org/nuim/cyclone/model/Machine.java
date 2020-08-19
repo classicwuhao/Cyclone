@@ -14,6 +14,7 @@ public class Machine extends Expression{
     private Map<String, Invariant> invariants = new TreeMap<String, Invariant>();
     private State start_state;
     private List<State> final_states = new ArrayList<State>();
+    private String filename;
 
     public Machine(){
         super(new MachineType());
@@ -33,6 +34,14 @@ public class Machine extends Expression{
         return errorLog().errors();
     }
 
+    public void setFileName(String file){
+        this.filename=file;
+    }
+
+    public String filename(){
+        return this.filename;
+    }
+    
     public void addState(State state) throws InvalidSpecException{
         if (states.containsKey(state.name())){
             logErrors(state.info()," Spec has already contained a state: "+state.name());

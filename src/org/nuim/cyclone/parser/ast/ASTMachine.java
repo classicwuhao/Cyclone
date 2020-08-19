@@ -53,6 +53,7 @@ public class ASTMachine extends ASTExpression{
         machine = new Machine(this.name());
         context.setVariables(this.variables);
         this.setContext(context);
+        machine.setFileName(context.name());
         /* 
          * Variables.
          * */ 

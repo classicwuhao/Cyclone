@@ -87,8 +87,9 @@
 				<path refid="classpath.test" />
 				<pathelement location="${test.build.dir}"/>
 		</classpath>
-		<test name="test.parser.ParserTest" />
-		<test name="test.model.ModelTest" />
+		<!-- test name="test.parser.ParserTest" /-->
+		<!-- test name="test.model.ModelTest" / -->
+		<test name="test.path.PathTest" />
 		</junit>
 		<echo>"Leaving parser test." </echo>
 	</target>
