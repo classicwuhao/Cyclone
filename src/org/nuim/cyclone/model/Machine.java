@@ -15,6 +15,7 @@ public class Machine extends Expression{
     private State start_state;
     private List<State> final_states = new ArrayList<State>();
     private String filename;
+    private Goal goal;
 
     public Machine(){
         super(new MachineType());
@@ -120,6 +121,18 @@ public class Machine extends Expression{
         invariants.put(inv.name(),inv);
     }
 
+    public void addGoal(Goal goal){
+        this.goal = goal;
+    }
+
+    public Goal getGoal(){
+        return this.goal;
+    }
+
+    public boolean hasGoal(){
+        return this.goal!=null;
+    }
+    
     public Invariant getInv(String name){
         return invariants.get(name);
     }

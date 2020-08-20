@@ -50,7 +50,7 @@ machine returns [ASTMachine machine]:
         (s=state {$machine.addState(s);} )* 
         (t=trans {$machine.addTrans(t);})*
         (i=invariantExpression {$machine.addInv(i);})*
-        (goal) ?
+        (g=goal {$machine.addGoal(g);}) ?
     RBRACE EOF
 ;
 
@@ -107,18 +107,40 @@ invariantExpression returns [ASTInvariant astinv]
     (FOR LBRACE s=identifier {$astinv.addState(s);} (COMMA t=identifier {$astinv.addState(t);} )* RBRACE)?
 ;
 
-goal:
-    GOAL LBRACE
-    CHECK forExpr  (stopExpr)?
+goal returns [ASTGoal astgoal]@init{
+    $astgoal = new ASTGoal();
+ }:
+    g=GOAL LBRACE
+    t=CHECK f=forExpr {
+        $astgoal.setToken(g);
+        $astgoal.setFor(f);
+    } 
+    (s=stopExpr 
+        {
+            $astgoal.setStop(s);
+        }   
+    )?
     RBRACE
 ;
 
-forExpr:
-    FOR INTLITERAL
+forExpr returns [ASTForExpression forexpr]:
+    t=FOR l=INTLITERAL{
+        int s = Integer.parseInt(l.getText());
+        $forexpr = new ASTForExpression(t,s);
+    }
 ;
 
-stopExpr:
-    (STOP AT  LPAREN identifier (COMMA identifier)* RPAREN )
+stopExpr returns [ASTStopExpression aststop]@init{
+    $aststop = new ASTStopExpression();
+ }:
+    (t=STOP {$aststop.setToken(t);} AT  LPAREN 
+        s1 = identifier {
+            $aststop.addState(s1.identifier());
+        }
+        (COMMA s2=identifier {
+            $aststop.addState(s2.identifier());}
+        )* 
+    RPAREN )
 ;
 
 label returns [ASTLiteral literal_node]:

@@ -4,16 +4,15 @@ machine simple{
 
     abstract start state S0{}
     abstract state S1{}
-    abstract final state S2{}
+    abstract state S2{}
 
     transition t1 { S0 -> S1 }
     transition t2 { S1 -> S0 }
     transition t3 { S1 -> S2 }
     transition t4 { S2 -> S1 }
-    transition t5 { S2 -> S2 }
 
-
+    /* goal section */
     goal{
-        check for 5 stop at (S2,S1)
+        check for 5 stop at (S1)
     }
 }

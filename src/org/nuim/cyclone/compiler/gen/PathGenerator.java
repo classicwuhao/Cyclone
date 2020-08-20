@@ -1,6 +1,10 @@
 package org.nuim.cyclone.compiler.gen;
 import org.nuim.cyclone.compiler.graph.StateMatrix;
 import org.nuim.cyclone.compiler.GenerationException;
+import org.nuim.cyclone.model.State;
+import org.nuim.cyclone.model.Goal;
+import org.nuim.cyclone.model.ForExpr;
+import org.nuim.cyclone.model.StopExpr;
 import uran.formula.*;
 import uran.formula.type.*;
 import java.util.List;
@@ -23,6 +27,8 @@ public class PathGenerator {
 
     public PathGenerator(StateMatrix matrix){
         this.matrix = matrix;
+        Goal goal = this.matrix.machine().getGoal();
+        this.steps = goal.ForExpr().steps();
     }
 
     public void gen() throws GenerationException{
@@ -31,7 +37,21 @@ public class PathGenerator {
 
     public void gen_with_finals() throws GenerationException{
         gen(steps);
-        gen_finals();
+        AbstractFormula final_formula = gen_finals();
+        AbstractFormula stop_formula = gen_stops();
+
+        if (final_formula!=null && stop_formula!=null){
+            formulas.add(FormulaBuilder.some(final_formula,stop_formula));
+        }else if (final_formula!=null && stop_formula==null){
+            formulas.add(final_formula);
+        }else if (final_formula==null && stop_formula!=null){
+            formulas.add(stop_formula);
+        }
+        else{
+            //Error: no final/stop state has been specified.
+            throw new GenerationException(" No final/stop state(s) are being specified.");
+        }
+        
     }
 
     /* Generate path constraints 
@@ -83,12 +103,12 @@ public class PathGenerator {
     }
 
     /* generate constraints for the set of final states. */ 
-    private void gen_finals(){
+    private AbstractFormula gen_finals(){
         List<Integer> finals = this.matrix.finals();
         Constant f = factory.conLookup(TRACE_STR+steps);
         AbstractFormula formula;
 
-        if (finals.size()==0) return;
+        if (finals.size()==0) return null;
         formula = new EqFormula(f,new NumLiteral(finals.get(0)));
         
         for (int i=1;i<finals.size();i++){
@@ -97,7 +117,23 @@ public class PathGenerator {
             );
         }
 
-        formulas.add(formula);
+        return formula;
+    }
+
+    private AbstractFormula gen_stops(){
+        AbstractFormula formula;
+        Constant f = factory.conLookup(TRACE_STR+steps);
+        Goal goal = this.matrix.machine().getGoal();
+        if (!goal.hasStop()) return null;
+
+        StopExpr stopexpr = goal.StopExpr();
+        State s = stopexpr.states().get(0);
+        formula = new EqFormula(f, new NumLiteral(s.uid()));
+        List<State> states = stopexpr.states();
+        for (int i=1;i<states.size();i++){
+            formula = new OrFormula(formula, new EqFormula(f, new NumLiteral(states.get(i).uid())));
+        }
+        return formula;
     }
 
     public List<Function> trace(){

@@ -21,6 +21,9 @@ public class MachineCompiler {
     public static final int COMPILE_ERROR=-1;
     public static final int UNEXPECTED_ERROR=-2;
     public static final int COMPILE_SUCCESS=0;
+    public static final int SOLVE_SUCCESS=0;
+    public static final int SOLVE_FAILED=-1;
+
     private static ColorPrint out = new ColorPrint();
 
     public static int compileMachine(InputStream in,String inName, PrintWriter err){
@@ -102,14 +105,17 @@ public class MachineCompiler {
     }
 
     private static int compile(StateMatrix matrix){
-        PathGenerator pgen = new PathGenerator(matrix,5);
-        MachineSolver msolver = new MachineSolver(pgen);
-        //out.println("Start solving...",Color.WHITE);
-        Result result = msolver.solve();
+        if (!matrix.machine().hasGoal()){
+            out.println("No goal section is found, solving is not performed.",Color.WHITE);
+            return SOLVE_FAILED;
+        }
 
+        PathGenerator pgen = new PathGenerator(matrix);
+        MachineSolver msolver = new MachineSolver(pgen);
+        Result result = msolver.solve();
+        
         if (result==Result.SAT){
             out.println("Solving completed:" + msolver.time()+" msc ",Color.GREEN);
-            //out.println("sat.",Color.GREEN);
             out.println("Path found:"+msolver.Path(),Color.GREEN);
         }
         else{
@@ -118,7 +124,7 @@ public class MachineCompiler {
             out.println("No path found.",Color.RED);
         } 
         
-        return COMPILE_SUCCESS;
+        return SOLVE_SUCCESS;
     }
 
 

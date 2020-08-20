@@ -18,6 +18,7 @@ public class ASTMachine extends ASTExpression{
     private List<ASTInvariant> invariants = new ArrayList<ASTInvariant>();
     private List<ASTTransition> transitions = new ArrayList<ASTTransition>();
     private Machine machine;
+    private ASTGoal goal;
 
     public ASTMachine(String name){
         super(name);
@@ -45,6 +46,10 @@ public class ASTMachine extends ASTExpression{
 
     public void addInv(ASTInvariant inv){
         this.invariants.add(inv);
+    }
+
+    public void addGoal(ASTGoal goal){
+        this.goal=goal;
     }
 
     @Override
@@ -119,6 +124,18 @@ public class ASTMachine extends ASTExpression{
             }
         }
         
+        /**
+         * Goal
+         */
+        if (this.goal==null) return machine;
+        
+        try{
+            machine.addGoal(this.goal.gen(context));
+        }
+        catch(SemanticException e){
+            System.err.println("Invalid goal "+e.getMessage());
+        }
+
         return machine;
     }
     
