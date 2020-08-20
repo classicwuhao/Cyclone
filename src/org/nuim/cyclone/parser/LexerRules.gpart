@@ -29,7 +29,7 @@ NEWLINE	:
     
 // Use paraphrases for nice error messages
 ARROW 		 : '->';
-AT     		 : '@';
+//AT     		 : '@';
 BAR 		 : '|';
 COLON 		 : ':';
 COLON_COLON	 : '::';
@@ -80,7 +80,8 @@ PREV         : 'prev';
 GOAL         : 'goal';
 CHECK        : 'check';
 FOR          : 'for';
-
+STOP         : 'stop';
+AT           : 'at';
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';

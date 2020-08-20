@@ -45,53 +45,49 @@ public class MachineCompiler {
         lexer.init(errHandler);
         parser.init(errHandler);
         ASTContext context = new ASTContext(inName, err);
-
+        COMPILE_RESULT = COMPILE_SUCCESS;
         try{
             ASTMachine node=parser.machine();
             Machine machine=node.gen(context);
             out.println(machine.toString(),Color.BLUE);
             
-            if (errHandler.errorCount() == 0 ){
-                out.println("Syntax checking done.",Color.GREEN);
-            }
-            else{
+            if (errHandler.errorCount() > 0 ){
                 out.println(errHandler.errorCount()+" syntax error(s).",Color.RED);
                 COMPILE_RESULT = COMPILE_ERROR;
             }
+            //out.println("Syntax checking done.",Color.GREEN);
 
-            if (node.context().errors()==0){
-                out.println("Semantic checking done.",Color.GREEN);
-            }
-            else{
+            if (node.context().errors()>0){
                 out.println(node.context().errors()+" semantic error(s).",Color.RED);
                 COMPILE_RESULT = COMPILE_ERROR;
+                
             }
+            //out.println("Semantic checking done.",Color.GREEN);
 
-            if (machine.errors()!=0){
+            if (machine.errors() > 0){
                 out.println(machine.errors()+" type/spec error(s).",Color.RED);
                 COMPILE_RESULT = COMPILE_ERROR;
+            }
+            
+            //out.println("Type/Spec checking done.",Color.GREEN);
+            StateMatrix matrix = new StateMatrix(machine);
+            //out.println(matrix.toString(),Color.BLUE); 
+            
+            if (matrix.errors()>0){
+                out.println(matrix.errors()+" generation error(s).",Color.RED);
+                COMPILE_RESULT = COMPILE_ERROR;
+            }
+            
+            if (COMPILE_RESULT == COMPILE_SUCCESS){
+                out.println("Compile is successful.",Color.GREEN);
+                compile(matrix);
+            }
+            else{
                 out.println("Compile is failed.",Color.RED);
                 return COMPILE_RESULT;
             }
             
-            out.println("Type/Spec checking done.",Color.GREEN);
-            StateMatrix matrix = new StateMatrix(machine);
-            out.println(matrix.toString(),Color.BLUE);    
             
-            if (matrix.errors()!=0){
-                out.println(matrix.errors()+" generation error(s).",Color.RED);
-                COMPILE_RESULT = COMPILE_ERROR;
-            }else{
-
-                COMPILE_RESULT = COMPILE_SUCCESS;
-            }
-            
-            if (COMPILE_RESULT == COMPILE_SUCCESS)
-                out.println("Compile is successful.",Color.GREEN);
-            else
-                out.println("Compile is failed.",Color.RED);
-            
-            compile(matrix);
             return COMPILE_RESULT;
         }
         catch(RecognitionException e){
@@ -106,19 +102,20 @@ public class MachineCompiler {
     }
 
     private static int compile(StateMatrix matrix){
-        PathGenerator pgen = new PathGenerator(matrix,6);
+        PathGenerator pgen = new PathGenerator(matrix,5);
         MachineSolver msolver = new MachineSolver(pgen);
-
+        //out.println("Start solving...",Color.WHITE);
         Result result = msolver.solve();
 
         if (result==Result.SAT){
-            out.println("sat.",Color.GREEN);
-            out.println("Time spent:" + msolver.time()+" msc ",Color.GREEN);
-            out.println(" Path:"+msolver.Path(),Color.WHITE);
+            out.println("Solving completed:" + msolver.time()+" msc ",Color.GREEN);
+            //out.println("sat.",Color.GREEN);
+            out.println("Path found:"+msolver.Path(),Color.GREEN);
         }
         else{
+            out.println("Solving completed:" + msolver.time()+" msc ",Color.RED);
             out.println(result.toString(),Color.RED);
-            out.println("Time spent:" + msolver.time()+" msc ",Color.RED);
+            out.println("No path found.",Color.RED);
         } 
         
         return COMPILE_SUCCESS;

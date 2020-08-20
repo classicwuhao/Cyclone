@@ -35,15 +35,29 @@ public class MachineSolver {
         time = System.currentTimeMillis()-p1;
         return result;
     }
-
+ 
     public long time(){return this.time;}
 
     public String Path(){
+        //StringBuffer raw = new StringBuffer();
         StringBuffer sb = new StringBuffer();
-        for (Function f : this.path.trace()){
+
+        /*for (Function f : this.path.trace()){
             Value value = this.factory.getValue(f.name());
-            sb.append(f.name()+"["+value.toString()+"] ");
+            raw.append(f.name()+"["+value.toString()+"] ");
+            sb.append(this.path.matrix().get(((IntValue)value).getValue()) +" ");
+        }*/
+        
+        for (int i=0;i<this.path.trace().size()-1;i++){
+            Function f = this.path.trace().get(i);
+            Value value = this.factory.getValue(f.name());
+            sb.append(this.path.matrix().get(((IntValue)value).getValue()).name() +"->");
         }
+
+        Function f = this.path.trace().get(this.path.trace().size()-1); 
+        Value value = this.factory.getValue(f.name());
+        sb.append(this.path.matrix().get(((IntValue)value).getValue()).name());
+
         return sb.toString();
     }
 

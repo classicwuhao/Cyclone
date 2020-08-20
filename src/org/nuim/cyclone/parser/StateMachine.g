@@ -50,6 +50,7 @@ machine returns [ASTMachine machine]:
         (s=state {$machine.addState(s);} )* 
         (t=trans {$machine.addTrans(t);})*
         (i=invariantExpression {$machine.addInv(i);})*
+        (goal) ?
     RBRACE EOF
 ;
 
@@ -104,6 +105,20 @@ invariantExpression returns [ASTInvariant astinv]
     RBRACE
     
     (FOR LBRACE s=identifier {$astinv.addState(s);} (COMMA t=identifier {$astinv.addState(t);} )* RBRACE)?
+;
+
+goal:
+    GOAL LBRACE
+    CHECK forExpr  (stopExpr)?
+    RBRACE
+;
+
+forExpr:
+    FOR INTLITERAL
+;
+
+stopExpr:
+    (STOP AT  LPAREN identifier (COMMA identifier)* RPAREN )
 ;
 
 label returns [ASTLiteral literal_node]:
@@ -355,7 +370,7 @@ NEWLINE	:
     
 // Use paraphrases for nice error messages
 ARROW 		 : '->';
-AT     		 : '@';
+//AT     		 : '@';
 BAR 		 : '|';
 COLON 		 : ':';
 COLON_COLON	 : '::';
@@ -406,7 +421,8 @@ PREV         : 'prev';
 GOAL         : 'goal';
 CHECK        : 'check';
 FOR          : 'for';
-
+STOP         : 'stop';
+AT           : 'at';
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';

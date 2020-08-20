@@ -64,6 +64,10 @@ public class StateMatrix {
 
     }
     
+    public State get(int id){
+        return mapping.get(id);
+    }
+
     public int errors(){
         return context.errors();
     }
