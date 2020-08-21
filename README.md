@@ -4,7 +4,7 @@ in a graph-based structures with user-defined properties.
 
 ## Cyclone Compiler [Work-in-Progress]
 This page is to track current progress and status of cyclone's compiler development.
-* Cyclone now is capable of checking/enumerating all possible path(s) with respect to user-defined constraints (See [simple.machine](files/path/pentangle.machine) and [pentangle.machine](files/path/pentangle.machine)). 
+* Cyclone now is capable of checking/enumerating all possible path(s) with respect to user-defined constraints (See [simple.machine](files/path/simple.machine) and [pentangle.machine](files/path/pentangle.machine)). 
 * More path constraint expressions are coming...
 ### Main developer: Hao Wu.
 
