@@ -1,10 +1,11 @@
 
+/* This is a state machine with a pentangle shape */
 machine star{
 
-    abstract start state S0{}
+    abstract state S0{}
     abstract state S1{}
     abstract state S2{}
-    abstract state S3{}
+    abstract start state S3{}
     abstract state S4{}
 
     /* every state has to go through S0 to reach others */
@@ -17,8 +18,10 @@ machine star{
     transition t7 { S3 -> S0 }
     transition t8 { S4 -> S0 }
 
-    /* it must go through S1,S2,S3,S4 and stop at S2 */
+    /**
+     * it must go through S1,S2,S3,S4 (using via expression) and stop at S2 
+     */
     goal{
-        check for 8 via (S1,S2,S3,S4) reach (S0)
+       enumerate for 8 via (S1,S2,S3,S4) reach (S2)
     }
 }

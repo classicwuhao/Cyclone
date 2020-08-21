@@ -5,6 +5,9 @@ import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.Goal;
 import org.nuim.cyclone.model.ForExpr;
 import org.nuim.cyclone.model.StopExpr;
+import org.nuim.cyclone.model.ViaExpr;
+import org.nuim.cyclone.model.StateInclusion;
+import org.nuim.cyclone.model.PathExpr;
 import uran.formula.*;
 import uran.formula.type.*;
 import java.util.List;
@@ -51,8 +54,13 @@ public class PathGenerator {
             //Error: no final/stop state has been specified.
             throw new GenerationException(" No final/stop state(s) are being specified.");
         }
-        
-    }
+
+        /* generate constraints for via expression. */ 
+        if (this.matrix.machine().hasGoal()){
+            Goal goal = this.matrix.machine().getGoal();
+            if (goal.hasViaExpr()) gen_via_expr(goal.ViaExpr());
+        }
+    }   
 
     /* Generate path constraints 
      * Use a queue to keep track of visited states
@@ -66,10 +74,10 @@ public class PathGenerator {
         /* push start state to the queue 1st */
         queue.add(0);
         for (int i=0;i<k;i++){
-            des_formulas.clear();
             Constant t_i = factory.conLookup(TRACE_STR + i);
             Constant t_j = factory.conLookup(TRACE_STR + (i+1));
             int size = queue.size();
+            des_formulas.clear();
             for (int j=0;j<size;j++){
                 int src = queue.poll();
                 AbstractFormula formula1 = new EqFormula(t_i,new NumLiteral(src));
@@ -93,6 +101,10 @@ public class PathGenerator {
                 throw new GenerationException(" no further states can be progressed, the formulas are UNSAT.");
         }
 
+        if (path.size()>=2)
+            formulas.add(FormulaBuilder.all (path.toArray(new AbstractFormula[path.size()])));
+        else if (path.size()==1)
+            formulas.add(path.get(0));
     }
 
     private void trace_gen(int k){
@@ -136,6 +148,32 @@ public class PathGenerator {
         return formula;
     }
 
+    private void gen_via_expr(ViaExpr viaexpr){
+        for (PathExpr expr : viaexpr.exprs()){
+            if (expr.isStateInclusion()){
+                formulas.add(gen_state_inclusion((StateInclusion)expr));
+            }
+        }
+    }
+    
+    /*
+     * IMPORTANT: we have to go through this.steps+1 since 1 step involves two states. 
+     * */ 
+    private AbstractFormula gen_state_inclusion(StateInclusion si_expr){
+        State state = si_expr.state();    
+        List<AbstractFormula> si_formulas = new ArrayList<AbstractFormula>();
+        for (int i=0;i<this.steps+1;i++){
+            Constant f = factory.conLookup(TRACE_STR+i);
+            si_formulas.add(new EqFormula(f, new NumLiteral(state.uid())));
+        }
+
+        return si_formulas.size()>=2 ? 
+                FormulaBuilder.some(si_formulas.toArray(new AbstractFormula[si_formulas.size()])) 
+                : 
+                si_formulas.get(0);
+    }
+
+
     public List<Function> trace(){
         return factory.getAllFunctions();
     }
@@ -144,12 +182,7 @@ public class PathGenerator {
         return path.size();
     }
 
-    public List<AbstractFormula> constraints(){
-        if (path.size()>=2)
-            formulas.add(FormulaBuilder.all (path.toArray(new AbstractFormula[path.size()])));
-        else if (path.size()==1)
-            formulas.add(path.get(0));
-        
+    public List<AbstractFormula> constraints(){      
         return formulas;
     }
 

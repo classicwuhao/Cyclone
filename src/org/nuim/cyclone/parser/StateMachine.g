@@ -111,16 +111,19 @@ goal returns [ASTGoal astgoal]@init{
     $astgoal = new ASTGoal();
  }:
     g=GOAL LBRACE
-    t=CHECK 
+    t=(CHECK | ENUMERATE)
+    {
+        if (t.getText().equals("enumerate")) $astgoal.setEnumerate(true);
+    }
     f=forExpr {
-        $astgoal.setToken(g);
         $astgoal.setFor(f);
-    } 
+    }
 
-    (passExpr) ? 
+    (v=viaExpr {$astgoal.setVia(v);})  ? 
 
     (s=stopExpr 
         {
+            $astgoal.setToken(g);
             $astgoal.setStop(s);
         }   
     )?
@@ -148,8 +151,26 @@ stopExpr returns [ASTStopExpression aststop]@init{
     RPAREN )
 ;
 
-passExpr :
-    VIA LPAREN identifier (COMMA identifier)* RPAREN
+viaExpr returns [ASTViaExpression astvia]@init{
+    $astvia = new ASTViaExpression();   
+}:
+    t=VIA {$astvia.setToken(t);} LPAREN (p1=pathExpr {$astvia.addPathExpr(p1);}  (COMMA p2=pathExpr {$astvia.addPathExpr(p2);} )* ) RPAREN
+;
+
+pathExpr returns [ASTPathExpression astpexpr]:
+    si=stateIncExpr {$astpexpr=si;}
+;
+
+stateIncExpr returns [ASTStateInclusion astsi] @init{
+    $astsi = new ASTStateInclusion();
+}: 
+    s1=identifier {
+        $astsi.setState(s1.identifier());
+        $astsi.setToken(s1.token());
+    }
+    //(COMMA s2=identifier {
+    //    $astsi.addState(s2.identifier());}
+    //)*
 ;
 
 label returns [ASTLiteral literal_node]:
@@ -456,6 +477,8 @@ STOP         : 'stop';
 AT           : 'at';
 VIA          : 'via';
 REACH        : 'reach';
+ENUMERATE    :'enumerate';
+
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';

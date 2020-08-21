@@ -112,11 +112,19 @@ public class MachineCompiler {
 
         PathGenerator pgen = new PathGenerator(matrix);
         MachineSolver msolver = new MachineSolver(pgen);
+        out.println("Enumeration Mode: "+ msolver.isEnumerative(),Color.GREEN);
         Result result = msolver.solve();
         
         if (result==Result.SAT){
             out.println("Solving completed:" + msolver.time()+" msc ",Color.GREEN);
-            out.println("Path found:"+msolver.Path(),Color.GREEN);
+            if (msolver.isEnumerative()){
+                for (String path : msolver.AllPath())
+                    out.println("Path: "+path,Color.GREEN);
+                out.println("Total Path(s): "+ msolver.AllPath().size(),Color.GREEN);
+            }
+            else{
+                out.println("Path found: "+msolver.Path(),Color.GREEN);
+            }
         }
         else{
             out.println("Solving completed:" + msolver.time()+" msc ",Color.RED);

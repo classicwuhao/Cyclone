@@ -84,6 +84,8 @@ STOP         : 'stop';
 AT           : 'at';
 VIA          : 'via';
 REACH        : 'reach';
+ENUMERATE    :'enumerate';
+
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';
