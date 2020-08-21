@@ -26,6 +26,7 @@ public class MachineSolver {
         }
         catch(GenerationException e){
             System.err.println(e.getMessage());
+            return Result.UNKNOWN;
         }
         formulas.addAll(this.path.constraints());
         writer = new SMT2Writer(path.matrix().machine().filename()+".smt2",this.factory,formulas);

@@ -29,11 +29,30 @@ public class PathTest {
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case0());
     }
 
+    @Test
+    public void test1(){
+        PathTest path = new PathTest();
+        assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case1());
+    }
+    
     public int Case0(){
         PrintWriter err = new PrintWriter(System.err);
         try{
             BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/path/simple.machine"));
             int k=MachineCompiler.compileMachine(in,"files/path/simple.machine",err);
+            return k;
+        }
+        catch(FileNotFoundException e){
+            err.println("Error:"+e.getMessage());
+            return -1;
+        }
+    }
+
+    public int Case1(){
+        PrintWriter err = new PrintWriter(System.err);
+        try{
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/path/star.machine"));
+            int k=MachineCompiler.compileMachine(in,"files/path/star.machine",err);
             return k;
         }
         catch(FileNotFoundException e){

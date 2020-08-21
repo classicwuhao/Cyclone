@@ -111,10 +111,14 @@ goal returns [ASTGoal astgoal]@init{
     $astgoal = new ASTGoal();
  }:
     g=GOAL LBRACE
-    t=CHECK f=forExpr {
+    t=CHECK 
+    f=forExpr {
         $astgoal.setToken(g);
         $astgoal.setFor(f);
     } 
+
+    (passExpr) ? 
+
     (s=stopExpr 
         {
             $astgoal.setStop(s);
@@ -133,14 +137,19 @@ forExpr returns [ASTForExpression forexpr]:
 stopExpr returns [ASTStopExpression aststop]@init{
     $aststop = new ASTStopExpression();
  }:
-    (t=STOP {$aststop.setToken(t);} AT  LPAREN 
+    (t=REACH LPAREN 
         s1 = identifier {
+            $aststop.setToken(s1.token());
             $aststop.addState(s1.identifier());
         }
         (COMMA s2=identifier {
             $aststop.addState(s2.identifier());}
         )* 
     RPAREN )
+;
+
+passExpr :
+    VIA LPAREN identifier (COMMA identifier)* RPAREN
 ;
 
 label returns [ASTLiteral literal_node]:
@@ -445,6 +454,8 @@ CHECK        : 'check';
 FOR          : 'for';
 STOP         : 'stop';
 AT           : 'at';
+VIA          : 'via';
+REACH        : 'reach';
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';

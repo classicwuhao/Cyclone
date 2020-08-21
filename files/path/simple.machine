@@ -13,6 +13,6 @@ machine simple{
 
     /* goal section */
     goal{
-        check for 5 stop at (S1)
+        check for 2 reach (S1)
     }
 }

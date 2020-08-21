@@ -82,6 +82,8 @@ CHECK        : 'check';
 FOR          : 'for';
 STOP         : 'stop';
 AT           : 'at';
+VIA          : 'via';
+REACH        : 'reach';
 /* match them in BOOLLITERAL */ 
 //TRUE         : 'true';
 //FALSE        : 'false';
