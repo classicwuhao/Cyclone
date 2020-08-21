@@ -34,7 +34,7 @@ public class PathTest {
         PathTest path = new PathTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case1());
     }
-    
+
     public int Case0(){
         PrintWriter err = new PrintWriter(System.err);
         try{
@@ -51,8 +51,8 @@ public class PathTest {
     public int Case1(){
         PrintWriter err = new PrintWriter(System.err);
         try{
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/path/star.machine"));
-            int k=MachineCompiler.compileMachine(in,"files/path/star.machine",err);
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/path/pentangle.machine"));
+            int k=MachineCompiler.compileMachine(in,"files/path/pentangle.machine",err);
             return k;
         }
         catch(FileNotFoundException e){
