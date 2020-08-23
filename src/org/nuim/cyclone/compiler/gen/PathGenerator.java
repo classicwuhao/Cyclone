@@ -184,12 +184,13 @@ public class PathGenerator {
         for (int i=0;i<=this.steps+1-path.size();i++){
             Constant c = factory.conLookup(TRACE_STR+i);
             State s = path.get(0);
-            AbstractFormula formula_a = new EqFormula(c, new NumLiteral(s.uid()));
+            AbstractFormula formula = new EqFormula(c, new NumLiteral(s.uid()));
             for (int j=1;j<path.size();j++){
                 Constant f = factory.conLookup(TRACE_STR+(j+i));
-                AbstractFormula formula_b = new EqFormula(f, new NumLiteral(path.get(j).uid()));
-                ti_formulas.add(new AndFormula(formula_a, formula_b));
+                AbstractFormula sub_formula = new EqFormula(f, new NumLiteral(path.get(j).uid()));
+                formula = new AndFormula(formula, sub_formula);
             }
+            ti_formulas.add(formula);
         }
 
         return ti_formulas.size()>=2 ? 

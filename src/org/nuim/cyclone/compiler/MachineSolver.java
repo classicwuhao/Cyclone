@@ -49,7 +49,7 @@ public class MachineSolver {
         Result result = solver.solve();
         //allpath.add(this.Path());
         time = System.currentTimeMillis()-p1;
-        writer.clean();
+        //writer.clean();
         return result;
     }
 

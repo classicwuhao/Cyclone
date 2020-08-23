@@ -179,15 +179,16 @@ transIncExpr returns [ASTTransInclusion astti] @init{
 }
 :
     (
-        src=identifier 
-            ARROW 
-        tar=identifier 
-        {
+        src=identifier {
             $astti.setToken(src.token());
             $astti.addState(src.identifier());
+        }
+        (    ARROW tar=identifier 
+        {    
             $astti.addState(tar.identifier());
         }
-    )+
+        )+
+    )
 ;
 
 label returns [ASTLiteral literal_node]:

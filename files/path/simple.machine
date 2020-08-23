@@ -13,6 +13,6 @@ machine simple{
 
     /* goal section */
     goal{
-        check for 1 via (S1, S1->S2) reach (S1)
+        check for 5 via (S1, S2->S1->S2) reach (S1)
     }
 }
