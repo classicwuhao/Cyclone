@@ -7,6 +7,7 @@ import org.nuim.cyclone.model.ForExpr;
 import org.nuim.cyclone.model.StopExpr;
 import org.nuim.cyclone.model.ViaExpr;
 import org.nuim.cyclone.model.StateInclusion;
+import org.nuim.cyclone.model.TransInclusion;
 import org.nuim.cyclone.model.PathExpr;
 import uran.formula.*;
 import uran.formula.type.*;
@@ -152,6 +153,8 @@ public class PathGenerator {
         for (PathExpr expr : viaexpr.exprs()){
             if (expr.isStateInclusion()){
                 formulas.add(gen_state_inclusion((StateInclusion)expr));
+            }else if (expr.isTransInclusion()){
+                formulas.add(gen_trans_inclusion((TransInclusion)expr));
             }
         }
     }
@@ -173,6 +176,27 @@ public class PathGenerator {
                 si_formulas.get(0);
     }
 
+
+    private AbstractFormula gen_trans_inclusion(TransInclusion ti_expr){
+        List<State> path = ti_expr.Path();
+        List<AbstractFormula> ti_formulas = new ArrayList<AbstractFormula>();
+        
+        for (int i=0;i<=this.steps+1-path.size();i++){
+            Constant c = factory.conLookup(TRACE_STR+i);
+            State s = path.get(0);
+            AbstractFormula formula_a = new EqFormula(c, new NumLiteral(s.uid()));
+            for (int j=1;j<path.size();j++){
+                Constant f = factory.conLookup(TRACE_STR+(j+i));
+                AbstractFormula formula_b = new EqFormula(f, new NumLiteral(path.get(j).uid()));
+                ti_formulas.add(new AndFormula(formula_a, formula_b));
+            }
+        }
+
+        return ti_formulas.size()>=2 ? 
+                FormulaBuilder.some(ti_formulas.toArray(new AbstractFormula[ti_formulas.size()]))
+                :
+                ti_formulas.get(0);
+    }
 
     public List<Function> trace(){
         return factory.getAllFunctions();

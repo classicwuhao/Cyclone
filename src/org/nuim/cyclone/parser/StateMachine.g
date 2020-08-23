@@ -159,6 +159,7 @@ viaExpr returns [ASTViaExpression astvia]@init{
 
 pathExpr returns [ASTPathExpression astpexpr]:
     si=stateIncExpr {$astpexpr=si;}
+    | ti=transIncExpr {$astpexpr=ti;}
 ;
 
 stateIncExpr returns [ASTStateInclusion astsi] @init{
@@ -171,6 +172,22 @@ stateIncExpr returns [ASTStateInclusion astsi] @init{
     //(COMMA s2=identifier {
     //    $astsi.addState(s2.identifier());}
     //)*
+;
+
+transIncExpr returns [ASTTransInclusion astti] @init{
+    $astti = new ASTTransInclusion();
+}
+:
+    (
+        src=identifier 
+            ARROW 
+        tar=identifier 
+        {
+            $astti.setToken(src.token());
+            $astti.addState(src.identifier());
+            $astti.addState(tar.identifier());
+        }
+    )+
 ;
 
 label returns [ASTLiteral literal_node]:

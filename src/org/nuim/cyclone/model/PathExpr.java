@@ -5,7 +5,6 @@ public abstract class PathExpr extends Expression {
     public PathExpr(SrcInfo info){super(info);}
 
     public boolean isStateInclusion(){return false;}
-    public boolean isZeroOrMoreSteps(){return false;}
-    public boolean isOneOreMoreSteps(){return false;}
-        
+    public boolean isTransInclusion(){return false;}
+    
 }

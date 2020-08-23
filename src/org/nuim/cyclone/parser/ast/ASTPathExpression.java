@@ -17,7 +17,7 @@ public abstract class ASTPathExpression extends ASTExpression {
 
     public void setToken(Token token){this.token=token;}
     public boolean isStateInclusion(){return false;}
-    public boolean isZeroOrMoreSteps(){return false;}
-    public boolean isOneOreMoreSteps(){return false;}
+    public boolean isTransInclusion(){return false;}
+    //public boolean isOneOreMoreSteps(){return false;}
 
 }
