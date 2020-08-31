@@ -19,4 +19,6 @@ machine simple{
     goal{
         check for 5 via reach (S1)
     }
+
+    
 }

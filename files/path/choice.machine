@@ -21,12 +21,21 @@ machine choice{
     transition t8 { S5 -> S0 }
     transition t9 { S5 -> S1 }
     
-      /* goal section 
-       * Find a path p such that :
-       * 1) has setps of 4 (path length of 5) and stops at node S0.
-       * 2) contains a subpath such that: begins from node S0, ends at node S0 and with node S4 in the middle.
-       */
+    /* goal section 
+     * Find a path p such that :
+     * 1) has setps of 4 (path length of 5) and stops at node S0.
+     * 2) contains a subpath such that: begins from node S0, ends at node S0 and with node S4 in the middle.
+     */
     goal{
         check for 4 via (S0->_->S4->_->S0) reach (S0)
     }
+  
+    /** 
+     * uncomment the following goal section to
+     * Find ALL path p.
+     */ 
+    /* goal{
+     *   enumerate for 4 via (S0->_->S4->_->S0) reach (S0)
+     * }
+     */
 }

@@ -1,22 +1,3 @@
-# Cyclone: A General Framework for Solving Graph-based Structural Constraints.
-Cyclone comes with its own specification language and compiler. It works together with our engine [uran](https://github.com/classicwuhao/uran) to explore all possible path 
-in a graph-based structures with user-defined properties.
-
-## Cyclone Front-end
-The front-end of Cyclone consists of a set of grammar rules (See [here](files/parser/garmmar.txt)), generates ASTs to allow a simple type checker to walk through and generate intermediate model for the back-end.
-
-## Cyclone Compiler [Work-in-Progress]
-The back-end of Cyclone builds graphs and uses specialised algorithms together with uran (See [here](https://github.com/classicwuhao/uran)) to generate SMT formulas that can be efficiently checked by a SMT solver. Currently, the back-end of Cyclone is constantly under development. I set up this page to track current progress and status of cyclone's compiler development. Intially, Cyclone was designed to verify Cyber-Physical-Systems. However, as the development progresses I am designing Cyclone at a much more general level and aims to solve challenging problems from the areas such as:
-* Control Flow Analysis (See [choice.machine](files/path/choice.machine))
-* String Analysis (See [odd_even.machine](files/model/odd_even.machine))
-* Cyber-Physical-Systems Verification (See [counter.machine](files/model/counter.machine))
-* Graph Searching (See [simple.machine](files/path/simple.machine) and [pentangle.machine](files/path/pentangle.machine))
-* Test case generation (See enumeration section in [choice.machine](files/path/choice.machine))
-
-I am currently working on designing more algorithms to work with current path generation engine. Much more interesting things are coming up... :-)
-
-### Main developer: Hao Wu.
-
 # Summary
 
 Date : 2020-08-31 17:31:53

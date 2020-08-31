@@ -1,0 +1,192 @@
+
+/* Author: Hao Wu 
+ * Cyclone specification language for specifying state machines.
+ * 03-July-2020
+ */
+Cyclone Garmmar ->
+
+machine ->
+    MACHINE identifier LBRACE
+        globalVariableDecl
+        state
+        trans
+        invariantExpression
+        goal ?
+    RBRACE EOF
+
+state ->
+    (stateModifier)* 
+    STATE identifier LBRACE
+        (localVariableDecl)*
+        (expression SEMI)*
+    RBRACE
+
+trans ->
+    TRANS identifier LBRACE
+        identifier 
+        ARROW identifier 
+        (ON label)?
+        (WHERE expression SEMI)?
+    RBRACE
+
+invariantExpression ->
+:   INVARIANT 
+        identifier 
+    LBRACE 
+        (expression SEMI)+ 
+    RBRACE
+    (FOR LBRACE identifier (COMMA identifier )* RBRACE)?
+
+goal ->
+    GOAL LBRACE
+    (CHECK | ENUMERATE)
+    forExpr (viaExpr) ? (stopExpr) ?
+    RBRACE
+
+forExpr -> 
+    FOR INTLITERAL
+
+stopExpr ->
+    REACH LPAREN identifier 
+        (COMMA identifier)* 
+    RPAREN
+
+viaExpr ->
+    VIA LPAREN 
+    (pathExpr (COMMA pathExpr)*) 
+    RPAREN
+
+pathExpr ->
+    stateIncExpr 
+    | transIncExpr 
+
+stateIncExpr -> 
+    identifier 
+
+transIncExpr ->
+    ( (src=identifier | pathOP)
+        ( ARROW         
+            (tar=identifier | op=pathOP)
+        )+
+    )
+
+pathOP ->
+    P_OP_ONE 
+    | P_OP_ZERO_OR_MORE
+    | P_OP_ONE_ONE_MORE
+    | P_OP_ZERO_ONE
+
+label ->
+    STRINGLITERAL
+
+identifier ->
+    IDENT 
+
+stateModifier -> 
+      START 
+    | FINAL 
+    | ABSTRACT 
+    | NORMAL 
+
+literal -> 
+      INTLITERAL 
+    | REALLITERAL 
+    | BOOLLITERAL 
+    | STRINGLITERAL 
+    | CHARLITERAL 
+
+globalVariableDecl -> 
+    type variableDeclarator SEMI
+
+localVariableDecl ->
+    type variableDeclarator SEMI
+
+type ->
+    primitiveType 
+    |   enumType
+
+primitiveType -> 
+      INT 
+    | BOOL 
+    | REAL 
+    | STRING 
+
+enumType ->
+    ENUM LBRACE identifier 
+    (COMMA identifier )* RBRACE
+
+variableDeclarator ->
+    identifier 
+    ('=' variableInitializer )? 
+    (WHERE expression) ?
+
+variableInitializer -> 
+    expression 
+
+expression ->
+        conditionalImpliesExpression 
+        assignmentOperator ?
+
+assignmentOperator ->
+    :  '='  
+    |  '+=' 
+    |  '-=' 
+    |  '*=' 
+    |  '/=' 
+
+conditionalImpliesExpression ->
+    :   nOrExpr=conditionalOrExpression 
+        (IMPLIES conditionalOrExpression )*
+
+
+conditionalOrExpression ->
+    :  conditionalAndExpression
+        ('||' conditionalAndExpression)*
+
+conditionalAndExpression ->
+    :   nXorExpr=conditionalXorExpression 
+        ( '&&' conditionalXorExpression)*
+    
+conditionalXorExpression ->
+    :  equalityExpression (XOR equalityExpression)*
+
+equalityExpression ->
+    relationalExpression 
+        (('==' | '!=' ) relationalExpression)*
+
+relationalExpression ->
+    : additiveExpression 
+        (relationalOp additiveExpression)*
+
+relationalOp ->
+    '<=' 
+    | '>=' 
+    | '<'  
+    | '>'  
+    
+additiveExpression ->
+    multiplicativeExpression 
+        (('+' | '-') multiplicativeExpression)*
+
+multiplicativeExpression ->
+        unaryExpression 
+        (('*' | '/' | '%' ) unaryExpression )*
+    
+unaryExpression ->
+    :   '+' unaryExpression 
+    |   '-' unaryExpression  
+    | unaryExpressionNotPlusMinus
+    
+unaryExpressionNotPlusMinus ->
+    :  '!' unaryExpression 
+    | primary ('--' | '++')?
+        
+primary ->
+    :   parExpression 
+    |   identifier
+        DOT identifier
+    |   literal 
+    |   PREV LPAREN identifier RPAREN 
+    
+parExpression -> 
+    :   '(' e=expression ')'

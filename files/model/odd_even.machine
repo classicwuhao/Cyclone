@@ -1,5 +1,5 @@
 
-/* a standard DFA machine */
+/* a standard DFA machine accepting odd number of 0s */
 machine odd_even{
 
     abstract start state S0{}
@@ -11,4 +11,7 @@ machine odd_even{
     transition t3 {S1 -> S0 on "0"}
     transition t4 {S1 -> S1 on "1"}
 
+    goal {
+        check for 4 reach (S1)
+    }
 }
