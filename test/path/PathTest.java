@@ -23,7 +23,7 @@ public class PathTest {
         PathTest path = new PathTest();
     }
     
-   @Test
+   /*@Test
     public void test0(){
         PathTest path = new PathTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case0());
@@ -33,6 +33,12 @@ public class PathTest {
     public void test1(){
         PathTest path = new PathTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case1());
+    }*/
+
+    @Test
+    public void test2(){
+        PathTest path = new PathTest();
+        assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case2());
     }
 
     public int Case0(){
@@ -61,5 +67,18 @@ public class PathTest {
         }
     }
 
+
+    public int Case2(){
+        PrintWriter err = new PrintWriter(System.err);
+        try{
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/path/choice.machine"));
+            int k=MachineCompiler.compileMachine(in,"files/path/choice.machine",err);
+            return k;
+        }
+        catch(FileNotFoundException e){
+            err.println("Error:"+e.getMessage());
+            return -1;
+        }
+    }
 
 }

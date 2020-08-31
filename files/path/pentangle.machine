@@ -21,9 +21,12 @@ machine pentangle{
     transition t9 { S4 -> S0 }
     transition t10 { S5 -> S0 }
     /**
-     * it must go through S1,S2,S3,S4,S5 (using via expression) and stop at S2 
+     * goal section 
+     * Find ALL path and each of them is:
+     * 1) has steps of 8
+     * 2) contains a subpath: S5,S0,S1 and stops at S2.
      */
     goal{
-       enumerate for 8 via (S1,S2,S3,S4,S5) reach (S2)
+       enumerate for 8 via (S5->S0->S1) reach (S2)
     }
 }

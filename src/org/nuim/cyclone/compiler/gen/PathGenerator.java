@@ -9,6 +9,7 @@ import org.nuim.cyclone.model.ViaExpr;
 import org.nuim.cyclone.model.StateInclusion;
 import org.nuim.cyclone.model.TransInclusion;
 import org.nuim.cyclone.model.PathExpr;
+import org.nuim.cyclone.model.SpecialState;
 import uran.formula.*;
 import uran.formula.type.*;
 import java.util.List;
@@ -85,6 +86,7 @@ public class PathGenerator {
                 List<Integer> nodes = this.matrix.next(src);
                 nodes.remove(0);
                 for (int l=0;l<nodes.size();l++){
+                    //System.out.println(nodes.get(l));
                     if (!queue.contains(nodes.get(l))) queue.add(nodes.get(l));
                     des_formulas.add(
                         new AndFormula(formula1, new EqFormula(t_j, new NumLiteral(nodes.get(l))))
@@ -154,7 +156,8 @@ public class PathGenerator {
             if (expr.isStateInclusion()){
                 formulas.add(gen_state_inclusion((StateInclusion)expr));
             }else if (expr.isTransInclusion()){
-                formulas.add(gen_trans_inclusion((TransInclusion)expr));
+                AbstractFormula formula = gen_trans_inclusion((TransInclusion)expr);
+                if (formula!=null) formulas.add(formula);
             }
         }
     }
@@ -176,7 +179,6 @@ public class PathGenerator {
                 si_formulas.get(0);
     }
 
-
     private AbstractFormula gen_trans_inclusion(TransInclusion ti_expr){
         List<State> path = ti_expr.Path();
         List<AbstractFormula> ti_formulas = new ArrayList<AbstractFormula>();
@@ -184,14 +186,26 @@ public class PathGenerator {
         for (int i=0;i<=this.steps+1-path.size();i++){
             Constant c = factory.conLookup(TRACE_STR+i);
             State s = path.get(0);
+            if (s.isSpecial()){
+                SpecialState ss = (SpecialState)s;
+                if (ss.isOne()) continue;
+            }
             AbstractFormula formula = new EqFormula(c, new NumLiteral(s.uid()));
             for (int j=1;j<path.size();j++){
+                s = path.get(j);
+                if (s.isSpecial()){
+                    SpecialState ss = (SpecialState)s;
+                    if (ss.isOne()) continue;
+                }
                 Constant f = factory.conLookup(TRACE_STR+(j+i));
                 AbstractFormula sub_formula = new EqFormula(f, new NumLiteral(path.get(j).uid()));
                 formula = new AndFormula(formula, sub_formula);
             }
             ti_formulas.add(formula);
         }
+
+        /* no need for generating extra formulas */ 
+        if (ti_formulas.size()==0) return null;
 
         return ti_formulas.size()>=2 ? 
                 FormulaBuilder.some(ti_formulas.toArray(new AbstractFormula[ti_formulas.size()]))

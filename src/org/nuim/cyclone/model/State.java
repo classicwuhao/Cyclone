@@ -31,6 +31,11 @@ public class State extends Expression{
         super(name, new StateType());
     }
 
+    public State(String name, SrcInfo info){
+        super(name,info);
+        this.setType(new StateType());
+    }
+    
     public State(String name, BitVector modifier){
         super(name, new StateType());
         this.modifier=modifier;
@@ -113,6 +118,13 @@ public class State extends Expression{
     @Override
     public boolean isState(){return true;}
     
+    /* 
+     * For special state defined in our path operators:
+     * Operators:  _ ? * 
+     * 
+     * */ 
+    public boolean isSpecial(){return false;}
+
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();

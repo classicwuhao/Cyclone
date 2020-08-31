@@ -1,0 +1,32 @@
+/* 
+ * A machine to model program control flow that has if-else and while statements:
+ * Test case generation 
+ */
+machine choice{
+
+    abstract start state S0{}
+    abstract state S1{}
+    abstract state S2{}
+    abstract state S3{}
+    abstract state S4{}
+    abstract state S5{}
+    
+    transition t1 { S0 -> S1 }
+    transition t2 { S0 -> S2 } 
+    transition t3 { S1 -> S3 }
+    transition t4 { S2 -> S3 }
+    transition t5 { S2 -> S4 }
+    transition t6 { S3 -> S5 }
+    transition t7 { S4 -> S5 }
+    transition t8 { S5 -> S0 }
+    transition t9 { S5 -> S1 }
+    
+      /* goal section 
+       * Find a path p such that :
+       * 1) has setps of 4 (path length of 5) and stops at node S0.
+       * 2) contains a subpath such that: begins from node S0, ends at node S0 and with node S4 in the middle.
+       */
+    goal{
+        check for 4 via (S0->_->S4->_->S0) reach (S0)
+    }
+}

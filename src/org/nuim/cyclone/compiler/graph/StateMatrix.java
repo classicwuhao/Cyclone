@@ -55,13 +55,12 @@ public class StateMatrix {
             sm.add(i+1,i+1);
             if (s.isFinal()) finals.add(i+1);
         }
-
+        
         for (Transition trans : machine.AllTrans()){
             State source = trans.source();
             State target = trans.target();
-            sm.add(source.uid(),target.uid());
+            sm.add(target.uid(),source.uid());
         }
-
     }
     
     public State get(int id){

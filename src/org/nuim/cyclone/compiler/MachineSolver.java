@@ -107,7 +107,7 @@ public class MachineSolver {
         Function f = this.path.trace().get(this.path.trace().size()-1); 
         Value value = this.factory.getValue(f.name());
         sb.append(this.path.matrix().get(((IntValue)value).getValue()).name());
-
+        
         return sb.toString();
     }
 

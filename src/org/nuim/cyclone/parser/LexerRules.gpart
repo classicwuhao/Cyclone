@@ -58,7 +58,7 @@ STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
 NOT          : '!';
-
+P_OP_ONE     : '_';
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';

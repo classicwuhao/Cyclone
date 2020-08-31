@@ -11,8 +11,12 @@ machine simple{
     transition t3 { S1 -> S2 }
     transition t4 { S2 -> S1 }
 
-    /* goal section */
+    /* goal section 
+     * Find a path p such that :
+     * 1) within 5 steps 
+     * 2) starts from S0 and stops at S1
+     */
     goal{
-        check for 5 via (S1, S2->S1->S2) reach (S1)
+        check for 5 via reach (S1)
     }
 }

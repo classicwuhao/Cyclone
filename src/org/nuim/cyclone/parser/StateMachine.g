@@ -179,16 +179,31 @@ transIncExpr returns [ASTTransInclusion astti] @init{
 }
 :
     (
-        src=identifier {
+        (src=identifier {
             $astti.setToken(src.token());
             $astti.addState(src.identifier());
-        }
-        (    ARROW tar=identifier 
-        {    
-            $astti.addState(tar.identifier());
-        }
+        } | 
+        op=pathOP {
+            $astti.setToken(op.token());
+            $astti.addState(op.operator());
+            $astti.addPathOperator(op);
+        })
+
+        (    
+            ARROW         
+            (tar=identifier {    
+                $astti.addState(tar.identifier());
+            } | 
+            op=pathOP {
+                $astti.addState(op.operator());
+                $astti.addPathOperator(op);
+            })
         )+
     )
+;
+
+pathOP returns [ASTPathOperator operator] :
+    t = P_OP_ONE {$operator = new ASTPathOpOne(t);}
 ;
 
 label returns [ASTLiteral literal_node]:
@@ -469,7 +484,7 @@ STAR 		 : '*';
 XOR          : 'xor';
 IMPLIES      : '=>';
 NOT          : '!';
-
+P_OP_ONE     : '_';
 //keywords
 STATE		 : 'state';
 MACHINE		 : 'machine';
