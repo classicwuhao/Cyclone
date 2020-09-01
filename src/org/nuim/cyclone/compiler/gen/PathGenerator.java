@@ -24,6 +24,7 @@ public class PathGenerator {
     private final String TRACE_STR="T";
     List<AbstractFormula> path = new ArrayList<AbstractFormula>();
     private int steps;
+    private int formula_size;
 
     public PathGenerator(StateMatrix matrix, int steps){
         this.matrix = matrix;
@@ -83,6 +84,7 @@ public class PathGenerator {
             for (int j=0;j<size;j++){
                 int src = queue.poll();
                 AbstractFormula formula1 = new EqFormula(t_i,new NumLiteral(src));
+                this.incFormulaSize();
                 List<Integer> nodes = this.matrix.next(src);
                 nodes.remove(0);
                 for (int l=0;l<nodes.size();l++){
@@ -91,6 +93,7 @@ public class PathGenerator {
                     des_formulas.add(
                         new AndFormula(formula1, new EqFormula(t_j, new NumLiteral(nodes.get(l))))
                     );
+                    this.incFormulaSize();
                 }
             }
 
@@ -114,6 +117,7 @@ public class PathGenerator {
         for (int i=0;i<k;i++){
             Constant v = factory.createConstant(TRACE_STR+i,new Int());
             formulas.add(FormulaBuilder.range(0, this.matrix.size()-1, v, true));
+            this.incFormulaSize();
         }
     }
 
@@ -125,11 +129,13 @@ public class PathGenerator {
 
         if (finals.size()==0) return null;
         formula = new EqFormula(f,new NumLiteral(finals.get(0)));
-        
+        this.incFormulaSize();
+
         for (int i=1;i<finals.size();i++){
             formula = new OrFormula(
                 formula, new EqFormula(f, new NumLiteral(finals.get(i)))
             );
+            this.incFormulaSize();
         }
 
         return formula;
@@ -144,9 +150,12 @@ public class PathGenerator {
         StopExpr stopexpr = goal.StopExpr();
         State s = stopexpr.states().get(0);
         formula = new EqFormula(f, new NumLiteral(s.uid()));
+        this.incFormulaSize();
         List<State> states = stopexpr.states();
+
         for (int i=1;i<states.size();i++){
             formula = new OrFormula(formula, new EqFormula(f, new NumLiteral(states.get(i).uid())));
+            this.incFormulaSize();
         }
         return formula;
     }
@@ -171,6 +180,7 @@ public class PathGenerator {
         for (int i=0;i<this.steps+1;i++){
             Constant f = factory.conLookup(TRACE_STR+i);
             si_formulas.add(new EqFormula(f, new NumLiteral(state.uid())));
+            this.incFormulaSize();
         }
 
         return si_formulas.size()>=2 ? 
@@ -191,6 +201,7 @@ public class PathGenerator {
                 if (ss.isOne()) continue;
             }
             AbstractFormula formula = new EqFormula(c, new NumLiteral(s.uid()));
+            this.incFormulaSize();
             for (int j=1;j<path.size();j++){
                 s = path.get(j);
                 if (s.isSpecial()){
@@ -200,6 +211,7 @@ public class PathGenerator {
                 Constant f = factory.conLookup(TRACE_STR+(j+i));
                 AbstractFormula sub_formula = new EqFormula(f, new NumLiteral(path.get(j).uid()));
                 formula = new AndFormula(formula, sub_formula);
+                this.incFormulaSize();
             }
             ti_formulas.add(formula);
         }
@@ -211,6 +223,14 @@ public class PathGenerator {
                 FormulaBuilder.some(ti_formulas.toArray(new AbstractFormula[ti_formulas.size()]))
                 :
                 ti_formulas.get(0);
+    }
+
+    private void incFormulaSize(){
+        this.formula_size++;
+    }
+
+    public int formula_size(){
+        return this.formula_size;
     }
 
     public List<Function> trace(){

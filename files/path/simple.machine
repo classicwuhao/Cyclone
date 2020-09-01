@@ -17,8 +17,7 @@ machine simple{
      * 2) starts from S0 and stops at S1
      */
     goal{
-        check for 5 via reach (S1)
+        check for 5 reach (S1)
     }
 
-    
 }

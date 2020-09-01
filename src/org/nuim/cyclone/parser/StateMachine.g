@@ -110,7 +110,7 @@ invariantExpression returns [ASTInvariant astinv]
 goal returns [ASTGoal astgoal]@init{
     $astgoal = new ASTGoal();
  }:
-    g=GOAL LBRACE
+    g=GOAL {$astgoal.setToken(g);} LBRACE
     t=(CHECK | ENUMERATE)
     {
         if (t.getText().equals("enumerate")) $astgoal.setEnumerate(true);
@@ -123,7 +123,7 @@ goal returns [ASTGoal astgoal]@init{
 
     (s=stopExpr 
         {
-            $astgoal.setToken(g);
+            //$astgoal.setToken(g);
             $astgoal.setStop(s);
         }   
     )?

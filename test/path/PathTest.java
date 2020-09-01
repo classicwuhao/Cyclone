@@ -23,7 +23,7 @@ public class PathTest {
         PathTest path = new PathTest();
     }
     
-   /*@Test
+   @Test
     public void test0(){
         PathTest path = new PathTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case0());
@@ -33,7 +33,7 @@ public class PathTest {
     public void test1(){
         PathTest path = new PathTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,path.Case1());
-    }*/
+    }
 
     @Test
     public void test2(){

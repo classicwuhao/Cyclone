@@ -16,6 +16,7 @@ public class MachineSolver {
     private List<AbstractFormula> formulas = new ArrayList<AbstractFormula>();
     private List<String> allpath = new ArrayList<String>();
     private long time;
+    private Z3SMT2Solver solver;
 
     public MachineSolver(PathGenerator path){
         this.path=path;
@@ -45,7 +46,7 @@ public class MachineSolver {
         }
         formulas.addAll(this.path.constraints());
         writer = new SMT2Writer(path.matrix().machine().filename()+".smt2",this.factory,formulas);
-        Z3SMT2Solver solver = new Z3SMT2Solver(writer);
+        this.solver = new Z3SMT2Solver(writer);
         Result result = solver.solve();
         //allpath.add(this.Path());
         time = System.currentTimeMillis()-p1;
@@ -69,7 +70,7 @@ public class MachineSolver {
         }
         formulas.addAll(this.path.constraints());
         writer = new SMT2Writer(path.matrix().machine().filename()+".smt2",this.factory,formulas);
-        Z3SMT2Solver solver = new Z3SMT2Solver(writer);
+        this.solver = new Z3SMT2Solver(writer);
 
         Result result = Result.SAT;
         while (true){
@@ -117,6 +118,18 @@ public class MachineSolver {
 
     List<String> AllPath(){
         return this.allpath;
+    }
+
+    public String Path(int i){
+        return this.allpath.get(i);
+    }
+    
+    public String solver(){
+        return "Z3";
+    }
+
+    public int size(){
+        return this.path.formula_size();
     }
 
     public boolean isEnumerative(){

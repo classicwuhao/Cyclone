@@ -6,6 +6,7 @@
 	<property name="java.sourceversion" value="1.7" />
 	<!-- source -->
 	<property name="src.dir"  location="${basedir}/src/org/nuim/cyclone" />
+	<property name="uran.src.dir" location="${basedir}/src/uran" />
 	<property name="parser.dir"  location="${src.dir}/parser" />
 	<property name="test.src.dir"  location="${basedir}/test" />
 	<property name="test.parser.files.dir"  location="${test.src.dir}/parser/files" />
@@ -60,9 +61,9 @@
 	<target name="build-cyclone" depends="build-parser">
 		<echo>Building Cyclone...</echo>
 			<mkdir dir="${build.classes.dir}"/>
-			<javac srcdir="${src.dir}" destdir="${build.classes.dir}"
+			<javac srcdir="${src.dir}:${uran.src.dir}" destdir="${build.classes.dir}"
     			  deprecation="on" debug="on" listfiles="off"
-				  classpath="${com.microsoft.z3.jar}:${uran.jar}"
+				  classpath="${com.microsoft.z3.jar}"
 		   		  source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="true">
 			</javac>
 		<echo>Leave Cyclone...</echo>
@@ -73,7 +74,7 @@
 			<mkdir dir="${test.build.dir}"/>
 			<javac srcdir="${test.src.dir}" destdir="${test.build.dir}"
     			  deprecation="on" debug="on" listfiles="off"
-				  classpath="${com.microsoft.z3.jar}:${uran.jar}:${antlr.jar}:${build.classes.dir}:${junit.jar}"
+				  classpath="${com.microsoft.z3.jar}:${antlr.jar}:${build.classes.dir}:${junit.jar}"
 		   		  source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="true">
 			</javac>
 		<echo>Leave Test Cases...</echo>

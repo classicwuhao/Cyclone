@@ -9,5 +9,5 @@ public class Color{
 	public static final String BLUE = "94;1m";
 	public static final String PURPLE = "95;1m";
 	public static final String CYAN = "96;1m";
-	public static final String WHITE = "97";
+	public static final String WHITE = "97;1m";
 }
