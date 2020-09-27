@@ -27,7 +27,7 @@ machine choice{
      * 2) contains a subpath such that: begins from node S0, ends at node S0 and with node S4 in the middle.
      */
     goal{
-        check for 4 via (S0->_->S4->_->S0) reach (S0)
+        enumerate for 4 via (S1, S0->_->S4->_->S0) reach (S0)
     }
   
     /** 

@@ -1,0 +1,43 @@
+/*This is a machine written by baobao */
+machine Tree {
+
+     abstract start state S0{}
+     abstract state S1{}
+     abstract state S2{}
+     abstract state S3{}
+     abstract state S4{}
+     abstract state S5{}
+     abstract state S6{}
+
+     transition l1 { S0 -> S1 }
+     transition l2 { S0 -> S2 }
+     transition l3 { S1 -> S3 }
+     transition l4 { S1 -> S6 }
+     transition l5 { S3 -> S6 }
+     transition l6 { S3 -> S1 }
+     transition l7 { S6 -> S1 }
+     transition l8 { S6 -> S3 }
+     transition l9 { S6 -> S4 }
+     transition l10 { S4 -> S2 }
+     transition l11 { S4 -> S5 }
+     transition l12 { S5 -> S4 }
+     transition l13 { S2 -> S0 }
+     transition l14 { S2 -> S4 }
+     transition l15 { S2 -> S5 }
+     transition l16 { S3 -> S0 }
+     transition l17 { S6 -> S0 }
+     transition l18 { S4 -> S0 }
+     transition l19 { S1 -> S2 }
+     transition l20 { S2 -> S1 }
+     transition l21{ S0 -> S0 }
+     transition l22 { S1 -> S1 }
+     transition l23 { S2 -> S2 }
+     transition l24 { S3 -> S3 }
+     transition l25 { S4 -> S4 }
+     transition l26 { S5 -> S5 }
+     transition l27 { S6 -> S6 }
+
+    goal{
+        enumerate for 5 via (S2, S0->_->_->_->S0) reach (S0)
+    }
+}

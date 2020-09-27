@@ -3,9 +3,8 @@ import org.nuim.cyclone.util.AdjList;
 import org.nuim.cyclone.model.State;
 import org.nuim.cyclone.model.Transition;
 import org.nuim.cyclone.model.Machine;
-import org.nuim.cyclone.model.ErrorLog;
 import org.nuim.cyclone.compiler.GenerationException;
-import org.nuim.cyclone.compiler.Context;
+import org.nuim.cyclone.compiler.GenerationContext;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,11 +16,11 @@ public class StateMatrix {
     private Map <Integer, State> mapping = new TreeMap<Integer, State>();
     private int start;
     private Machine machine;
-    private Context context;
+    private GenerationContext context;
 
     public StateMatrix (Machine machine){
         this.machine = machine;
-        context = new Context();
+        context = new GenerationContext();
         try{
             this.build();
         }catch(GenerationException e){

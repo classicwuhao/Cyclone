@@ -10,6 +10,7 @@ import org.nuim.cyclone.model.StateInclusion;
 import org.nuim.cyclone.model.TransInclusion;
 import org.nuim.cyclone.model.PathExpr;
 import org.nuim.cyclone.model.SpecialState;
+import org.nuim.cyclone.compiler.GenerationContext;
 import uran.formula.*;
 import uran.formula.type.*;
 import java.util.List;
@@ -25,6 +26,7 @@ public class PathGenerator {
     List<AbstractFormula> path = new ArrayList<AbstractFormula>();
     private int steps;
     private int formula_size;
+    private GenerationContext gen_context = new GenerationContext();
 
     public PathGenerator(StateMatrix matrix, int steps){
         this.matrix = matrix;
@@ -192,6 +194,13 @@ public class PathGenerator {
     private AbstractFormula gen_trans_inclusion(TransInclusion ti_expr){
         List<State> path = ti_expr.Path();
         List<AbstractFormula> ti_formulas = new ArrayList<AbstractFormula>();
+        int path_length = this.steps+1-path.size();
+
+        if (path_length<0) {
+            /* issue warnning: cannot generate path because the length is greater than the specified length. */ 
+            this.gen_context.logWarnings(ti_expr.info(),"path cannot be generated beacuse path length is greater than the specified steps");
+            return null;
+        }
         
         for (int i=0;i<=this.steps+1-path.size();i++){
             Constant c = factory.conLookup(TRACE_STR+i);
