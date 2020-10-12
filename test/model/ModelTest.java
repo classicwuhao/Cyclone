@@ -27,7 +27,7 @@ public class ModelTest {
         ModelTest parser = new ModelTest();
     }
 
-    //@Test
+    @Test
     public void test0(){
         ModelTest model = new ModelTest();
         assertEquals(MachineCompiler.COMPILE_SUCCESS,model.Case0());
@@ -60,7 +60,7 @@ public class ModelTest {
         PrintWriter err = new PrintWriter(System.err);
         try{
             BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/model/counter.machine"));
-            int k=MachineCompiler.compileMachine(in,"File",err);
+            int k=MachineCompiler.compileMachine(in,"files/model/counter.machine",err);
             return k;
         }
         catch(FileNotFoundException e){
@@ -73,7 +73,7 @@ public class ModelTest {
         PrintWriter err = new PrintWriter(System.err);
         try{
             BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/model/empty.machine"));
-            int k=MachineCompiler.compileMachine(in,"File",err);
+            int k=MachineCompiler.compileMachine(in,"files/model/empty.machine",err);
             return k;
         }
         catch(FileNotFoundException e){
@@ -86,7 +86,7 @@ public class ModelTest {
         PrintWriter err = new PrintWriter(System.err);
         try{
             BufferedInputStream in = new BufferedInputStream(new FileInputStream("files/model/odd_even.machine"));
-            int k=MachineCompiler.compileMachine(in,"File",err);
+            int k=MachineCompiler.compileMachine(in,"files/model/odd_even.machine",err);
             return k;
         }
         catch(FileNotFoundException e){

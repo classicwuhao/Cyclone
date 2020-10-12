@@ -30,6 +30,11 @@ public class Variable extends Expression{
     public Expression constraint(){return this.constraint;}
 
     @Override
+    public boolean isVariable(){
+        return true;
+    }
+    
+    @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
         sb.append(this.name());

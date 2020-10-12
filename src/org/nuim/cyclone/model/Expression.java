@@ -48,7 +48,9 @@ public abstract class Expression extends NamedElement {
     public boolean isAssignmentExpr(){return false;}
     public boolean isIdentExpr(){return false;}
     public boolean isInvariant(){return false;}
+    public boolean isVariable(){return false;}
     
+
     public static void logErrors(String ErrorType, String Message){
         errlog.logErrors(1);
     }

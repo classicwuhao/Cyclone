@@ -35,6 +35,11 @@ public class ASTAssignment extends ASTExpression {
             context.logError(token,"Type mismatch - "+ "expression has type "+rightExpr.type()+", exptected type "+leftExpr.type(),true);
             throw new SemanticException(token, "Type mismatch - "+ "expression has type "+rightExpr.type()+", exptected type "+leftExpr.type());
         }*/
+       if (!leftExpr.isIdentExpr() && !leftExpr.isVariable()){
+           context.logError(token,"unexpected type - " + " required variable here",true);
+           throw new SemanticException(token,"unexpected type - " + " required variable here");
+       }
+
        return new Assignment(token.getText(),leftExpr,rightExpr, 
                     new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
         

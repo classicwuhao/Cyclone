@@ -3,11 +3,12 @@ machine Counter{
 	int max=10;
 	int min=3;
 	int counter=min;
-
+	int x =0;
 	start state S0{
 		bool visited=false;
 		counter++;
 		visited = counter>=5;
+		x+1=x;
 	}
 
 	/* 

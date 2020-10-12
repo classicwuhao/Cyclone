@@ -86,6 +86,7 @@ public class ASTMachine extends ASTExpression{
             }
             catch(InvalidSpecException e){ // we do not log error here as it is recorded.
                 System.err.println(e.getMessage());
+                
             }
         }
 
