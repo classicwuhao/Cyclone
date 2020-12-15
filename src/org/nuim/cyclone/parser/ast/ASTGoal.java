@@ -5,6 +5,7 @@ import org.nuim.cyclone.model.SrcInfo;
 import org.nuim.cyclone.model.ForExpr;
 import org.nuim.cyclone.model.StopExpr;
 import org.nuim.cyclone.model.ViaExpr;
+
 public class ASTGoal extends ASTExpression{
     private Token token;
     private ASTForExpression astfor;
@@ -29,6 +30,13 @@ public class ASTGoal extends ASTExpression{
     
     public Goal gen(ASTContext context) throws SemanticException{
         Goal goal = new Goal(new SrcInfo(token.getText(),token.getLine(),token.getCharPositionInLine()));
+
+        /* capture error: a for statement might be null. */ 
+        if (astfor==null) {
+            context.logError(token," undefined FOR statement.",true);
+            throw new SemanticException(token, " undefined FOR statement.");
+        }
+
         ForExpr forexpr = astfor.gen(context);
         goal.setForExpr(forexpr);
         goal.setEnumerate(this.enumerate);

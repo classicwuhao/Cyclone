@@ -1,0 +1,14 @@
+machine Example{
+     abstract start state S0{}
+     abstract state S1{}
+     abstract state S2{}
+    
+    transition t1 {S0->S0}
+    transition t2 {S0->S1}
+    transition t3 {S1->S0}
+
+    goal{
+        check for 9 reach (S1)
+    }
+
+}
