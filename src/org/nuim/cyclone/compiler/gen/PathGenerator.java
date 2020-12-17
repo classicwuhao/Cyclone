@@ -26,17 +26,19 @@ public class PathGenerator {
     List<AbstractFormula> path = new ArrayList<AbstractFormula>();
     private int steps;
     private int formula_size;
-    private GenerationContext gen_context = new GenerationContext();
+    private GenerationContext gen_context; 
 
     public PathGenerator(StateMatrix matrix, int steps){
         this.matrix = matrix;
         this.steps = steps;
+        this.gen_context = matrix.context();
     }
 
     public PathGenerator(StateMatrix matrix){
         this.matrix = matrix;
         Goal goal = this.matrix.machine().getGoal();
         this.steps = goal.ForExpr().steps();
+        this.gen_context = matrix.context();
     }
 
     public void gen() throws GenerationException{

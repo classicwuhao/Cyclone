@@ -5,6 +5,7 @@ import org.nuim.cyclone.model.Transition;
 import org.nuim.cyclone.model.Machine;
 import org.nuim.cyclone.compiler.GenerationException;
 import org.nuim.cyclone.compiler.GenerationContext;
+import org.nuim.cyclone.compiler.gen.GenContext;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class StateMatrix {
     private void build() throws GenerationException{
         List<State> states = machine.AllStates();
         sm = new AdjList<Integer>(states.size());
-        
+        int t_id=0;
+
         /* We should issue a warning message here. */
         if (machine.size_of_states()==0) return;
 
@@ -51,14 +53,17 @@ public class StateMatrix {
             State s = states.get(i);
             s.set_uid(i+1);
             mapping.put(i+1,s);
+            context.addState(i+1,s);
             sm.add(i+1,i+1);
             if (s.isFinal()) finals.add(i+1);
         }
-        
+
         for (Transition trans : machine.AllTrans()){
             State source = trans.source();
             State target = trans.target();
             sm.add(target.uid(),source.uid());
+            context.addTrans(t_id,trans);
+            trans.set_uid(t_id++);
         }
     }
     
@@ -84,7 +89,8 @@ public class StateMatrix {
     }
 
     public Machine machine(){return this.machine;}
-
+    public GenerationContext context(){return this.context;}
+    
     public String toString(){
         StringBuffer sb = new StringBuffer();
 

@@ -4,14 +4,40 @@ import java.util.Stack;
 import org.nuim.cyclone.util.Entry;
 import org.nuim.cyclone.model.SrcInfo;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+import org.nuim.cyclone.model.GlobalVariables;
+import org.nuim.cyclone.model.State;
+import org.nuim.cyclone.model.Transition;
+
 /* context information during generation */ 
 public class GenerationContext {
     private ErrorLog err;
     private Stack<Entry<SrcInfo,String>> warnStack = new Stack< Entry<SrcInfo,String>>();    
     private int warnings = 0;
 
+    GlobalVariables global_variables;
+    Map<Integer, State> states = new TreeMap<Integer,State>();
+    Map<Integer, Transition> trans = new TreeMap<Integer, Transition>();
+
     public GenerationContext(){
         err = new ErrorLog();
+    }
+
+    public State getState(int id){
+        return states.get(id);
+    }
+
+    public Transition getTrans(int id){
+        return trans.get(id);
+    }
+
+    public void addState(int id, State state){
+        states.put(id, state);
+    }
+
+    public void addTrans(int id, Trans trans){
+        trans.put(id, trans);
     }
 
     public void reportError(String message){

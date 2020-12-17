@@ -11,6 +11,7 @@ public class Transition extends Expression {
     private State srcState;
     private State tarState;
     private String label="";
+    private int uid; //every trans has unique id
     //where expression
     private Expression whereExpr;
 
@@ -34,7 +35,9 @@ public class Transition extends Expression {
     public void setTar(String tar){this.tar=tar;}
     public String src(){return this.src;}
     public String tar(){return this.tar;}
-
+    public int uid(){return this.uid;}
+    public void set_uid(int k){this.uid=k;}
+    
     public void setLabel(String label){this.label=label;}
     public String label(){return this.label;}
     public boolean hasLabel(){return this.label!=null;}
