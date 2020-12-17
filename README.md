@@ -15,6 +15,11 @@ The back-end of Cyclone builds graphs and uses specialised algorithms together w
 
 I am currently working on designing more algorithms to work with current path generation engine. Much more interesting things are coming up... :-)
 
+## To be completed:
+* Path Expression Design
+* Content Constraints (simple instructions)
+
+
 ### Main developer: Hao Wu.
 
 # Summary
