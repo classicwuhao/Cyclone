@@ -3,6 +3,8 @@ package org.nuim.cyclone.compiler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.file.Path;
+
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -113,30 +115,31 @@ public class MachineCompiler {
         out.println("Compile is successful.",Color.GREEN);
         out.println("Solver: "+ msolver.solver(),Color.DEFAULT);
         out.println("Enumeration Mode: "+ msolver.isEnumerative(),Color.DEFAULT);
-        Result result = msolver.solve();
+        PathResult pr = msolver.solve();
         out.println("Generated Formulas: "+ msolver.size(),Color.DEFAULT);
-        if (result==Result.SAT){
-            out.println("Solving completed:" + msolver.time()+" msc ",Color.GREEN);
+        if (pr.result()==Result.SAT){
+            out.println("Solving completed:" + pr.time()+" msc ",Color.GREEN);
             if (msolver.isEnumerative()){
-                for (int i=0;i<msolver.AllPath().size();i++){
+                PathResultCollection prc = msolver.PathCollection();
+                for (int i=0;i<prc.size();i++){
                     if ((i & 1) !=0){
-                        out.println("Path "+i+": "+msolver.Path(i),Color.CYAN);
+                        out.println("Path "+i+": "+prc.get(i).path(),Color.CYAN);
                     }
                     else{
-                        out.println("Path "+i+": "+msolver.Path(i),Color.BLUE);
+                        out.println("Path "+i+": "+prc.get(i).path(),Color.BLUE);
                     }
                 }
-                out.println("Total Path(s): "+ msolver.AllPath().size(),Color.GREEN);
+                out.println("Total Path(s): "+ prc.size(),Color.GREEN);
             }
             else{
-                out.println("Path found: "+msolver.Path(),Color.BLUE);
+                out.println("Path found: "+pr.path(),Color.BLUE);
             }
         }
         else{
-            out.println("Solving completed:" + msolver.time()+" msc ",Color.RED);
-            out.println(result.toString(),Color.RED);
+            out.println("Solving completed:" + pr.time()+" msc ",Color.RED);
+            out.println(pr.result().toString(),Color.RED);
             out.println("No path found.",Color.RED);
-        } 
+        }
         
         return SOLVE_SUCCESS;
     }

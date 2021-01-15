@@ -18,13 +18,15 @@ public class MachineSolver {
     private long time;
     private Z3SMT2Solver solver;
     private boolean SOLVED_BEFORE = false;
+    private boolean has_next = true;
+    private PathResultCollection prc = new PathResultCollection();
 
     public MachineSolver(PathGenerator path){
         this.path=path;
         this.factory = path.factory();
     }
     
-    public Result solve(){
+    public PathResult solve(){
         Machine machine = this.path.matrix().machine();
         Goal goal = machine.getGoal();
 
@@ -32,18 +34,27 @@ public class MachineSolver {
             return solve1();
         }
         else{
-            return enumerate();
+            PathResultCollection prc = enumerate();
+            if (prc.size()>0) {
+                return prc.get(0);
+            }
+            else{
+                return new PathResult(Result.UNSAT,"",0);
+            }
+            //return next();
         }
     }
     /* solve for one */ 
-    public Result solve1(){
+    public PathResult solve1(){
         long p1 = System.currentTimeMillis();
+        PathResult pr = new PathResult();
         try{
             this.path.gen_with_finals();
         }
         catch(GenerationException e){
             System.err.println(e.getMessage());
-            return Result.UNKNOWN;
+            pr.setResult(Result.UNKNOWN);
+            return pr;
         }
         formulas.addAll(this.path.constraints());
         writer = new SMT2Writer(path.matrix().machine().filename()+".smt2",this.factory,formulas);
@@ -51,16 +62,19 @@ public class MachineSolver {
         Result result = solver.solve();
         //allpath.add(this.Path());
         time = System.currentTimeMillis()-p1;
+        pr.setResult(result);
+        pr.setTime(time);
+        pr.setPath(this.Path());
         //writer.clean();
-        SOLVED_BEFORE=true;
-        return result;
+        
+        return pr;
     }
 
     public long time(){return this.time;}
 
     /* find all */
-    private Result enumerate(){
-        int count=0;
+    private PathResultCollection enumerate(){
+        /*int count=0;
         long p1 = System.currentTimeMillis();
         allpath.clear();
         try{
@@ -88,21 +102,60 @@ public class MachineSolver {
         
         time = System.currentTimeMillis()-p1;
         writer.clean();
-        SOLVED_BEFORE=true;
-        return (count>0) ? Result.SAT : result;
+        
+        return (count>0) ? Result.SAT : result;*/
+        long p1 = System.currentTimeMillis();
+        while (this.hasNext()){
+            PathResult pr = next();
+            // we dont know how many of them, use an if to make sure the collection contains no empty slot (to be optimised here).
+            if (pr.result()==Result.SAT) prc.addPathResult(pr); 
+        }
+
+        return prc;
     }
 
     /* @TODO: add next() method for a proper iteration */ 
     public PathResult next(){
         PathResult pr = new PathResult();
-        /*if (!SOLVED_BEFORE){
-            pr.setResult(solver1());
-        }*/
-        
+        long p1 = System.currentTimeMillis();
+
+        if (!SOLVED_BEFORE){
+            try{
+                this.path.gen_with_finals();
+            }
+            catch(GenerationException e){
+                System.err.println(e.getMessage());
+                pr.setResult(Result.UNKNOWN);
+                return pr;
+            }
+
+            formulas.addAll(this.path.constraints());
+            writer = new SMT2Writer(path.matrix().machine().filename()+".smt2",this.factory,formulas);
+            this.solver = new Z3SMT2Solver(writer);
+        }
+
+        Result result = solver.solve();
+        time = System.currentTimeMillis()-p1;
+        if (result == Result.SAT){
+            this.has_next=true;
+            this.writer.append(writer.getFactory().negConstants());
+            pr.setPath(this.Path());
+        }else{
+            this.has_next=false;
+        }
+
+        pr.setResult(result);
+        pr.setTime(time);
+
+        SOLVED_BEFORE=true;
         return pr;
     }
 
-    public String Path(){
+    public boolean hasNext(){
+        return this.has_next;
+    }
+
+    private String Path(){
         //StringBuffer raw = new StringBuffer();
         StringBuffer sb = new StringBuffer();
 
@@ -125,6 +178,10 @@ public class MachineSolver {
         return sb.toString();
     }
 
+    public PathResultCollection PathCollection(){
+        return this.prc;
+    }
+
     private void AddPath(String path){
         allpath.add(path);
     }
@@ -137,6 +194,7 @@ public class MachineSolver {
         return this.allpath.get(i);
     }
     
+    /* need to use solver.name() once content constraint generation is implemented. */
     public String solver(){
         return "Z3";
     }

@@ -3,25 +3,30 @@ import uran.solver.Result;
 
 public class PathResult {
     private Result result;
-    private StringBuffer path;
+    private String path;
     private long time;
+
+    public PathResult(Result result, String path, long time){
+        this.result = result;
+        this.path = path;
+        this.time = time;
+    }
 
     public PathResult(){
         this.result = Result.UNKNOWN;
-        this.path = new StringBuffer();
+        this.path = new String();
     }
-
 
     public void setResult(Result result){
         this.result = result;
     }
 
     public Result result(){return this.result;}
-    public void setPath(StringBuffer path){
+    public void setPath(String path){
         this.path = path;
     }
     public String path(){
-        return this.path.toString();
+        return this.path;
     }
  
     public void setTime(long time){
