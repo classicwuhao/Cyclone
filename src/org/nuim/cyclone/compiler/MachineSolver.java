@@ -17,6 +17,7 @@ public class MachineSolver {
     private List<String> allpath = new ArrayList<String>();
     private long time;
     private Z3SMT2Solver solver;
+    private boolean SOLVED_BEFORE = false;
 
     public MachineSolver(PathGenerator path){
         this.path=path;
@@ -51,6 +52,7 @@ public class MachineSolver {
         //allpath.add(this.Path());
         time = System.currentTimeMillis()-p1;
         //writer.clean();
+        SOLVED_BEFORE=true;
         return result;
     }
 
@@ -86,7 +88,18 @@ public class MachineSolver {
         
         time = System.currentTimeMillis()-p1;
         writer.clean();
+        SOLVED_BEFORE=true;
         return (count>0) ? Result.SAT : result;
+    }
+
+    /* @TODO: add next() method for a proper iteration */ 
+    public PathResult next(){
+        PathResult pr = new PathResult();
+        /*if (!SOLVED_BEFORE){
+            pr.setResult(solver1());
+        }*/
+        
+        return pr;
     }
 
     public String Path(){

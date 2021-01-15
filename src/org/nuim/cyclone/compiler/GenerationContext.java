@@ -3,6 +3,8 @@ import org.nuim.cyclone.model.ErrorLog;
 import java.util.Stack;
 import org.nuim.cyclone.util.Entry;
 import org.nuim.cyclone.model.SrcInfo;
+
+import java.lang.ref.Cleaner;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -36,8 +38,8 @@ public class GenerationContext {
         states.put(id, state);
     }
 
-    public void addTrans(int id, Trans trans){
-        trans.put(id, trans);
+    public void addTrans(int id, Transition transition){
+        trans.put(id, transition);
     }
 
     public void reportError(String message){
